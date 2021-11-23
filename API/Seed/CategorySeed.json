@@ -1,0 +1,515 @@
+[
+    {
+        "Category": "Electronics",
+        "Properties": [],
+        "Products": [],
+        "SubCategories": [
+            {
+                "Category": "Mobiles",
+                "SubCategories": [],
+                "Properties": [
+                    {
+                        "Name": "Brand",
+                        "Type": "String",
+                        "Values": "realme,POCO,SAMSUNG,MI,Redmi,OnePlus,iphone",
+                        "Unit": ""
+                    },
+                    {
+                        "Name": "Range",
+                        "Type": "String",
+                        "Values": "Budget,Mid-Range,Premium",
+                        "Unit": ""
+                    },
+                    {
+                        "Name": "RAM",
+                        "Type": "Integer",
+                        "Values": "2-16",
+                        "Unit": "GB"
+                    },
+                    {
+                        "Name": "Storage",
+                        "Type": "Integer",
+                        "Values": "4-512",
+                        "Unit": "GB"
+                    },
+                    {
+                        "Name": "Battery",
+                        "Type": "Integer",
+                        "Values": "2000-7000",
+                        "Unit": "mAh"
+                    },
+                    {
+                        "Name": "Processor",
+                        "Type": "String",
+                        "Values": "Snapdragon,Exynos,Kirin,Google Tensor,Dimensity,Helio",
+                        "Unit": ""
+                    }
+                ]
+            },
+            {
+                "Category": "Mobile Accessories",
+                "Properties": [],
+                "Products": [],
+                "SubCategories": [
+                    {
+                        "Category": "Mobile Cases",
+                        "Properties": [],
+                        "Products": [],
+                        "SubCategories": []
+                    },
+                    {
+                        "Category": "Headphones & Headsets",
+                        "Products": [],
+                        "Properties": [
+                            {
+                                "Name": "Brand",
+                                "Type": "String",
+                                "Values": "boAt,OnePlus,realme,SONY,SAMSUNG,MI,JBL",
+                                "Unit": ""
+                            },
+                            {
+                                "Name": "Range",
+                                "Type": "String",
+                                "Values": "Budget,Mid-Range,Premium",
+                                "Unit": ""
+                            },
+                            {
+                                "Name": "Headphone Type",
+                                "Type": "String",
+                                "Values": "In the Ear,On the Ear,True Wireless",
+                                "Unit": ""
+                            },
+                            {
+                                "Name": "Connectivity",
+                                "Type": "String",
+                                "Values": "Bluetooth,Wired",
+                                "Unit": ""
+                            }
+                        ],
+                        "SubCategories": []
+                    },
+                    {
+                        "Category": "Power Banks",
+                        "Products": [],
+                        "Properties": [
+                            {
+                                "Name": "Capacity",
+                                "Type": "Integer",
+                                "Values": "5000-25000",
+                                "Unit": "mAh"
+                            },
+                            {
+                                "Name": "Brand",
+                                "Type": "String",
+                                "Values": "MI,realme,Redmi,Syska,PHILIPS,iball",
+                                "Unit": ""
+                            }
+                        ],
+                        "SubCategories": []
+                    },
+                    {
+                        "Category": "Memory Cards",
+                        "Products": [],
+                        "Properties": [
+                            {
+                                "Name": "Brand",
+                                "Type": "String",
+                                "Values": "HP,SanDisk,Strontium,SAMSUNG,TOSHIBA,iball",
+                                "Unit": ""
+                            },
+                            {
+                                "Name": "Capacity",
+                                "Type": "Integer",
+                                "Values": "4-1024",
+                                "Unit": "GB"
+                            }
+                        ],
+                        "SubCategories": []
+                    },
+                    {
+                        "Category": "Mobile Cases",
+                        "Properties": [],
+                        "Products": [],
+                        "SubCategories": []
+                    }
+                ]
+            },
+            {
+                "Category": "Laptops",
+                "Products": [],
+                "Properties": [
+                    {
+                        "Name": "Brand",
+                        "Type": "String",
+                        "Values": "HP,ASUS,Lenovo,Dell,acer,MSI,Apple,MI,Avita",
+                        "Unit": ""
+                    },
+                    {
+                        "Name": "Processor",
+                        "Type": "String",
+                        "Values": "Core i3,Core i5,Core i7,Core i9,Ryzen 7 Quad Core,Ryzen 5 Quad Core,Ryzen 5 Hexa Core,Ryzen 7 Octa Core",
+                        "Unit": ""
+                    },
+                    {
+                        "Name": "Operating System",
+                        "Type": "String",
+                        "Values": "Windows 10,Windows 11,Mac OS,DOS,Chrome",
+                        "Unit": ""
+                    },
+                    {
+                        "Name": "Dedicated Graphics Memory",
+                        "Type": "Integer",
+                        "Values": "2-16",
+                        "Unit": "GB"
+                    },
+                    {
+                        "Name": "Hard Disk Capacity",
+                        "Type": "Integer",
+                        "Values": "256-2048",
+                        "Unit": "GB"
+                    },
+                    {
+                        "Name": "RAM Capacity",
+                        "Type": "Integer",
+                        "Values": "4-32",
+                        "Unit": "GB"
+                    },
+                    {
+                        "Name": "Weight",
+                        "Type": "Integer",
+                        "Values": "1000-3000",
+                        "Unit": "Grams"
+                    },
+                    {
+                        "Name": "Storage Type",
+                        "Type": "String",
+                        "Values": "SSD,HDD,eMMC",
+                        "Unit": ""
+                    }
+                ],
+                "SubCategories": []
+            },
+            {
+                "Category": "Camera",
+                "Products": [],
+                "Properties": [
+                    {
+                        "Name": "Brand",
+                        "Type": "String",
+                        "Values": "Canon,NIKON,SONY,Panasonic,acer,MSI,Apple,MI,Avita",
+                        "Unit": ""
+                    },
+                    {
+                        "Name": "Type",
+                        "Type": "String",
+                        "Values": "Mirrorless,DSLR",
+                        "Unit": ""
+                    },
+                    {
+                        "Name": "Sensor Type",
+                        "Type": "String",
+                        "Values": "BSI CMOS,CCD,CMOS,MOS",
+                        "Unit": ""
+                    }
+                ],
+                "SubCategories": []
+            },
+            {
+                "Category": "Speakers",
+                "SubCategories": [],
+                "Products": [],
+                "Properties": [
+                    {
+                        "Name": "Brand",
+                        "Type": "String",
+                        "Values": "ZEBRONICS,F&D,SONY,PHILIPS,Intex,boAt,MOTOROLA,JBL",
+                        "Unit": ""
+                    },
+                    {
+                        "Name": "Type",
+                        "Type": "String",
+                        "Values": "Car Speaker,Conference Speaker,Gaming Speaker,Home Theatre,Soundbar",
+                        "Unit": ""
+                    },
+                    {
+                        "Name": "Connectivity",
+                        "Type": "String",
+                        "Values": "Wired,Wired & Wireless,Wireless",
+                        "Unit": ""
+                    }
+                ]
+            }
+        ]
+    },
+    {
+        "Category": "Home & Appliances",
+        "Products": [],
+        "SubCategories": [
+            {
+                "Category": "Television",
+                "SubCategories": [],
+                "Products": [],
+                "Properties": [
+                    {
+                        "Name": "Brand",
+                        "Type": "String",
+                        "Values": "MI,relame,SAMSUNG,OnePlus,LG,SONY",
+                        "Unit": ""
+                    },
+                    {
+                        "Name": "Screen Size",
+                        "Type": "Integer",
+                        "Values": "24-60",
+                        "Unit": "inch"
+                    },
+                    {
+                        "Name": "Smart TV",
+                        "Type": "String",
+                        "Values": "Yes,No",
+                        "Unit": ""
+                    },
+                    {
+                        "Name": "Resolution",
+                        "Type": "String",
+                        "Values": "Full HD,HD Ready,Ultra HD (4k),Ultra HD(8k)",
+                        "Unit": ""
+                    },
+                    {
+                        "Name": "Operating System",
+                        "Type": "String",
+                        "Values": "Android,Coolita,FireTv OS,HomeOS,Linux",
+                        "Unit": ""
+                    },
+                    {
+                        "Name": "Connectivity Features",
+                        "Type": "String",
+                        "Values": "Bluetooth,Built-in Wi-Fi",
+                        "Unit": ""
+                    },
+                    {
+                        "Name": "Screen Type",
+                        "Type": "String",
+                        "Values": "LED,OLED,QLED",
+                        "Unit": ""
+                    },
+                    {
+                        "Name": "Number of HDMI Ports",
+                        "Type": "Integer",
+                        "Values": "1-4",
+                        "Unit": ""
+                    },
+                    {
+                        "Name": "Number of USB Ports",
+                        "Type": "Integer",
+                        "Values": "1-4",
+                        "Unit": ""
+                    }
+                ]
+            },
+            {
+                "Category": "Washing Machine",
+                "SubCategories": [],
+                "Products": [],
+                "Properties": [
+                    {
+                        "Name": "Brand",
+                        "Type": "String",
+                        "Values": "SAMSUNG,LG,Whirlpool,IFB,Panasonic,BOSCH,Haier",
+                        "Unit": ""
+                    },
+                    {
+                        "Name": "Capacity",
+                        "Type": "Integer",
+                        "Values": "5-10",
+                        "Unit": "KG"
+                    },
+                    {
+                        "Name": "Function Type",
+                        "Type": "String",
+                        "Values": "Fully Automatic Top Load,Semi Automatic Top Load,Fully Automatic Front Load,Washer with Dryer,Washer only,Dryer,Air Dresser",
+                        "Unit": ""
+                    }
+                ]
+            },
+            {
+                "Category": "Air Conditioners",
+                "SubCategories": [],
+                "Products": [],
+                "Properties": [
+                    {
+                        "Name": "Brand",
+                        "Type": "String",
+                        "Values": "SAMSUNG,LG,Whirlpool,Panasonic,Voltas,Blue Star,Haier",
+                        "Unit": ""
+                    },
+                    {
+                        "Name": "Ideal for Room Size",
+                        "Type": "Integer",
+                        "Values": "100-250",
+                        "Unit": "sqft"
+                    },
+                    {
+                        "Name": "Capacity",
+                        "Type": "Integer",
+                        "Values": "1000-2500",
+                        "Unit": "KG"
+                    },
+                    {
+                        "Name": "Energy Rating",
+                        "Type": "Integer",
+                        "Values": "1-5",
+                        "Unit": "Star"
+                    },
+                    {
+                        "Name": "Type",
+                        "Type": "String",
+                        "Values": "Cassette,Portable,Split,Window",
+                        "Unit": ""
+                    },
+                    {
+                        "Name": "Technology",
+                        "Type": "String",
+                        "Values": "Dual Inverter,Fixed Speed,Inverter,Triple Inverter",
+                        "Unit": ""
+                    },
+                    {
+                        "Name": "Condenser Coil",
+                        "Type": "String",
+                        "Values": "Alloy,Aluminium,Copper",
+                        "Unit": ""
+                    },
+                    {
+                        "Name": "Wifi Connectivity",
+                        "Type": "String",
+                        "Values": "Yes,No",
+                        "Unit": ""
+                    }
+                ]
+            },
+            {
+                "Category": "Refrigerators",
+                "SubCategories": [],
+                "Products": [],
+                "Properties": [
+                    {
+                        "Name": "Brand",
+                        "Type": "String",
+                        "Values": "SAMSUNG,LG,Whirlpool,Panasonic,Godrej,ONIDA,Haier",
+                        "Unit": ""
+                    },
+                    {
+                        "Name": "Type",
+                        "Type": "String",
+                        "Values": "Top Freezer,Top Mount,Bottom Mount,Side by Side,Multi-Door,Bottom Freezer,Deep Freezer",
+                        "Unit": ""
+                    },
+                    {
+                        "Name": "Capacity",
+                        "Type": "Integer",
+                        "Values": "80-500",
+                        "Unit": "L"
+                    },
+                    {
+                        "Name": "Energy Rating",
+                        "Type": "Integer",
+                        "Values": "1-5",
+                        "Unit": "Star"
+                    },
+                    {
+                        "Name": "Color",
+                        "Type": "String",
+                        "Values": "Black,Blue,Brown,Gold,Green,Grey,Maroon,Silver",
+                        "Unit": ""
+                    }
+                ]
+            },
+            {
+                "Category": "Home Lighting",
+                "Products": [],
+                "SubCategories": [
+                    {
+                        "Category": "Microwave Ovens",
+                        "SubCategories": [],
+                        "Products": [],
+                        "Properties": [
+                            {
+                                "Name": "Brand",
+                                "Type": "String",
+                                "Values": "SAMSUNG,LG,Whirlpool,Panasonic,Godrej,IFB",
+                                "Unit": ""
+                            },
+                            {
+                                "Name": "Type",
+                                "Type": "String",
+                                "Values": "Convection,Convection & Grill,Grill,Inverter,Solo",
+                                "Unit": ""
+                            },
+                            {
+                                "Name": "Capacity",
+                                "Type": "Integer",
+                                "Values": "18-30",
+                                "Unit": "L"
+                            },
+                            {
+                                "Name": "Power Output",
+                                "Type": "Integer",
+                                "Values": "700-2000",
+                                "Unit": "W"
+                            }
+                        ]
+                    },
+                    {
+                        "Category": "Juicer Mixer Grinder",
+                        "SubCategories": [],
+                        "Products": [],
+                        "Properties": [
+                            {
+                                "Name": "Brand",
+                                "Type": "String",
+                                "Values": "BAJAJ,Prestige,Preethi,BOSCH,PHILIPS,WONDERCHEF",
+                                "Unit": ""
+                            },
+                            {
+                                "Name": "Type",
+                                "Type": "String",
+                                "Values": "Mixer Grinder,Juicer Mixer Grinder,Juicer",
+                                "Unit": ""
+                            }
+                        ]
+                    },
+                    {
+                        "Category": "Electric Cookers",
+                        "SubCategories": [],
+                        "Products": [],
+                        "Properties": [
+                            {
+                                "Name": "Brand",
+                                "Type": "String",
+                                "Values": "BAJAJ,Prestige,Pigeon,Sansui,Panasonic",
+                                "Unit": ""
+                            },
+                            {
+                                "Name": "Type",
+                                "Type": "String",
+                                "Values": "Rice Cooker,Travel Cooker,Food Steamer,Egg Boiler,Deep Fryer",
+                                "Unit": ""
+                            },
+                            {
+                                "Name": "Capacity",
+                                "Type": "Integer",
+                                "Values": "1-5",
+                                "Unit": "L"
+                            }
+                        ]
+                    },
+                    {
+                        "Category": "Dishwashers",
+                        "SubCategories": [],
+                        "Properties": []
+                    }
+                ],
+                "Properties": []
+            }
+        ]
+    }
+]

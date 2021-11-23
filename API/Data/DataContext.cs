@@ -20,6 +20,7 @@ namespace API.Data
         public DbSet<OrderItem> OrderItems { get; set; }
         public DbSet<Photo> Photos { get; set; }
         public DbSet<Product> Products { get; set; }
+        public DbSet<Property> Properties { get; set; }
         public DbSet<Store> Stores { get; set; }
         public DbSet<StoreItem> StoreItems { get; set; }
         public DbSet<Track> Tracks { get; set; }
@@ -140,6 +141,10 @@ namespace API.Data
                 .HasOne(c => c.Photo)
                 .WithOne(p => p.Category)
                 .HasForeignKey<Category>(c => c.PhotoId);
+            builder.Entity<Category>()
+                .HasMany(c => c.Properties)
+                .WithOne(p => p.Category)
+                .HasForeignKey(p => p.CategoryId);
 
             builder.Entity<StoreItem>()
                 .HasMany(si => si.OrderItems)

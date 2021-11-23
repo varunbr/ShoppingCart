@@ -10,6 +10,7 @@ namespace API.Entities
         public Category Parent { get; set; }
         public int? PhotoId { get; set; }
         public Photo Photo { get; set; }
+        public List<Property> Properties { get; set; }
         public ICollection<Category> Children { get; set; }
         public ICollection<Product> Products { get; set; }
     }

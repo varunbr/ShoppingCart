@@ -7,6 +7,8 @@ using Microsoft.Extensions.Hosting;
 using Microsoft.Extensions.Logging;
 using System;
 using System.Threading.Tasks;
+using API.Seed;
+using AutoMapper;
 
 namespace API
 {
@@ -21,8 +23,11 @@ namespace API
             {
                 var context = services.GetRequiredService<DataContext>();
                 var roleManager = services.GetService<RoleManager<IdentityRole<int>>>();
+                var mapper = services.GetService<IMapper>();
                 await context.Database.MigrateAsync();
                 await SeedData.SeedRoles(roleManager);
+                await SeedData.SeedCategory(context,mapper);
+                await SeedData.SeedLocation(context, mapper);
             }
             catch (Exception ex)
             {
