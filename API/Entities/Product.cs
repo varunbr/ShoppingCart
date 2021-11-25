@@ -13,8 +13,8 @@ namespace API.Entities
         public double Amount { get; set; }
         public int CategoryId { get; set; }
         public Category Category { get; set; }
-        public int? PhotoId { get; set; }
-        public Photo Photo { get; set; }
+        public ICollection<ProductView> ProductViews { get; set; }
         public ICollection<StoreItem> StoreItems { get; set; }
+        public ICollection<PropertyValue> Properties { get; set; }
     }
 }

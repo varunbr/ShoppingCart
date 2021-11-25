@@ -45,11 +45,56 @@ namespace API.Seed
             var productCategories = JsonSerializer.Deserialize<List<ProductCategory>>(data);
             var categories = new List<Category>();
 
-            if (productCategories != null) 
+            if (productCategories != null)
                 categories.AddRange(productCategories.Select(mapper.Map<Category>));
 
             await context.Categories.AddRangeAsync(categories);
             await context.SaveChangesAsync();
+        }
+
+        public static async Task SeedProduct(DataContext context, IMapper mapper)
+        {
+            if (await context.Products.AnyAsync()) return;
+
+            var data = await File.ReadAllTextAsync("Seed/ProductSeed.json");
+            var productSeeds = JsonSerializer.Deserialize<List<ProductSeed>>(data);
+
+            if (productSeeds != null)
+                foreach (var productSeed in productSeeds)
+                {
+                    var product = mapper.Map<Product>(productSeed);
+                    var category = await context.Categories
+                        .Include(c=>c.Properties)
+                        .SingleAsync(c => c.Name == productSeed.Category);
+                    product.Category = category;
+                    product.Properties = new List<PropertyValue>();
+                    product.ProductViews = new List<ProductView>();
+
+                    foreach (var propertySeed in productSeed.Properties)
+                    {
+                        var property = category.Properties.Single(p => p.Name == propertySeed.Name);
+                        product.Properties.Add(new PropertyValue
+                        {
+                            Property = property,
+                            Value = propertySeed.Value
+                        });
+                    }
+
+                    for (var i = 0; i < productSeed.Urls.Length; i++)
+                    {
+                        var productView = new ProductView
+                        {
+                            IsMain = i==0,
+                            Photo = new Photo
+                            {
+                                Url = productSeed.Urls[i]
+                            }
+                        };
+                        product.ProductViews.Add(productView);
+                    }
+                    await context.Products.AddAsync(product);
+                    await context.SaveChangesAsync();
+                }
         }
     }
 
@@ -84,5 +129,24 @@ namespace API.Seed
         public string Type { get; set; }
         public string Values { get; set; }
         public string Unit { get; set; }
+    }
+
+    public class ProductSeed
+    {
+        public string Name { get; set; }
+        public string Category { get; set; }
+        public string Brand { get; set; }
+        public string Model { get; set; }
+        public string Description { get; set; }
+        public string Features { get; set; }
+        public double Amount { get; set; }
+        public string[] Urls { get; set; }
+        public ICollection<PropertyValueSeed> Properties { get; set; }
+    }
+
+    public class PropertyValueSeed
+    {
+        public string Name { get; set; }
+        public string Value { get; set; }
     }
 }

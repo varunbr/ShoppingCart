@@ -26,8 +26,9 @@ namespace API
                 var mapper = services.GetService<IMapper>();
                 await context.Database.MigrateAsync();
                 await SeedData.SeedRoles(roleManager);
-                await SeedData.SeedCategory(context,mapper);
                 await SeedData.SeedLocation(context, mapper);
+                await SeedData.SeedCategory(context, mapper);
+                await SeedData.SeedProduct(context, mapper);
             }
             catch (Exception ex)
             {

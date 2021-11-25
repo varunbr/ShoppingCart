@@ -2,7 +2,6 @@
 using API.Entities;
 using API.Seed;
 using AutoMapper;
-using System.Collections.Generic;
 
 namespace API.Helpers
 {
@@ -16,7 +15,7 @@ namespace API.Helpers
 
             CreateMap<User, UserProfileDto>().ReverseMap();
 
-            //Mappings for SeedData JSON to Entity Classes
+            //Mappings for JSON SeedData to Entity Classes
             CreateMap<Country, Location>()
                 .ForMember(dest => dest.States, opt => opt.Ignore())
                 .ForMember(dest => dest.Type, act => act.MapFrom(src => "Country"))
@@ -39,6 +38,9 @@ namespace API.Helpers
                 .ForMember(dest => dest.Children, act => act.MapFrom(src => src.SubCategories))
                 .ForMember(dest => dest.Name, act => act.MapFrom(src => src.Category));
 
+            CreateMap<ProductSeed, Product>()
+                .ForMember(dest => dest.Category, opt => opt.Ignore())
+                .ForMember(dest => dest.Properties, opt => opt.Ignore());
         }
     }
 }

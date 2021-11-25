@@ -1,4 +1,6 @@
-﻿namespace API.Entities
+﻿using System.Collections.Generic;
+
+namespace API.Entities
 {
     public class Property
     {
@@ -9,5 +11,6 @@
         public string Unit { get; set; }
         public int CategoryId { get; set; }
         public Category Category { get; set; }
+        public ICollection<PropertyValue> PropertyValues { get; set; }
     }
 }

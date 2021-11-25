@@ -15,6 +15,12 @@
                         "Unit": ""
                     },
                     {
+                        "Name": "Color",
+                        "Type": "String",
+                        "Values": "",
+                        "Unit": ""
+                    },
+                    {
                         "Name": "Range",
                         "Type": "String",
                         "Values": "Budget,Mid-Range,Premium",
@@ -41,7 +47,7 @@
                     {
                         "Name": "Processor",
                         "Type": "String",
-                        "Values": "Snapdragon,Exynos,Kirin,Google Tensor,Dimensity,Helio",
+                        "Values": "Snapdragon,Exynos,Kirin,Google Tensor,Dimensity,Helio,Apple Bionic",
                         "Unit": ""
                     }
                 ]
@@ -52,25 +58,19 @@
                 "Products": [],
                 "SubCategories": [
                     {
-                        "Category": "Mobile Cases",
-                        "Properties": [],
-                        "Products": [],
-                        "SubCategories": []
-                    },
-                    {
                         "Category": "Headphones & Headsets",
                         "Products": [],
                         "Properties": [
                             {
                                 "Name": "Brand",
                                 "Type": "String",
-                                "Values": "boAt,OnePlus,realme,SONY,SAMSUNG,MI,JBL",
+                                "Values": "boAt,OnePlus,realme,SONY,OPPO,MI,JBL",
                                 "Unit": ""
                             },
                             {
-                                "Name": "Range",
+                                "Name": "Color",
                                 "Type": "String",
-                                "Values": "Budget,Mid-Range,Premium",
+                                "Values": "Black,Blue,Red,White,Yellow",
                                 "Unit": ""
                             },
                             {
@@ -125,12 +125,6 @@
                             }
                         ],
                         "SubCategories": []
-                    },
-                    {
-                        "Category": "Mobile Cases",
-                        "Properties": [],
-                        "Products": [],
-                        "SubCategories": []
                     }
                 ]
             },
@@ -147,7 +141,7 @@
                     {
                         "Name": "Processor",
                         "Type": "String",
-                        "Values": "Core i3,Core i5,Core i7,Core i9,Ryzen 7 Quad Core,Ryzen 5 Quad Core,Ryzen 5 Hexa Core,Ryzen 7 Octa Core",
+                        "Values": "Core i3,Core i5,Core i7,Core i9,Apple M1,Apple M1 Pro,Ryzen 3 Dual Core,Ryzen 7 Quad Core,Ryzen 5 Quad Core,Ryzen 5 Hexa Core,Ryzen 7 Octa Core,Ryzen 9 Octa Core",
                         "Unit": ""
                     },
                     {
