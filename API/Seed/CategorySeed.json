@@ -271,7 +271,7 @@
                     {
                         "Name": "Operating System",
                         "Type": "String",
-                        "Values": "Android,Coolita,FireTv OS,HomeOS,Linux",
+                        "Values": "Android,Tizen,FireTv OS,HomeOS,WebOS",
                         "Unit": ""
                     },
                     {
