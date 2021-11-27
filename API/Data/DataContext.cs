@@ -20,6 +20,9 @@ namespace API.Data
         public DbSet<OrderItem> OrderItems { get; set; }
         public DbSet<Photo> Photos { get; set; }
         public DbSet<Product> Products { get; set; }
+        public DbSet<ProductView> ProductViews { get; set; }
+        public DbSet<Property> Properties { get; set; }
+        public DbSet<PropertyValue> PropertyValues { get; set; }
         public DbSet<Store> Stores { get; set; }
         public DbSet<StoreItem> StoreItems { get; set; }
         public DbSet<Track> Tracks { get; set; }
@@ -86,29 +89,13 @@ namespace API.Data
                 .HasForeignKey(t => t.FromId)
                 .OnDelete(DeleteBehavior.Restrict);
             builder.Entity<Account>()
-                .Property(a => a.ConcurrencyStamp)
-                .IsConcurrencyToken()
-                .ValueGeneratedOnAddOrUpdate();
+                .Property(a => a.RowVersion)
+                .IsRowVersion();
 
             builder.Entity<Address>()
-                .HasOne(a => a.Area)
-                .WithMany(l => l.Areas)
-                .HasForeignKey(a => a.AreaId)
-                .OnDelete(DeleteBehavior.Restrict);
-            builder.Entity<Address>()
-                .HasOne(a => a.City)
-                .WithMany(l => l.Cities)
-                .HasForeignKey(a => a.CityId)
-                .OnDelete(DeleteBehavior.Restrict);
-            builder.Entity<Address>()
-                .HasOne(a => a.State)
-                .WithMany(l => l.States)
-                .HasForeignKey(a => a.StateId)
-                .OnDelete(DeleteBehavior.Restrict);
-            builder.Entity<Address>()
-                .HasOne(a => a.Country)
-                .WithMany(l => l.Countries)
-                .HasForeignKey(a => a.CountryId)
+                .HasOne(a => a.Location)
+                .WithMany(l => l.Addresses)
+                .HasForeignKey(a => a.LocationId)
                 .OnDelete(DeleteBehavior.Restrict);
 
             builder.Entity<Location>()
@@ -118,11 +105,6 @@ namespace API.Data
                 .OnDelete(DeleteBehavior.Restrict);
 
             builder.Entity<Product>()
-                .HasOne(p => p.Photo)
-                .WithOne(p => p.Product)
-                .HasForeignKey<Product>(p => p.PhotoId)
-                .OnDelete(DeleteBehavior.SetNull);
-            builder.Entity<Product>()
                 .HasOne(p => p.Category)
                 .WithMany(c => c.Products)
                 .HasForeignKey(p => p.CategoryId);
@@ -130,6 +112,19 @@ namespace API.Data
                 .HasMany(p => p.StoreItems)
                 .WithOne(si => si.Product)
                 .HasForeignKey(si => si.ProductId);
+            builder.Entity<Product>()
+                .HasMany(p => p.Properties)
+                .WithOne(pv => pv.Product)
+                .HasForeignKey(pv => pv.ProductId);
+
+            builder.Entity<ProductView>()
+                .HasKey(k => new { k.ProductId, k.PhotoId });
+            builder.Entity<ProductView>()
+                .HasOne(pv => pv.Product)
+                .WithMany(p => p.ProductViews);
+            builder.Entity<ProductView>()
+                .HasOne(pv => pv.Photo)
+                .WithOne(p => p.ProductView);
 
             builder.Entity<Category>()
                 .HasMany(c => c.Children)
@@ -140,15 +135,24 @@ namespace API.Data
                 .HasOne(c => c.Photo)
                 .WithOne(p => p.Category)
                 .HasForeignKey<Category>(c => c.PhotoId);
+            builder.Entity<Category>()
+                .HasMany(c => c.Properties)
+                .WithOne(p => p.Category)
+                .HasForeignKey(p => p.CategoryId);
+
+            builder.Entity<Property>()
+                .HasMany(p => p.PropertyValues)
+                .WithOne(pv => pv.Property)
+                .HasForeignKey(pv => pv.PropertyId)
+                .OnDelete(DeleteBehavior.Restrict);
 
             builder.Entity<StoreItem>()
                 .HasMany(si => si.OrderItems)
                 .WithOne(oi => oi.StoreItem)
                 .HasForeignKey(oi => oi.StoreItemId);
             builder.Entity<StoreItem>()
-                .Property(si => si.ConcurrencyStamp)
-                .IsConcurrencyToken()
-                .ValueGeneratedOnAddOrUpdate();
+                .Property(si => si.RowVersion)
+                .IsRowVersion();
 
             builder.Entity<Order>()
                 .HasMany(o => o.OrderItems)

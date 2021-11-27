@@ -1,7 +1,11 @@
 using API.Data;
+using API.Entities;
+using API.Seed;
+using AutoMapper;
 using Microsoft.AspNetCore.Hosting;
 using Microsoft.AspNetCore.Identity;
 using Microsoft.EntityFrameworkCore;
+using Microsoft.Extensions.Configuration;
 using Microsoft.Extensions.DependencyInjection;
 using Microsoft.Extensions.Hosting;
 using Microsoft.Extensions.Logging;
@@ -21,8 +25,16 @@ namespace API
             {
                 var context = services.GetRequiredService<DataContext>();
                 var roleManager = services.GetService<RoleManager<IdentityRole<int>>>();
+                var userManager = services.GetService<UserManager<User>>();
+                var config = services.GetRequiredService<IConfiguration>();
+                var mapper = services.GetService<IMapper>();
                 await context.Database.MigrateAsync();
                 await SeedData.SeedRoles(roleManager);
+                await SeedData.SeedLocation(context, mapper);
+                await SeedData.SeedUsers(userManager, context, config);
+                await SeedData.SeedStore(context);
+                await SeedData.SeedCategory(context, mapper);
+                await SeedData.SeedProduct(context, mapper);
             }
             catch (Exception ex)
             {

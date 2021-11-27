@@ -1,0 +1,596 @@
+{
+    "Name": "India",
+    "capital": "New Delhi",
+    "States": [
+        {
+            "Name": "Karnataka",
+            "capital": "Bengaluru",
+            "Cities": [
+                {
+                    "Name": "Bagalkot",
+                    "Areas": [
+                        "Bagalkot",
+                        "Ilkal",
+                        "Badami",
+                        "Hunagunda",
+                        "Mudhol",
+                        "Jamkhandi",
+                        "Bilgi",
+                        "RabakaviBanahatti",
+                        "Teradal",
+                        "Guledgudda"
+                    ]
+                },
+                {
+                    "Name": "Ballari",
+                    "Areas": [
+                        "Hadagalli",
+                        "Hagaribommanahalli",
+                        "Hospet",
+                        "Siruguppa",
+                        "Bellary",
+                        "Sandur",
+                        "Kudligi"
+                    ]
+                },
+                {
+                    "Name": "Belagavi",
+                    "Areas": [
+                        "Athani",
+                        "Bailhongal",
+                        "Belgaum",
+                        "Chikkodi",
+                        "Gokak",
+                        "Hukkeri",
+                        "Khanapur",
+                        "Ramdurg",
+                        "Raybag",
+                        "Saundatti"
+                    ]
+                },
+                {
+                    "Name": "Bengaluru Rural",
+                    "Areas": [
+                        "Devanahalli",
+                        "Doddaballapura",
+                        "Hoskote",
+                        "Nelamangala"
+                    ]
+                },
+                {
+                    "Name": "Bengaluru",
+                    "Areas": [
+                        "Bangalore North (Bengaluru)",
+                        "Bangalore South (Kengeri)",
+                        "Bangalore East (Krishnaraja Pura)",
+                        "Yelahanka",
+                        "Anekal"
+                    ]
+                },
+                {
+                    "Name": "Bidar",
+                    "Areas": [
+                        "Aurad",
+                        "Basavakalyan",
+                        "Bhalki",
+                        "Bidar",
+                        "Humnabad"
+                    ]
+                },
+                {
+                    "Name": "Chamarajanagar",
+                    "Areas": [
+                        "Chamarajanagar",
+                        "Kollegal",
+                        "Yelandur",
+                        "Gundlupet"
+                    ]
+                },
+                {
+                    "Name": "Chikballapur",
+                    "Areas": [
+                        "Chintamani",
+                        "Gauribidanur",
+                        "Sidlaghatta",
+                        "Chikkaballapura",
+                        "Bagepalli",
+                        "Gudibande"
+                    ]
+                },
+                {
+                    "Name": "Chikkamagaluru",
+                    "Areas": [
+                        "Chikkamagaluru",
+                        "Kadur",
+                        "Tarikere",
+                        "Mudigere",
+                        "Sringeri",
+                        "Koppa",
+                        "Narasimharajapura",
+                        "Ajjampura",
+                        "Kalasa"
+                    ]
+                },
+                {
+                    "Name": "Chitradurga",
+                    "Areas": [
+                        "Chitradurga",
+                        "Challakere",
+                        "Hiriyuru",
+                        "Holalkere",
+                        "Hosadurga",
+                        "Molakalmuru"
+                    ]
+                },
+                {
+                    "Name": "Dakshina Kannada",
+                    "Areas": [
+                        "Mangalore",
+                        "Puttur",
+                        "Sullia",
+                        "Bantwal",
+                        "Belthangady",
+                        "Kadaba",
+                        "Moodabidri"
+                    ]
+                },
+                {
+                    "Name": "Davangere",
+                    "Areas": [
+                        "Davanagere",
+                        "Channagiri",
+                        "Harapanahalli",
+                        "Harihar",
+                        "Honnali",
+                        "Jagalur"
+                    ]
+                },
+                {
+                    "Name": "Dharwad",
+                    "Areas": [
+                        "Dharwad",
+                        "Hubli",
+                        "Kalghatgi",
+                        "Kundgol",
+                        "Navalgund"
+                    ]
+                },
+                {
+                    "Name": "Gadag",
+                    "Areas": [
+                        "Gadag",
+                        "Nargund",
+                        "Ron",
+                        "Shirahatti",
+                        "Mundargi",
+                        "Lakshmeshwar",
+                        "Gajendragad"
+                    ]
+                },
+                {
+                    "Name": "Hassan",
+                    "Areas": [
+                        "Alur",
+                        "Arkalgud",
+                        "Arsikere",
+                        "Belur",
+                        "Chennarayapatna",
+                        "Hassan",
+                        "Holenarsipur",
+                        "Sakleshpur"
+                    ]
+                },
+                {
+                    "Name": "Haveri",
+                    "Areas": [
+                        "Byadgi",
+                        "Hangal",
+                        "Haveri",
+                        "Hirekerur",
+                        "Ranebennur",
+                        "Savanur",
+                        "Shiggaon"
+                    ]
+                },
+                {
+                    "Name": "Kalaburagi",
+                    "Areas": [
+                        "Aland",
+                        "Afzalpur",
+                        "Kalaburagi",
+                        "Chincholi",
+                        "Chittapur",
+                        "Sedam",
+                        "Jewargi"
+                    ]
+                },
+                {
+                    "Name": "Kodagu",
+                    "Areas": [
+                        "Madikeri",
+                        "Virajpet",
+                        "Somwarpet",
+                        "Ponnampet",
+                        "Kushalnagar"
+                    ]
+                },
+                {
+                    "Name": "Kolar",
+                    "Areas": [
+                        "Kolar",
+                        "Bangarpet",
+                        "Malur",
+                        "Mulbagilu",
+                        "Srinivaspura",
+                        "Kolar Gold Fields"
+                    ]
+                },
+                {
+                    "Name": "Koppal",
+                    "Areas": [
+                        "Koppal",
+                        "Gangavathi",
+                        "Kushtagi",
+                        "Yelburga",
+                        "Kanakagiri",
+                        "Karatagi",
+                        "Kukanoor"
+                    ]
+                },
+                {
+                    "Name": "Mandya",
+                    "Areas": [
+                        "Maddur",
+                        "Malavalli",
+                        "Srirangapatna",
+                        "Nagamangala",
+                        "Krishnaraj Pete",
+                        "Pandavapura"
+                    ]
+                },
+                {
+                    "Name": "Mysuru",
+                    "Areas": [
+                        "Piriyapatna",
+                        "Hunsur",
+                        "Krishnarajanagara",
+                        "Mysuru",
+                        "Heggadadevanakote",
+                        "Nanjangud",
+                        "Saragur",
+                        "Tirumakudalu Narasipura",
+                        "Saligrama"
+                    ]
+                },
+                {
+                    "Name": "Raichur",
+                    "Areas": [
+                        "Raichur",
+                        "Sirwar",
+                        "Sindhanur",
+                        "Manvi",
+                        "Devadurga",
+                        "Maski",
+                        "Lingasugur"
+                    ]
+                },
+                {
+                    "Name": "Ramanagara",
+                    "Areas": [
+                        "Ramanagara",
+                        "Channapatna",
+                        "Magadi",
+                        "Kanakapura"
+                    ]
+                },
+                {
+                    "Name": "Shivamogga",
+                    "Areas": [
+                        "Soraba",
+                        "Bhadravathi",
+                        "Thirthahalli",
+                        "Sagara",
+                        "Shikaripura",
+                        "Shimoga",
+                        "Hosanagara"
+                    ]
+                },
+                {
+                    "Name": "Tumakuru",
+                    "Areas": [
+                        "Tumakuru",
+                        "Sira",
+                        "Madhugiri",
+                        "Gubbi",
+                        "Pavagada",
+                        "Kunigal",
+                        "Tiptur",
+                        "Chiknayakanhalli",
+                        "Turuvekere",
+                        "Koratagere"
+                    ]
+                },
+                {
+                    "Name": "Udupi",
+                    "Areas": [
+                        "Udupi",
+                        "Karkala",
+                        "Kundapura",
+                        "Hebri",
+                        "Byndoor",
+                        "Brahmavara",
+                        "Kaup"
+                    ]
+                },
+                {
+                    "Name": "Uttara Kannada",
+                    "Areas": [
+                        "Karwar",
+                        "Ankola",
+                        "Kumta",
+                        "Honnavar",
+                        "Bhatkal",
+                        "Sirsi",
+                        "Siddapur",
+                        "Yellapur",
+                        "Haliyal",
+                        "Joida",
+                        "Mundgod"
+                    ]
+                },
+                {
+                    "Name": "Vijayapura",
+                    "Areas": [
+                        "Vijayapura",
+                        "Basavana Bagewadi",
+                        "Sindagi",
+                        "Indi",
+                        "Muddebihal"
+                    ]
+                },
+                {
+                    "Name": "Yadgir",
+                    "Areas": [
+                        "Shahapur",
+                        "Wadgera",
+                        "Hunasagi",
+                        "Surapura",
+                        "Yadgir",
+                        "Gurmatkal"
+                    ]
+                }
+            ]
+        },
+        {
+            "Name": "Telangana",
+            "capital": "Hyderabad",
+            "Cities": [
+                {
+                    "Name": "Hyderabad",
+                    "Areas": [
+                        "Amberpet",
+                        "Ameerpet",
+                        "Asifnagar",
+                        "Bahadurpura",
+                        "Bandlaguda",
+                        "Charminar",
+                        "Golconda",
+                        "Himayathnagar",
+                        "Khairatabad",
+                        "Maredpalle",
+                        "Musheerabad",
+                        "Nampally",
+                        "Saidabad",
+                        "Secunderabad",
+                        "Shaikpet",
+                        "Tirumalagiri"
+                    ]
+                },
+                {
+                    "Name": "Warangal",
+                    "Areas": [
+                        "Chennaraopet",
+                        "Bachannapet",
+                        "Dharmasagar",
+                        "Geesugonda",
+                        "Gudur",
+                        "Khanapur",
+                        "Mahabubabad"
+                    ]
+                }
+            ]
+        },
+        {
+            "Name": "Andhra Pradesh",
+            "capital": "Visakhapatnam",
+            "Cities": [
+                {
+                    "Name": "Kurnool",
+                    "Areas": [
+                        "Kurnool",
+                        "Gudur",
+                        "Adoni",
+                        "Dhone",
+                        "Yemmiganur",
+                        "Nandyal",
+                        "Kallur"
+                    ]
+                },
+                {
+                    "Name": "Visakhapatnam",
+                    "Areas": [
+                        "Anakapalle",
+                        "Visakhapatnam",
+                        "Bheemunipatnam",
+                        "Gajuwaka",
+                        "Pendurthi",
+                        "Yelamanchili",
+                        "Payakaraopeta"
+                    ]
+                },
+                {
+                    "Name": "Chittoor",
+                    "Areas": [
+                        "Chittoor",
+                        "Bangarupalem",
+                        "Gangadhara Nellore",
+                        "Kuppam",
+                        "Madanapalle",
+                        "Punganur",
+                        "Renigunta",
+                        "Srikalahasti",
+                        "Tirupati Rural",
+                        "Tirupati Urban",
+                        "Venkatagirikota"
+                    ]
+                }
+            ]
+        },
+        {
+            "Name": "Maharashtra",
+            "capital": "Mumbai",
+            "Cities": [
+                {
+                    "Name": "Mumbai",
+                    "Areas": [
+                        "Andheri",
+                        "Borivali",
+                        "Kurla"
+                    ]
+                },
+                {
+                    "Name": "Pune",
+                    "Areas": [
+                        "Baramati",
+                        "Bhor",
+                        "Pune",
+                        "Shirur",
+                        "Maval"
+                    ]
+                },
+                {
+                    "Name": "Aurangabad",
+                    "Areas": [
+                        "Sillod",
+                        "Aurangabad",
+                        "Vaijapur",
+                        "Gangapur",
+                        "Soegaon",
+                        "Paithan",
+                        "Phulambri"
+                    ]
+                }
+            ]
+        },
+        {
+            "Name": "Tamil Nadu",
+            "capital": "Chennai",
+            "Cities": [
+                {
+                    "Name": "Chennai",
+                    "Areas": [
+                        "Thiruvottriyur",
+                        "Tondiarpet",
+                        "Madhvaram",
+                        "Purasawalkam",
+                        "Ambattur",
+                        "Ayanavaram",
+                        "Madhuravoyal",
+                        "Mambalam",
+                        "Mylapore",
+                        "Velachery",
+                        "Sholinganallur"
+                    ]
+                },
+                {
+                    "Name": "Krishnagiri",
+                    "Areas": [
+                        "Krishnagiri",
+                        "Hosur",
+                        "Pochampalli",
+                        "Uthangarai",
+                        "Shoolagiri",
+                        "Bargur",
+                        "Denkanikottai"
+                    ]
+                },
+                {
+                    "Name": "Salem",
+                    "Areas": [
+                        "Salem",
+                        "Salem West",
+                        "Salem South",
+                        "Yercaud",
+                        "Gangavalli",
+                        "Attur",
+                        "Pethanaickenpalayam",
+                        "Valapady"
+                    ]
+                },
+                {
+                    "Name": "Coimbatore",
+                    "Areas": [
+                        "Coimbatore (South)",
+                        "Coimbatore (North)",
+                        "Perur",
+                        "Madukkarai",
+                        "Annur",
+                        "Mettupalayam",
+                        "Sulur",
+                        "Pollachi",
+                        "Kinathukadavu",
+                        "Anaimalai",
+                        "Valparai"
+                    ]
+                },
+                {
+                    "Name": "Kanyakumari",
+                    "Areas": [
+                        "Thovalai",
+                        "Agastheeswaram",
+                        "Kalkulam",
+                        "Killiyur",
+                        "Thiruvatta",
+                        "Vilavancode"
+                    ]
+                }
+            ]
+        },
+        {
+            "Name": "Kerala",
+            "capital": "Thiruvananthapuram",
+            "Cities": [
+                {
+                    "Name": "Thiruvananthapuram",
+                    "Areas": [
+                        "Thiruvananthapuram",
+                        "Nedumangadu",
+                        "Chirayinkeezhu",
+                        "Kattakada",
+                        "Neyyattinkara",
+                        "Varkala"
+                    ]
+                },
+                {
+                    "Name": "Wayanad",
+                    "Areas": [
+                        "Sulthanbathery",
+                        "Vythiri",
+                        "Mananthavady"
+                    ]
+                },
+                {
+                    "Name": "Palakkad",
+                    "Areas": [
+                        "Palakkad",
+                        "Chittur",
+                        "Mannarkkad",
+                        "Ottappalam",
+                        "Palakkad",
+                        "Pattambi"
+                    ]
+                }
+            ]
+        }
+    ]
+}

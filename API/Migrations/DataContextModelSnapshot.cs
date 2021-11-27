@@ -33,10 +33,10 @@ namespace API.Migrations
                     b.Property<double>("Balance")
                         .HasColumnType("float");
 
-                    b.Property<string>("ConcurrencyStamp")
+                    b.Property<byte[]>("RowVersion")
                         .IsConcurrencyToken()
                         .ValueGeneratedOnAddOrUpdate()
-                        .HasColumnType("nvarchar(max)");
+                        .HasColumnType("rowversion");
 
                     b.HasKey("Id");
 
@@ -51,33 +51,21 @@ namespace API.Migrations
 
                     SqlServerPropertyBuilderExtensions.UseIdentityColumn(b.Property<int>("Id"), 1L, 1);
 
-                    b.Property<int>("AreaId")
-                        .HasColumnType("int");
-
-                    b.Property<int>("CityId")
-                        .HasColumnType("int");
-
-                    b.Property<int>("CountryId")
-                        .HasColumnType("int");
+                    b.Property<string>("House")
+                        .HasColumnType("nvarchar(max)");
 
                     b.Property<string>("Landmark")
                         .HasColumnType("nvarchar(max)");
 
+                    b.Property<int>("LocationId")
+                        .HasColumnType("int");
+
                     b.Property<string>("PostalCode")
                         .HasColumnType("nvarchar(max)");
 
-                    b.Property<int>("StateId")
-                        .HasColumnType("int");
-
                     b.HasKey("Id");
 
-                    b.HasIndex("AreaId");
-
-                    b.HasIndex("CityId");
-
-                    b.HasIndex("CountryId");
-
-                    b.HasIndex("StateId");
+                    b.HasIndex("LocationId");
 
                     b.ToTable("Addresses");
                 });
@@ -252,18 +240,89 @@ namespace API.Migrations
                     b.Property<string>("Name")
                         .HasColumnType("nvarchar(max)");
 
-                    b.Property<int?>("PhotoId")
+                    b.Property<int>("SoldQuantity")
                         .HasColumnType("int");
 
                     b.HasKey("Id");
 
                     b.HasIndex("CategoryId");
 
-                    b.HasIndex("PhotoId")
-                        .IsUnique()
-                        .HasFilter("[PhotoId] IS NOT NULL");
-
                     b.ToTable("Products");
+                });
+
+            modelBuilder.Entity("API.Entities.ProductView", b =>
+                {
+                    b.Property<int>("ProductId")
+                        .HasColumnType("int");
+
+                    b.Property<int>("PhotoId")
+                        .HasColumnType("int");
+
+                    b.Property<bool>("IsMain")
+                        .HasColumnType("bit");
+
+                    b.HasKey("ProductId", "PhotoId");
+
+                    b.HasIndex("PhotoId")
+                        .IsUnique();
+
+                    b.ToTable("ProductViews");
+                });
+
+            modelBuilder.Entity("API.Entities.Property", b =>
+                {
+                    b.Property<int>("Id")
+                        .ValueGeneratedOnAdd()
+                        .HasColumnType("int");
+
+                    SqlServerPropertyBuilderExtensions.UseIdentityColumn(b.Property<int>("Id"), 1L, 1);
+
+                    b.Property<int>("CategoryId")
+                        .HasColumnType("int");
+
+                    b.Property<string>("Name")
+                        .HasColumnType("nvarchar(max)");
+
+                    b.Property<string>("Type")
+                        .HasColumnType("nvarchar(max)");
+
+                    b.Property<string>("Unit")
+                        .HasColumnType("nvarchar(max)");
+
+                    b.Property<string>("Values")
+                        .HasColumnType("nvarchar(max)");
+
+                    b.HasKey("Id");
+
+                    b.HasIndex("CategoryId");
+
+                    b.ToTable("Properties");
+                });
+
+            modelBuilder.Entity("API.Entities.PropertyValue", b =>
+                {
+                    b.Property<int>("Id")
+                        .ValueGeneratedOnAdd()
+                        .HasColumnType("int");
+
+                    SqlServerPropertyBuilderExtensions.UseIdentityColumn(b.Property<int>("Id"), 1L, 1);
+
+                    b.Property<int>("ProductId")
+                        .HasColumnType("int");
+
+                    b.Property<int>("PropertyId")
+                        .HasColumnType("int");
+
+                    b.Property<string>("Value")
+                        .HasColumnType("nvarchar(max)");
+
+                    b.HasKey("Id");
+
+                    b.HasIndex("ProductId");
+
+                    b.HasIndex("PropertyId");
+
+                    b.ToTable("PropertyValues");
                 });
 
             modelBuilder.Entity("API.Entities.Store", b =>
@@ -313,11 +372,6 @@ namespace API.Migrations
                     b.Property<bool>("Available")
                         .HasColumnType("bit");
 
-                    b.Property<string>("ConcurrencyStamp")
-                        .IsConcurrencyToken()
-                        .ValueGeneratedOnAddOrUpdate()
-                        .HasColumnType("nvarchar(max)");
-
                     b.Property<int>("Count")
                         .HasColumnType("int");
 
@@ -326,6 +380,11 @@ namespace API.Migrations
 
                     b.Property<int>("ProductId")
                         .HasColumnType("int");
+
+                    b.Property<byte[]>("RowVersion")
+                        .IsConcurrencyToken()
+                        .ValueGeneratedOnAddOrUpdate()
+                        .HasColumnType("rowversion");
 
                     b.Property<int>("StoreId")
                         .HasColumnType("int");
@@ -695,37 +754,13 @@ namespace API.Migrations
 
             modelBuilder.Entity("API.Entities.Address", b =>
                 {
-                    b.HasOne("API.Entities.Location", "Area")
-                        .WithMany("Areas")
-                        .HasForeignKey("AreaId")
+                    b.HasOne("API.Entities.Location", "Location")
+                        .WithMany("Addresses")
+                        .HasForeignKey("LocationId")
                         .OnDelete(DeleteBehavior.Restrict)
                         .IsRequired();
 
-                    b.HasOne("API.Entities.Location", "City")
-                        .WithMany("Cities")
-                        .HasForeignKey("CityId")
-                        .OnDelete(DeleteBehavior.Restrict)
-                        .IsRequired();
-
-                    b.HasOne("API.Entities.Location", "Country")
-                        .WithMany("Countries")
-                        .HasForeignKey("CountryId")
-                        .OnDelete(DeleteBehavior.Restrict)
-                        .IsRequired();
-
-                    b.HasOne("API.Entities.Location", "State")
-                        .WithMany("States")
-                        .HasForeignKey("StateId")
-                        .OnDelete(DeleteBehavior.Restrict)
-                        .IsRequired();
-
-                    b.Navigation("Area");
-
-                    b.Navigation("City");
-
-                    b.Navigation("Country");
-
-                    b.Navigation("State");
+                    b.Navigation("Location");
                 });
 
             modelBuilder.Entity("API.Entities.Category", b =>
@@ -800,14 +835,56 @@ namespace API.Migrations
                         .OnDelete(DeleteBehavior.Cascade)
                         .IsRequired();
 
-                    b.HasOne("API.Entities.Photo", "Photo")
-                        .WithOne("Product")
-                        .HasForeignKey("API.Entities.Product", "PhotoId")
-                        .OnDelete(DeleteBehavior.SetNull);
-
                     b.Navigation("Category");
+                });
+
+            modelBuilder.Entity("API.Entities.ProductView", b =>
+                {
+                    b.HasOne("API.Entities.Photo", "Photo")
+                        .WithOne("ProductView")
+                        .HasForeignKey("API.Entities.ProductView", "PhotoId")
+                        .OnDelete(DeleteBehavior.Cascade)
+                        .IsRequired();
+
+                    b.HasOne("API.Entities.Product", "Product")
+                        .WithMany("ProductViews")
+                        .HasForeignKey("ProductId")
+                        .OnDelete(DeleteBehavior.Cascade)
+                        .IsRequired();
 
                     b.Navigation("Photo");
+
+                    b.Navigation("Product");
+                });
+
+            modelBuilder.Entity("API.Entities.Property", b =>
+                {
+                    b.HasOne("API.Entities.Category", "Category")
+                        .WithMany("Properties")
+                        .HasForeignKey("CategoryId")
+                        .OnDelete(DeleteBehavior.Cascade)
+                        .IsRequired();
+
+                    b.Navigation("Category");
+                });
+
+            modelBuilder.Entity("API.Entities.PropertyValue", b =>
+                {
+                    b.HasOne("API.Entities.Product", "Product")
+                        .WithMany("Properties")
+                        .HasForeignKey("ProductId")
+                        .OnDelete(DeleteBehavior.Cascade)
+                        .IsRequired();
+
+                    b.HasOne("API.Entities.Property", "Property")
+                        .WithMany("PropertyValues")
+                        .HasForeignKey("PropertyId")
+                        .OnDelete(DeleteBehavior.Restrict)
+                        .IsRequired();
+
+                    b.Navigation("Product");
+
+                    b.Navigation("Property");
                 });
 
             modelBuilder.Entity("API.Entities.Store", b =>
@@ -1049,19 +1126,15 @@ namespace API.Migrations
                     b.Navigation("Children");
 
                     b.Navigation("Products");
+
+                    b.Navigation("Properties");
                 });
 
             modelBuilder.Entity("API.Entities.Location", b =>
                 {
-                    b.Navigation("Areas");
+                    b.Navigation("Addresses");
 
                     b.Navigation("Children");
-
-                    b.Navigation("Cities");
-
-                    b.Navigation("Countries");
-
-                    b.Navigation("States");
 
                     b.Navigation("TrackAgents");
 
@@ -1079,7 +1152,7 @@ namespace API.Migrations
                 {
                     b.Navigation("Category");
 
-                    b.Navigation("Product");
+                    b.Navigation("ProductView");
 
                     b.Navigation("Store");
 
@@ -1088,7 +1161,16 @@ namespace API.Migrations
 
             modelBuilder.Entity("API.Entities.Product", b =>
                 {
+                    b.Navigation("ProductViews");
+
+                    b.Navigation("Properties");
+
                     b.Navigation("StoreItems");
+                });
+
+            modelBuilder.Entity("API.Entities.Property", b =>
+                {
+                    b.Navigation("PropertyValues");
                 });
 
             modelBuilder.Entity("API.Entities.Store", b =>

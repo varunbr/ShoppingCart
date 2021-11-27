@@ -7,7 +7,7 @@
         public string Url { get; set; }
         public User User { get; set; }
         public Store Store { get; set; }
-        public Product Product { get; set; }
+        public ProductView ProductView { get; set; }
         public Category Category { get; set; }
     }
 }
