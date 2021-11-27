@@ -16,7 +16,7 @@ namespace API.Migrations
                     Id = table.Column<int>(type: "int", nullable: false)
                         .Annotation("SqlServer:Identity", "1, 1"),
                     Balance = table.Column<double>(type: "float", nullable: false),
-                    ConcurrencyStamp = table.Column<string>(type: "nvarchar(max)", rowVersion: true, nullable: true)
+                    RowVersion = table.Column<byte[]>(type: "rowversion", rowVersion: true, nullable: true)
                 },
                 constraints: table =>
                 {
@@ -130,37 +130,17 @@ namespace API.Migrations
                 {
                     Id = table.Column<int>(type: "int", nullable: false)
                         .Annotation("SqlServer:Identity", "1, 1"),
+                    House = table.Column<string>(type: "nvarchar(max)", nullable: true),
                     Landmark = table.Column<string>(type: "nvarchar(max)", nullable: true),
-                    AreaId = table.Column<int>(type: "int", nullable: false),
-                    CityId = table.Column<int>(type: "int", nullable: false),
-                    StateId = table.Column<int>(type: "int", nullable: false),
-                    CountryId = table.Column<int>(type: "int", nullable: false),
+                    LocationId = table.Column<int>(type: "int", nullable: false),
                     PostalCode = table.Column<string>(type: "nvarchar(max)", nullable: true)
                 },
                 constraints: table =>
                 {
                     table.PrimaryKey("PK_Addresses", x => x.Id);
                     table.ForeignKey(
-                        name: "FK_Addresses_Locations_AreaId",
-                        column: x => x.AreaId,
-                        principalTable: "Locations",
-                        principalColumn: "Id",
-                        onDelete: ReferentialAction.Restrict);
-                    table.ForeignKey(
-                        name: "FK_Addresses_Locations_CityId",
-                        column: x => x.CityId,
-                        principalTable: "Locations",
-                        principalColumn: "Id",
-                        onDelete: ReferentialAction.Restrict);
-                    table.ForeignKey(
-                        name: "FK_Addresses_Locations_CountryId",
-                        column: x => x.CountryId,
-                        principalTable: "Locations",
-                        principalColumn: "Id",
-                        onDelete: ReferentialAction.Restrict);
-                    table.ForeignKey(
-                        name: "FK_Addresses_Locations_StateId",
-                        column: x => x.StateId,
+                        name: "FK_Addresses_Locations_LocationId",
+                        column: x => x.LocationId,
                         principalTable: "Locations",
                         principalColumn: "Id",
                         onDelete: ReferentialAction.Restrict);
@@ -289,6 +269,7 @@ namespace API.Migrations
                     Description = table.Column<string>(type: "nvarchar(max)", nullable: true),
                     Features = table.Column<string>(type: "nvarchar(max)", nullable: true),
                     Amount = table.Column<double>(type: "float", nullable: false),
+                    SoldQuantity = table.Column<int>(type: "int", nullable: false),
                     CategoryId = table.Column<int>(type: "int", nullable: false)
                 },
                 constraints: table =>
@@ -505,7 +486,7 @@ namespace API.Migrations
                     MaxPerOrder = table.Column<int>(type: "int", nullable: false),
                     Count = table.Column<int>(type: "int", nullable: false),
                     Available = table.Column<bool>(type: "bit", nullable: false),
-                    ConcurrencyStamp = table.Column<string>(type: "nvarchar(max)", rowVersion: true, nullable: true)
+                    RowVersion = table.Column<byte[]>(type: "rowversion", rowVersion: true, nullable: true)
                 },
                 constraints: table =>
                 {
@@ -647,24 +628,9 @@ namespace API.Migrations
                 });
 
             migrationBuilder.CreateIndex(
-                name: "IX_Addresses_AreaId",
+                name: "IX_Addresses_LocationId",
                 table: "Addresses",
-                column: "AreaId");
-
-            migrationBuilder.CreateIndex(
-                name: "IX_Addresses_CityId",
-                table: "Addresses",
-                column: "CityId");
-
-            migrationBuilder.CreateIndex(
-                name: "IX_Addresses_CountryId",
-                table: "Addresses",
-                column: "CountryId");
-
-            migrationBuilder.CreateIndex(
-                name: "IX_Addresses_StateId",
-                table: "Addresses",
-                column: "StateId");
+                column: "LocationId");
 
             migrationBuilder.CreateIndex(
                 name: "IX_AspNetRoleClaims_RoleId",

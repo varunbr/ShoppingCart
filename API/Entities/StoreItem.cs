@@ -12,7 +12,7 @@ namespace API.Entities
         public int MaxPerOrder { get; set; }
         public int Count { get; set; }
         public bool Available { get; set; }
-        public string ConcurrencyStamp { get; set; }
+        public byte[] RowVersion { get; set; }
         public ICollection<OrderItem> OrderItems { get; set; }
     }
 }

@@ -17,15 +17,12 @@ namespace API.Helpers
 
             //Mappings for JSON SeedData to Entity Classes
             CreateMap<Country, Location>()
-                .ForMember(dest => dest.States, opt => opt.Ignore())
                 .ForMember(dest => dest.Type, act => act.MapFrom(src => "Country"))
                 .ForMember(dest => dest.Children, act => act.MapFrom(src => src.States));
             CreateMap<State, Location>()
-                .ForMember(dest => dest.Cities, opt => opt.Ignore())
                 .ForMember(dest => dest.Type, act => act.MapFrom(src => "State"))
                 .ForMember(dest => dest.Children, act => act.MapFrom(src => src.Cities));
             CreateMap<City, Location>()
-                .ForMember(dest => dest.Areas, opt => opt.Ignore())
                 .ForMember(dest => dest.Type, act => act.MapFrom(src => "City"))
                 .ForMember(dest => dest.Children, act => act.MapFrom(src => src.Areas));
             CreateMap<string, Location>()

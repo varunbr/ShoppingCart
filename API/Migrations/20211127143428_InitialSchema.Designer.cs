@@ -12,7 +12,7 @@ using Microsoft.EntityFrameworkCore.Storage.ValueConversion;
 namespace API.Migrations
 {
     [DbContext(typeof(DataContext))]
-    [Migration("20211125050547_InitialSchema")]
+    [Migration("20211127143428_InitialSchema")]
     partial class InitialSchema
     {
         protected override void BuildTargetModel(ModelBuilder modelBuilder)
@@ -35,10 +35,10 @@ namespace API.Migrations
                     b.Property<double>("Balance")
                         .HasColumnType("float");
 
-                    b.Property<string>("ConcurrencyStamp")
+                    b.Property<byte[]>("RowVersion")
                         .IsConcurrencyToken()
                         .ValueGeneratedOnAddOrUpdate()
-                        .HasColumnType("nvarchar(max)");
+                        .HasColumnType("rowversion");
 
                     b.HasKey("Id");
 
@@ -53,33 +53,21 @@ namespace API.Migrations
 
                     SqlServerPropertyBuilderExtensions.UseIdentityColumn(b.Property<int>("Id"), 1L, 1);
 
-                    b.Property<int>("AreaId")
-                        .HasColumnType("int");
-
-                    b.Property<int>("CityId")
-                        .HasColumnType("int");
-
-                    b.Property<int>("CountryId")
-                        .HasColumnType("int");
+                    b.Property<string>("House")
+                        .HasColumnType("nvarchar(max)");
 
                     b.Property<string>("Landmark")
                         .HasColumnType("nvarchar(max)");
 
+                    b.Property<int>("LocationId")
+                        .HasColumnType("int");
+
                     b.Property<string>("PostalCode")
                         .HasColumnType("nvarchar(max)");
 
-                    b.Property<int>("StateId")
-                        .HasColumnType("int");
-
                     b.HasKey("Id");
 
-                    b.HasIndex("AreaId");
-
-                    b.HasIndex("CityId");
-
-                    b.HasIndex("CountryId");
-
-                    b.HasIndex("StateId");
+                    b.HasIndex("LocationId");
 
                     b.ToTable("Addresses");
                 });
@@ -254,6 +242,9 @@ namespace API.Migrations
                     b.Property<string>("Name")
                         .HasColumnType("nvarchar(max)");
 
+                    b.Property<int>("SoldQuantity")
+                        .HasColumnType("int");
+
                     b.HasKey("Id");
 
                     b.HasIndex("CategoryId");
@@ -383,11 +374,6 @@ namespace API.Migrations
                     b.Property<bool>("Available")
                         .HasColumnType("bit");
 
-                    b.Property<string>("ConcurrencyStamp")
-                        .IsConcurrencyToken()
-                        .ValueGeneratedOnAddOrUpdate()
-                        .HasColumnType("nvarchar(max)");
-
                     b.Property<int>("Count")
                         .HasColumnType("int");
 
@@ -396,6 +382,11 @@ namespace API.Migrations
 
                     b.Property<int>("ProductId")
                         .HasColumnType("int");
+
+                    b.Property<byte[]>("RowVersion")
+                        .IsConcurrencyToken()
+                        .ValueGeneratedOnAddOrUpdate()
+                        .HasColumnType("rowversion");
 
                     b.Property<int>("StoreId")
                         .HasColumnType("int");
@@ -765,37 +756,13 @@ namespace API.Migrations
 
             modelBuilder.Entity("API.Entities.Address", b =>
                 {
-                    b.HasOne("API.Entities.Location", "Area")
-                        .WithMany("Areas")
-                        .HasForeignKey("AreaId")
+                    b.HasOne("API.Entities.Location", "Location")
+                        .WithMany("Addresses")
+                        .HasForeignKey("LocationId")
                         .OnDelete(DeleteBehavior.Restrict)
                         .IsRequired();
 
-                    b.HasOne("API.Entities.Location", "City")
-                        .WithMany("Cities")
-                        .HasForeignKey("CityId")
-                        .OnDelete(DeleteBehavior.Restrict)
-                        .IsRequired();
-
-                    b.HasOne("API.Entities.Location", "Country")
-                        .WithMany("Countries")
-                        .HasForeignKey("CountryId")
-                        .OnDelete(DeleteBehavior.Restrict)
-                        .IsRequired();
-
-                    b.HasOne("API.Entities.Location", "State")
-                        .WithMany("States")
-                        .HasForeignKey("StateId")
-                        .OnDelete(DeleteBehavior.Restrict)
-                        .IsRequired();
-
-                    b.Navigation("Area");
-
-                    b.Navigation("City");
-
-                    b.Navigation("Country");
-
-                    b.Navigation("State");
+                    b.Navigation("Location");
                 });
 
             modelBuilder.Entity("API.Entities.Category", b =>
@@ -1167,15 +1134,9 @@ namespace API.Migrations
 
             modelBuilder.Entity("API.Entities.Location", b =>
                 {
-                    b.Navigation("Areas");
+                    b.Navigation("Addresses");
 
                     b.Navigation("Children");
-
-                    b.Navigation("Cities");
-
-                    b.Navigation("Countries");
-
-                    b.Navigation("States");
 
                     b.Navigation("TrackAgents");
 

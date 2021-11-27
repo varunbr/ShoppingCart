@@ -89,29 +89,13 @@ namespace API.Data
                 .HasForeignKey(t => t.FromId)
                 .OnDelete(DeleteBehavior.Restrict);
             builder.Entity<Account>()
-                .Property(a => a.ConcurrencyStamp)
-                .IsConcurrencyToken()
-                .ValueGeneratedOnAddOrUpdate();
+                .Property(a => a.RowVersion)
+                .IsRowVersion();
 
             builder.Entity<Address>()
-                .HasOne(a => a.Area)
-                .WithMany(l => l.Areas)
-                .HasForeignKey(a => a.AreaId)
-                .OnDelete(DeleteBehavior.Restrict);
-            builder.Entity<Address>()
-                .HasOne(a => a.City)
-                .WithMany(l => l.Cities)
-                .HasForeignKey(a => a.CityId)
-                .OnDelete(DeleteBehavior.Restrict);
-            builder.Entity<Address>()
-                .HasOne(a => a.State)
-                .WithMany(l => l.States)
-                .HasForeignKey(a => a.StateId)
-                .OnDelete(DeleteBehavior.Restrict);
-            builder.Entity<Address>()
-                .HasOne(a => a.Country)
-                .WithMany(l => l.Countries)
-                .HasForeignKey(a => a.CountryId)
+                .HasOne(a => a.Location)
+                .WithMany(l => l.Addresses)
+                .HasForeignKey(a => a.LocationId)
                 .OnDelete(DeleteBehavior.Restrict);
 
             builder.Entity<Location>()
@@ -167,9 +151,8 @@ namespace API.Data
                 .WithOne(oi => oi.StoreItem)
                 .HasForeignKey(oi => oi.StoreItemId);
             builder.Entity<StoreItem>()
-                .Property(si => si.ConcurrencyStamp)
-                .IsConcurrencyToken()
-                .ValueGeneratedOnAddOrUpdate();
+                .Property(si => si.RowVersion)
+                .IsRowVersion();
 
             builder.Entity<Order>()
                 .HasMany(o => o.OrderItems)

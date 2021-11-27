@@ -4,6 +4,7 @@ using API.Helpers;
 using AutoMapper;
 using Microsoft.AspNetCore.Identity;
 using Microsoft.EntityFrameworkCore;
+using Microsoft.Extensions.Configuration;
 using System;
 using System.Collections.Generic;
 using System.IO;
@@ -15,6 +16,8 @@ namespace API.Seed
 {
     public class SeedData
     {
+        private static readonly Random Random = new Random();
+
         public static async Task SeedRoles(RoleManager<IdentityRole<int>> roleManager)
         {
             if (await roleManager.Roles.AnyAsync()) return;
@@ -22,6 +25,56 @@ namespace API.Seed
             foreach (var role in Enum.GetNames<Role>())
             {
                 await roleManager.CreateAsync(new IdentityRole<int> { Name = role });
+            }
+        }
+
+        public static async Task SeedUsers(UserManager<User> userManager, DataContext context, IConfiguration config)
+        {
+            if (await userManager.Users.AnyAsync()) return;
+
+            var data = await File.ReadAllTextAsync("Seed/UserSeed.json");
+            var users = JsonSerializer.Deserialize<List<User>>(data);
+
+            if (users == null) return;
+
+            foreach (var user in users)
+            {
+                user.UserName = user.UserName.ToLower();
+                user.Account = new Account
+                {
+                    Balance = 1000
+                };
+                user.Address = await GetRandomAddress(context);
+
+                if (user.UserName == "admin")
+                {
+                    await userManager.CreateAsync(user, config["AdminPassword"]);
+                    await userManager.AddToRolesAsync(user, new[] { Role.User.ToString(), Role.Admin.ToString() });
+                    continue;
+                }
+
+                await userManager.CreateAsync(user, "User@2021");
+                await userManager.AddToRoleAsync(user, Role.User.ToString());
+            }
+        }
+
+        public static async Task SeedStore(DataContext context)
+        {
+            if (await context.Stores.AnyAsync()) return;
+
+            var stores = new[] { "SuperComNet", "StoreEcom", "CORSECA", "PETILANTE Online",
+                "RetailNet", "Akshnav Online", "OmniTechRetail", "IWQNBecommerce","RetailHomes","HomeKart" };
+
+            foreach (var name in stores)
+            {
+                var store = new Store
+                {
+                    Name = name,
+                    Account = new Account { Balance = 10000 },
+                    Address = await GetRandomAddress(context)
+                };
+                await context.Stores.AddAsync(store);
+                await context.SaveChangesAsync();
             }
         }
 
@@ -64,11 +117,12 @@ namespace API.Seed
                 {
                     var product = mapper.Map<Product>(productSeed);
                     var category = await context.Categories
-                        .Include(c=>c.Properties)
+                        .Include(c => c.Properties)
                         .SingleAsync(c => c.Name == productSeed.Category);
                     product.Category = category;
                     product.Properties = new List<PropertyValue>();
                     product.ProductViews = new List<ProductView>();
+                    product.SoldQuantity = Random.Next(1000, 100000);
 
                     foreach (var propertySeed in productSeed.Properties)
                     {
@@ -84,7 +138,7 @@ namespace API.Seed
                     {
                         var productView = new ProductView
                         {
-                            IsMain = i==0,
+                            IsMain = i == 0,
                             Photo = new Photo
                             {
                                 Url = productSeed.Urls[i]
@@ -92,9 +146,47 @@ namespace API.Seed
                         };
                         product.ProductViews.Add(productView);
                     }
+
+                    var maxPreOrder = Random.Next(1, 5);
+                    var stores = await context.Stores.OrderBy(s => Guid.NewGuid()).Take(2).ToListAsync();
+                    var storeItems = new List<StoreItem>();
+                    foreach (var store in stores)
+                    {
+                        storeItems.Add(new StoreItem
+                        {
+                            Store = store,
+                            Count = Random.Next(10, 1000),
+                            MaxPerOrder = maxPreOrder
+                        });
+                    }
+                    product.StoreItems = storeItems;
+
                     await context.Products.AddAsync(product);
                     await context.SaveChangesAsync();
                 }
+        }
+
+        private static async Task<Address> GetRandomAddress(DataContext context)
+        {
+            var location = await context.Locations
+                .Where(l => l.Type == "Area")
+                .OrderBy(l => Guid.NewGuid())
+                .FirstAsync();
+
+            var landmarks = new[]
+            {
+                "Bull Temple", "Hotel Dwarka", "Vidyarthi Bhavan", "Maharaja Agrasen Hospital", "Church Parking",
+                "Kanti Sweets", "Café Coffee Day", "Eden Park Restaurant", "Chaipoint", "Space Matrix",
+                "Brundavan Cafe", "BMS College of Engineering", "Ashok Nagar Post Office"
+            };
+
+            return new Address
+            {
+                Location = location,
+                House = $"#{Random.Next(1, 100)}, {Random.Next(3, 26)}th Cross, {Random.Next(3, 15)}th Main",
+                Landmark = landmarks[Random.Next(0, landmarks.Length)],
+                PostalCode = Random.Next(500000, 599999).ToString()
+            };
         }
     }
 
