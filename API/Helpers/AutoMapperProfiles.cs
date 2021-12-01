@@ -15,6 +15,13 @@ namespace API.Helpers
 
             CreateMap<User, UserProfileDto>().ReverseMap();
 
+            CreateMap<AddressDto, Address>();
+            CreateMap<Address, AddressDto>()
+                .ForMember(dest => dest.Area, opt => opt.MapFrom(src => src.Location.Name))
+                .ForMember(dest => dest.City, opt => opt.MapFrom(src => src.Location.Parent.Name))
+                .ForMember(dest => dest.State, opt => opt.MapFrom(src => src.Location.Parent.Parent.Name))
+                .ForMember(dest => dest.Country, opt => opt.MapFrom(src => src.Location.Parent.Parent.Parent.Name));
+
             //Mappings for JSON SeedData to Entity Classes
             CreateMap<Country, Location>()
                 .ForMember(dest => dest.Type, act => act.MapFrom(src => "Country"))

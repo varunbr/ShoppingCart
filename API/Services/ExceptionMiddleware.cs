@@ -1,10 +1,10 @@
-﻿using System;
-using System.Text.Json;
-using System.Threading.Tasks;
-using API.Helpers;
+﻿using API.Helpers;
 using Microsoft.AspNetCore.Http;
 using Microsoft.Extensions.Hosting;
 using Microsoft.Extensions.Logging;
+using System;
+using System.Text.Json;
+using System.Threading.Tasks;
 
 namespace API.Services
 {
@@ -26,6 +26,15 @@ namespace API.Services
             try
             {
                 await _next(context);
+            }
+            catch (HttpException ex)
+            {
+                _logger.LogWarning(ex.Message);
+
+                context.Response.StatusCode = StatusCodes.Status400BadRequest;
+                var jsonResponse = ex.Message;
+                context.Response.ContentType = "application/json";
+                await context.Response.WriteAsync(jsonResponse);
             }
             catch (Exception ex)
             {

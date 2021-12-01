@@ -9,8 +9,11 @@ namespace API.Entities
         public Order Order { get; set; }
         public int FromAddressId { get; set; }
         public Address FromAddress { get; set; }
-        public int ToAddressId { get; set; }
-        public Address ToAddress { get; set; }
+        public string House { get; set; }
+        public string Landmark { get; set; }
+        public int LocationId { get; set; }
+        public Location Location { get; set; }
+        public string PostalCode { get; set; }
         public ICollection<TrackEvent> Events { get; set; }
     }
 }

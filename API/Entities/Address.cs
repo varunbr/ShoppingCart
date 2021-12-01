@@ -13,6 +13,5 @@ namespace API.Entities
         public User User { get; set; }
         public Store Store { get; set; }
         public ICollection<Track> TracksFrom { get; set; }
-        public ICollection<Track> TracksTo { get; set; }
     }
 }

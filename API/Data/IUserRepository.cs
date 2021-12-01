@@ -1,6 +1,5 @@
-﻿using System.Threading.Tasks;
-using API.DTOs;
-using API.Entities;
+﻿using API.DTOs;
+using System.Threading.Tasks;
 
 namespace API.Data
 {
@@ -11,5 +10,8 @@ namespace API.Data
         Task<bool> UserExist(int id);
         Task<bool> UserExist(string userName);
         Task<UserProfileDto> GetProfile(int id);
+        Task<AddressDto> GetAddress(int userId);
+        Task UpdateAddress(int userId, AddressDto address);
+        Task RemoveAddress(int userId);
     }
 }

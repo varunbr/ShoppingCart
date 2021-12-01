@@ -170,9 +170,9 @@ namespace API.Data
                 .HasForeignKey(t => t.FromAddressId)
                 .OnDelete(DeleteBehavior.Restrict);
             builder.Entity<Track>()
-                .HasOne(t => t.ToAddress)
-                .WithMany(a => a.TracksTo)
-                .HasForeignKey(t => t.ToAddressId)
+                .HasOne(t => t.Location)
+                .WithMany(l => l.Tracks)
+                .HasForeignKey(t => t.LocationId)
                 .OnDelete(DeleteBehavior.Restrict);
             builder.Entity<Track>()
                 .HasMany(t => t.Events)
