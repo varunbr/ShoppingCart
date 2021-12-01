@@ -17,4 +17,12 @@
         Female,
         Unknown
     }
+
+    public enum LocationType
+    {
+        Area,
+        City,
+        State,
+        Country
+    }
 }

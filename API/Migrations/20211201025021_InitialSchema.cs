@@ -540,7 +540,10 @@ namespace API.Migrations
                         .Annotation("SqlServer:Identity", "1, 1"),
                     OrderId = table.Column<int>(type: "int", nullable: false),
                     FromAddressId = table.Column<int>(type: "int", nullable: false),
-                    ToAddressId = table.Column<int>(type: "int", nullable: false)
+                    House = table.Column<string>(type: "nvarchar(max)", nullable: true),
+                    Landmark = table.Column<string>(type: "nvarchar(max)", nullable: true),
+                    LocationId = table.Column<int>(type: "int", nullable: false),
+                    PostalCode = table.Column<string>(type: "nvarchar(max)", nullable: true)
                 },
                 constraints: table =>
                 {
@@ -552,9 +555,9 @@ namespace API.Migrations
                         principalColumn: "Id",
                         onDelete: ReferentialAction.Restrict);
                     table.ForeignKey(
-                        name: "FK_Tracks_Addresses_ToAddressId",
-                        column: x => x.ToAddressId,
-                        principalTable: "Addresses",
+                        name: "FK_Tracks_Locations_LocationId",
+                        column: x => x.LocationId,
+                        principalTable: "Locations",
                         principalColumn: "Id",
                         onDelete: ReferentialAction.Restrict);
                     table.ForeignKey(
@@ -815,15 +818,15 @@ namespace API.Migrations
                 column: "FromAddressId");
 
             migrationBuilder.CreateIndex(
+                name: "IX_Tracks_LocationId",
+                table: "Tracks",
+                column: "LocationId");
+
+            migrationBuilder.CreateIndex(
                 name: "IX_Tracks_OrderId",
                 table: "Tracks",
                 column: "OrderId",
                 unique: true);
-
-            migrationBuilder.CreateIndex(
-                name: "IX_Tracks_ToAddressId",
-                table: "Tracks",
-                column: "ToAddressId");
 
             migrationBuilder.CreateIndex(
                 name: "IX_Transactions_FromId",

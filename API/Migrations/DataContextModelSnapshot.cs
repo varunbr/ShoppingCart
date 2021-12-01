@@ -409,20 +409,29 @@ namespace API.Migrations
                     b.Property<int>("FromAddressId")
                         .HasColumnType("int");
 
+                    b.Property<string>("House")
+                        .HasColumnType("nvarchar(max)");
+
+                    b.Property<string>("Landmark")
+                        .HasColumnType("nvarchar(max)");
+
+                    b.Property<int>("LocationId")
+                        .HasColumnType("int");
+
                     b.Property<int>("OrderId")
                         .HasColumnType("int");
 
-                    b.Property<int>("ToAddressId")
-                        .HasColumnType("int");
+                    b.Property<string>("PostalCode")
+                        .HasColumnType("nvarchar(max)");
 
                     b.HasKey("Id");
 
                     b.HasIndex("FromAddressId");
 
+                    b.HasIndex("LocationId");
+
                     b.HasIndex("OrderId")
                         .IsUnique();
-
-                    b.HasIndex("ToAddressId");
 
                     b.ToTable("Tracks");
                 });
@@ -939,23 +948,23 @@ namespace API.Migrations
                         .OnDelete(DeleteBehavior.Restrict)
                         .IsRequired();
 
+                    b.HasOne("API.Entities.Location", "Location")
+                        .WithMany("Tracks")
+                        .HasForeignKey("LocationId")
+                        .OnDelete(DeleteBehavior.Restrict)
+                        .IsRequired();
+
                     b.HasOne("API.Entities.Order", "Order")
                         .WithOne("Track")
                         .HasForeignKey("API.Entities.Track", "OrderId")
                         .OnDelete(DeleteBehavior.Cascade)
                         .IsRequired();
 
-                    b.HasOne("API.Entities.Address", "ToAddress")
-                        .WithMany("TracksTo")
-                        .HasForeignKey("ToAddressId")
-                        .OnDelete(DeleteBehavior.Restrict)
-                        .IsRequired();
-
                     b.Navigation("FromAddress");
 
-                    b.Navigation("Order");
+                    b.Navigation("Location");
 
-                    b.Navigation("ToAddress");
+                    b.Navigation("Order");
                 });
 
             modelBuilder.Entity("API.Entities.TrackAgent", b =>
@@ -1116,8 +1125,6 @@ namespace API.Migrations
 
                     b.Navigation("TracksFrom");
 
-                    b.Navigation("TracksTo");
-
                     b.Navigation("User");
                 });
 
@@ -1139,6 +1146,8 @@ namespace API.Migrations
                     b.Navigation("TrackAgents");
 
                     b.Navigation("TrackEvents");
+
+                    b.Navigation("Tracks");
                 });
 
             modelBuilder.Entity("API.Entities.Order", b =>

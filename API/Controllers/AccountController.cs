@@ -16,6 +16,7 @@ using System.Threading.Tasks;
 
 namespace API.Controllers
 {
+    [Authorize]
     public class AccountController : BaseController
     {
         private readonly UserManager<User> _userManager;
@@ -35,6 +36,7 @@ namespace API.Controllers
         }
 
         [HttpPost("register")]
+        [AllowAnonymous]
         public async Task<ActionResult<UserDto>> Register(UserRegisterDto registerDto)
         {
             if (!Enum.GetNames<Gender>().Contains(registerDto.Gender))
@@ -66,6 +68,7 @@ namespace API.Controllers
         }
 
         [HttpPost("login")]
+        [AllowAnonymous]
         public async Task<ActionResult<UserDto>> Login(LoginDto loginDto)
         {
             var user = await _userManager.Users
@@ -88,7 +91,6 @@ namespace API.Controllers
             };
         }
 
-        [Authorize]
         [HttpPost("token-update")]
         public async Task<ActionResult<UserDto>> GetUpdatedToken()
         {
@@ -110,12 +112,12 @@ namespace API.Controllers
         }
 
         [HttpGet("{userName}")]
+        [AllowAnonymous]
         public async Task<bool> UserNameExist(string userName)
         {
             return await _uow.UserRepository.UserExist(userName);
         }
 
-        [Authorize]
         [HttpGet("profile")]
         public async Task<ActionResult> GetUserProfile()
         {
@@ -123,7 +125,6 @@ namespace API.Controllers
             return Ok(await _uow.UserRepository.GetProfile(id));
         }
 
-        [Authorize]
         [HttpPost("profile")]
         public async Task<ActionResult<UserProfileDto>> UpdateUserProfile(UserProfileDto profileDto)
         {
@@ -146,6 +147,33 @@ namespace API.Controllers
 
             _mapper.Map(user, profileDto);
             return profileDto;
+        }
+
+        [HttpGet("address")]
+        public async Task<ActionResult> GetAddress()
+        {
+            var address = await _uow.UserRepository.GetAddress(HttpContext.User.GetUserId());
+            if (address == null)
+                return NoContent();
+            return Ok(address);
+        }
+
+        [HttpPost("address")]
+        public async Task<ActionResult> UpdateAddress(AddressDto address)
+        {
+            await _uow.UserRepository.UpdateAddress(HttpContext.User.GetUserId(), address);
+            if (!await _uow.SaveChanges())
+                return BadRequest("Failed to update.");
+            return await GetAddress();
+        }
+
+        [HttpDelete("address")]
+        public async Task<ActionResult> RemoveAddress()
+        {
+            await _uow.UserRepository.RemoveAddress(HttpContext.User.GetUserId());
+            if (!await _uow.SaveChanges())
+                return BadRequest("Failed to remove.");
+            return NoContent();
         }
     }
 }
