@@ -15,11 +15,13 @@ namespace API.Data
         public DbSet<Account> Accounts { get; set; }
         public DbSet<Address> Addresses { get; set; }
         public DbSet<Category> Categories { get; set; }
+        public DbSet<CategoryTag> CategoryTags { get; set; }
         public DbSet<Location> Locations { get; set; }
         public DbSet<Order> Orders { get; set; }
         public DbSet<OrderItem> OrderItems { get; set; }
         public DbSet<Photo> Photos { get; set; }
         public DbSet<Product> Products { get; set; }
+        public DbSet<ProductTag> ProductTags { get; set; }
         public DbSet<ProductView> ProductViews { get; set; }
         public DbSet<Property> Properties { get; set; }
         public DbSet<PropertyValue> PropertyValues { get; set; }
@@ -116,6 +118,10 @@ namespace API.Data
                 .HasMany(p => p.Properties)
                 .WithOne(pv => pv.Product)
                 .HasForeignKey(pv => pv.ProductId);
+            builder.Entity<Product>()
+                .HasMany(p => p.ProductTags)
+                .WithOne(t => t.Product)
+                .HasForeignKey(t => t.ProductId);
 
             builder.Entity<ProductView>()
                 .HasKey(k => new { k.ProductId, k.PhotoId });
@@ -139,6 +145,10 @@ namespace API.Data
                 .HasMany(c => c.Properties)
                 .WithOne(p => p.Category)
                 .HasForeignKey(p => p.CategoryId);
+            builder.Entity<Category>()
+                .HasMany(c => c.CategoryTags)
+                .WithOne(t => t.Category)
+                .HasForeignKey(t => t.CategoryId);
 
             builder.Entity<Property>()
                 .HasMany(p => p.PropertyValues)

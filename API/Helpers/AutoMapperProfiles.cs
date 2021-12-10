@@ -1,4 +1,5 @@
-﻿using API.DTOs;
+﻿using System.Linq;
+using API.DTOs;
 using API.Entities;
 using API.Seed;
 using AutoMapper;
@@ -22,6 +23,9 @@ namespace API.Helpers
                 .ForMember(dest => dest.State, opt => opt.MapFrom(src => src.Location.Parent.Parent.Name))
                 .ForMember(dest => dest.Country, opt => opt.MapFrom(src => src.Location.Parent.Parent.Parent.Name));
 
+            CreateMap<Product, ProductDto>()
+                .ForMember(dest=>dest.PhotoUrl,opt=>opt.MapFrom(src=>src.ProductViews.FirstOrDefault(p=>p.IsMain).Photo.Url));
+            
             //Mappings for JSON SeedData to Entity Classes
             CreateMap<Country, Location>()
                 .ForMember(dest => dest.Type, act => act.MapFrom(src => "Country"))
@@ -37,14 +41,19 @@ namespace API.Helpers
                 .ForMember(dest => dest.Name, act => act.MapFrom(src => src));
 
             CreateMap<Seed.Property, Entities.Property>();
+            CreateMap<string, CategoryTag>()
+                .ForMember(dest => dest.Score, opt => opt.MapFrom(src => 50))
+                .ForMember(dest => dest.Name, opt => opt.MapFrom(src => src.ToLower()));
             CreateMap<ProductCategory, Category>()
+                .ForMember(dest => dest.CategoryTags, opt => opt.MapFrom(src => src.Tags))
                 .ForMember(dest => dest.Properties, act => act.MapFrom(src => src.Properties))
                 .ForMember(dest => dest.Children, act => act.MapFrom(src => src.SubCategories))
                 .ForMember(dest => dest.Name, act => act.MapFrom(src => src.Category));
 
             CreateMap<ProductSeed, Product>()
                 .ForMember(dest => dest.Category, opt => opt.Ignore())
-                .ForMember(dest => dest.Properties, opt => opt.Ignore());
+                .ForMember(dest => dest.Properties, opt => opt.Ignore())
+                .ForMember(dest => dest.ProductTags, opt => opt.Ignore());
         }
     }
 }
