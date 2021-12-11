@@ -98,6 +98,30 @@ namespace API.Migrations
                     b.ToTable("Categories");
                 });
 
+            modelBuilder.Entity("API.Entities.CategoryTag", b =>
+                {
+                    b.Property<int>("Id")
+                        .ValueGeneratedOnAdd()
+                        .HasColumnType("int");
+
+                    SqlServerPropertyBuilderExtensions.UseIdentityColumn(b.Property<int>("Id"), 1L, 1);
+
+                    b.Property<int>("CategoryId")
+                        .HasColumnType("int");
+
+                    b.Property<string>("Name")
+                        .HasColumnType("nvarchar(max)");
+
+                    b.Property<short>("Score")
+                        .HasColumnType("smallint");
+
+                    b.HasKey("Id");
+
+                    b.HasIndex("CategoryId");
+
+                    b.ToTable("CategoryTags");
+                });
+
             modelBuilder.Entity("API.Entities.Location", b =>
                 {
                     b.Property<int>("Id")
@@ -228,6 +252,9 @@ namespace API.Migrations
                     b.Property<int>("CategoryId")
                         .HasColumnType("int");
 
+                    b.Property<DateTime>("Created")
+                        .HasColumnType("datetime2");
+
                     b.Property<string>("Description")
                         .HasColumnType("nvarchar(max)");
 
@@ -248,6 +275,30 @@ namespace API.Migrations
                     b.HasIndex("CategoryId");
 
                     b.ToTable("Products");
+                });
+
+            modelBuilder.Entity("API.Entities.ProductTag", b =>
+                {
+                    b.Property<int>("Id")
+                        .ValueGeneratedOnAdd()
+                        .HasColumnType("int");
+
+                    SqlServerPropertyBuilderExtensions.UseIdentityColumn(b.Property<int>("Id"), 1L, 1);
+
+                    b.Property<string>("Name")
+                        .HasColumnType("nvarchar(max)");
+
+                    b.Property<int>("ProductId")
+                        .HasColumnType("int");
+
+                    b.Property<short>("Score")
+                        .HasColumnType("smallint");
+
+                    b.HasKey("Id");
+
+                    b.HasIndex("ProductId");
+
+                    b.ToTable("ProductTags");
                 });
 
             modelBuilder.Entity("API.Entities.ProductView", b =>
@@ -307,13 +358,16 @@ namespace API.Migrations
 
                     SqlServerPropertyBuilderExtensions.UseIdentityColumn(b.Property<int>("Id"), 1L, 1);
 
+                    b.Property<int?>("IntegerValue")
+                        .HasColumnType("int");
+
                     b.Property<int>("ProductId")
                         .HasColumnType("int");
 
                     b.Property<int>("PropertyId")
                         .HasColumnType("int");
 
-                    b.Property<string>("Value")
+                    b.Property<string>("StringValue")
                         .HasColumnType("nvarchar(max)");
 
                     b.HasKey("Id");
@@ -788,6 +842,17 @@ namespace API.Migrations
                     b.Navigation("Photo");
                 });
 
+            modelBuilder.Entity("API.Entities.CategoryTag", b =>
+                {
+                    b.HasOne("API.Entities.Category", "Category")
+                        .WithMany("CategoryTags")
+                        .HasForeignKey("CategoryId")
+                        .OnDelete(DeleteBehavior.Cascade)
+                        .IsRequired();
+
+                    b.Navigation("Category");
+                });
+
             modelBuilder.Entity("API.Entities.Location", b =>
                 {
                     b.HasOne("API.Entities.Location", "Parent")
@@ -845,6 +910,17 @@ namespace API.Migrations
                         .IsRequired();
 
                     b.Navigation("Category");
+                });
+
+            modelBuilder.Entity("API.Entities.ProductTag", b =>
+                {
+                    b.HasOne("API.Entities.Product", "Product")
+                        .WithMany("ProductTags")
+                        .HasForeignKey("ProductId")
+                        .OnDelete(DeleteBehavior.Cascade)
+                        .IsRequired();
+
+                    b.Navigation("Product");
                 });
 
             modelBuilder.Entity("API.Entities.ProductView", b =>
@@ -1130,6 +1206,8 @@ namespace API.Migrations
 
             modelBuilder.Entity("API.Entities.Category", b =>
                 {
+                    b.Navigation("CategoryTags");
+
                     b.Navigation("Children");
 
                     b.Navigation("Products");
@@ -1170,6 +1248,8 @@ namespace API.Migrations
 
             modelBuilder.Entity("API.Entities.Product", b =>
                 {
+                    b.Navigation("ProductTags");
+
                     b.Navigation("ProductViews");
 
                     b.Navigation("Properties");

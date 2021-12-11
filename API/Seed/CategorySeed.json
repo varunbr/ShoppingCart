@@ -7,6 +7,11 @@
             {
                 "Category": "Mobiles",
                 "SubCategories": [],
+                "Tags": [
+                    "Mobile",
+                    "Mobiles",
+                    "Smartphone"
+                ],
                 "Properties": [
                     {
                         "Name": "Brand",
@@ -60,6 +65,15 @@
                     {
                         "Category": "Headphones & Headsets",
                         "Products": [],
+                        "Tags": [
+                            "Headphones",
+                            "Headphone",
+                            "Headsets",
+                            "Headset",
+                            "TWS",
+                            "Earphone",
+                            "Earphones"
+                        ],
                         "Properties": [
                             {
                                 "Name": "Brand",
@@ -91,6 +105,12 @@
                     {
                         "Category": "Power Banks",
                         "Products": [],
+                        "Tags": [
+                            "Power Bank",
+                            "PowerBank",
+                            "Power Banks",
+                            "PowerBanks"
+                        ],
                         "Properties": [
                             {
                                 "Name": "Capacity",
@@ -110,6 +130,14 @@
                     {
                         "Category": "Memory Cards",
                         "Products": [],
+                        "Tags": [
+                            "Memory Cards",
+                            "Memory Card",
+                            "MemoryCards",
+                            "MemoryCard",
+                            "MicroSD",
+                            "SD Card"
+                        ],
                         "Properties": [
                             {
                                 "Name": "Brand",
@@ -131,6 +159,12 @@
             {
                 "Category": "Laptops",
                 "Products": [],
+                "Tags": [
+                    "Laptops",
+                    "Laptop",
+                    "PC",
+                    "Desktop"
+                ],
                 "Properties": [
                     {
                         "Name": "Brand",
@@ -186,6 +220,11 @@
             {
                 "Category": "Camera",
                 "Products": [],
+                "Tags": [
+                    "Camera",
+                    "Cameras",
+                    "DSLR"
+                ],
                 "Properties": [
                     {
                         "Name": "Brand",
@@ -212,6 +251,11 @@
                 "Category": "Speakers",
                 "SubCategories": [],
                 "Products": [],
+                "Tags": [
+                    "Speakers",
+                    "Speaker",
+                    "Soundbar"
+                ],
                 "Properties": [
                     {
                         "Name": "Brand",
@@ -243,6 +287,13 @@
                 "Category": "Television",
                 "SubCategories": [],
                 "Products": [],
+                "Tags": [
+                    "TVs",
+                    "TV",
+                    "Television",
+                    "Televisions",
+                    "Smart TV"
+                ],
                 "Properties": [
                     {
                         "Name": "Brand",
@@ -304,6 +355,12 @@
                 "Category": "Washing Machine",
                 "SubCategories": [],
                 "Products": [],
+                "Tags": [
+                    "Washing Machine",
+                    "Washing Machines",
+                    "WashingMachine",
+                    "WashingMachines"
+                ],
                 "Properties": [
                     {
                         "Name": "Brand",
@@ -329,6 +386,14 @@
                 "Category": "Air Conditioners",
                 "SubCategories": [],
                 "Products": [],
+                "Tags": [
+                    "Air Conditioners",
+                    "Air Conditioner",
+                    "AirConditioners",
+                    "AirConditioner",
+                    "AC",
+                    "ACs"
+                ],
                 "Properties": [
                     {
                         "Name": "Brand",
@@ -384,6 +449,11 @@
                 "Category": "Refrigerators",
                 "SubCategories": [],
                 "Products": [],
+                "Tags": [
+                    "Refrigerators",
+                    "Refrigerator",
+                    "Fridge"
+                ],
                 "Properties": [
                     {
                         "Name": "Brand",

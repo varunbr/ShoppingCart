@@ -9,6 +9,7 @@ namespace API.Data
         private readonly IMapper _mapper;
 
         public IUserRepository UserRepository => new UserRepository(_context, _mapper);
+        public ISearchRepository SearchRepository => new SearchRepository(_context, _mapper);
 
         public UnitOfWork(DataContext dataContext, IMapper mapper)
         {

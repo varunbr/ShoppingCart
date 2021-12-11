@@ -1,4 +1,5 @@
-﻿using System.Collections.Generic;
+﻿using System;
+using System.Collections.Generic;
 
 namespace API.Entities
 {
@@ -13,9 +14,11 @@ namespace API.Entities
         public double Amount { get; set; }
         public int SoldQuantity { get; set; }
         public int CategoryId { get; set; }
+        public DateTime Created { get; set; }
         public Category Category { get; set; }
         public ICollection<ProductView> ProductViews { get; set; }
         public ICollection<StoreItem> StoreItems { get; set; }
         public ICollection<PropertyValue> Properties { get; set; }
+        public ICollection<ProductTag> ProductTags { get; set; }
     }
 }

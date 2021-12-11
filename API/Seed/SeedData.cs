@@ -16,7 +16,7 @@ namespace API.Seed
 {
     public class SeedData
     {
-        private static readonly Random Random = new Random();
+        private static readonly Random Random = new();
 
         public static async Task SeedRoles(RoleManager<IdentityRole<int>> roleManager)
         {
@@ -118,20 +118,33 @@ namespace API.Seed
                     var product = mapper.Map<Product>(productSeed);
                     var category = await context.Categories
                         .Include(c => c.Properties)
+                        .Include(c=>c.CategoryTags)
                         .SingleAsync(c => c.Name == productSeed.Category);
                     product.Category = category;
                     product.Properties = new List<PropertyValue>();
                     product.ProductViews = new List<ProductView>();
+                    product.ProductTags = new List<ProductTag>();
                     product.SoldQuantity = Random.Next(1000, 100000);
+                    product.Created = new DateTime(2021, 1, 1).AddDays(Random.Next(365));
 
                     foreach (var propertySeed in productSeed.Properties)
                     {
                         var property = category.Properties.Single(p => p.Name == propertySeed.Name);
-                        product.Properties.Add(new PropertyValue
+                        var pv = new PropertyValue
                         {
-                            Property = property,
-                            Value = propertySeed.Value
-                        });
+                            Property = property
+                        };
+
+                        switch (property.Type)
+                        {
+                            case "String":
+                                pv.StringValue=propertySeed.Value;
+                                break;
+                            case "Integer":
+                                pv.IntegerValue = int.Parse(propertySeed.Value);
+                                break;
+                        }
+                        product.Properties.Add(pv);
                     }
 
                     for (var i = 0; i < productSeed.Urls.Length; i++)
@@ -145,6 +158,34 @@ namespace API.Seed
                             }
                         };
                         product.ProductViews.Add(productView);
+                    }
+
+                    for (var i = 0; i < productSeed.Tags.Length; i++)
+                    {
+                        var tag = new ProductTag
+                        {
+                            Name = productSeed.Tags[i],
+                            Score = (short)(i == 0 ? 100 : 40)
+                        };
+                        product.ProductTags.Add(tag);
+                    }
+
+                    foreach (var categoryTag in category.CategoryTags)
+                    {
+                        product.ProductTags.Add(new ProductTag
+                        {
+                            Name = categoryTag.Name,
+                            Score = 10
+                        });
+                    }
+
+                    if (!string.IsNullOrWhiteSpace(product.Model))
+                    {
+                        product.ProductTags.Add(new ProductTag
+                        {
+                            Name = product.Model,
+                            Score = 100
+                        });
                     }
 
                     var maxPreOrder = Random.Next(1, 5);
@@ -211,6 +252,7 @@ namespace API.Seed
     public class ProductCategory
     {
         public string Category { get; set; }
+        public string[] Tags { get; set; }
         public List<Property> Properties { get; set; }
         public List<ProductCategory> SubCategories { get; set; }
     }
@@ -232,6 +274,7 @@ namespace API.Seed
         public string Description { get; set; }
         public string Features { get; set; }
         public double Amount { get; set; }
+        public string[] Tags { get; set; }
         public string[] Urls { get; set; }
         public ICollection<PropertyValueSeed> Properties { get; set; }
     }
