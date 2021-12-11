@@ -1,8 +1,9 @@
-﻿using System.Linq;
-using API.DTOs;
+﻿using API.DTOs;
 using API.Entities;
 using API.Seed;
 using AutoMapper;
+using System.Linq;
+using Property = API.Entities.Property;
 
 namespace API.Helpers
 {
@@ -24,8 +25,19 @@ namespace API.Helpers
                 .ForMember(dest => dest.Country, opt => opt.MapFrom(src => src.Location.Parent.Parent.Parent.Name));
 
             CreateMap<Product, ProductDto>()
-                .ForMember(dest=>dest.PhotoUrl,opt=>opt.MapFrom(src=>src.ProductViews.FirstOrDefault(p=>p.IsMain).Photo.Url));
-            
+                .ForMember(dest => dest.PhotoUrl, opt => opt.MapFrom(src => src.ProductViews.FirstOrDefault(p => p.IsMain).Photo.Url));
+
+            CreateMap<Property, PropertyDto>();
+            CreateMap<SearchContext, SearchContextDto>()
+                .ForMember(dest => dest.Price, opt => opt.MapFrom(src => src.GetPrice(src.PriceFrom, src.PriceTo)));
+
+            CreateMap<PropertyValue, PropertyValueDto>()
+                .ForMember(dest => dest.Name, act => act.MapFrom(src => src.Property.Name));
+            CreateMap<ProductView, PhotoDto>()
+                .ForMember(dest => dest.Url, act => act.MapFrom(src => src.Photo.Url));
+            CreateMap<Product, ProductDetailDto>()
+                .ForMember(dest=>dest.Photos,act=>act.MapFrom(src=>src.ProductViews));
+
             //Mappings for JSON SeedData to Entity Classes
             CreateMap<Country, Location>()
                 .ForMember(dest => dest.Type, act => act.MapFrom(src => "Country"))

@@ -12,7 +12,7 @@ using Microsoft.EntityFrameworkCore.Storage.ValueConversion;
 namespace API.Migrations
 {
     [DbContext(typeof(DataContext))]
-    [Migration("20211210135545_InitialSchema")]
+    [Migration("20211211072020_InitialSchema")]
     partial class InitialSchema
     {
         protected override void BuildTargetModel(ModelBuilder modelBuilder)
@@ -360,13 +360,16 @@ namespace API.Migrations
 
                     SqlServerPropertyBuilderExtensions.UseIdentityColumn(b.Property<int>("Id"), 1L, 1);
 
+                    b.Property<int?>("IntegerValue")
+                        .HasColumnType("int");
+
                     b.Property<int>("ProductId")
                         .HasColumnType("int");
 
                     b.Property<int>("PropertyId")
                         .HasColumnType("int");
 
-                    b.Property<string>("Value")
+                    b.Property<string>("StringValue")
                         .HasColumnType("nvarchar(max)");
 
                     b.HasKey("Id");

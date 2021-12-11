@@ -13,7 +13,7 @@ namespace API.Helpers
             set => _pageNumber = value <= 0 ? 1 : value;
         } 
 
-        private int _pageSize = 12;
+        private int _pageSize = 10;
 
         public int PageSize
         {

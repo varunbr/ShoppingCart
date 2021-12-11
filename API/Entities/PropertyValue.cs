@@ -7,6 +7,7 @@
         public Product Product { get; set; }
         public int PropertyId { get; set; }
         public Property Property { get; set; }
-        public string Value { get; set; }
+        public string StringValue { get; set; }
+        public int? IntegerValue { get; set; }
     }
 }

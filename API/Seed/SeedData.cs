@@ -11,7 +11,6 @@ using System.IO;
 using System.Linq;
 using System.Text.Json;
 using System.Threading.Tasks;
-using Microsoft.VisualBasic;
 
 namespace API.Seed
 {
@@ -99,7 +98,7 @@ namespace API.Seed
             var productCategories = JsonSerializer.Deserialize<List<ProductCategory>>(data);
             var categories = new List<Category>();
 
-            if (productCategories != null) 
+            if (productCategories != null)
                 categories.AddRange(productCategories.Select(mapper.Map<Category>));
 
             await context.Categories.AddRangeAsync(categories);
@@ -119,22 +118,33 @@ namespace API.Seed
                     var product = mapper.Map<Product>(productSeed);
                     var category = await context.Categories
                         .Include(c => c.Properties)
+                        .Include(c=>c.CategoryTags)
                         .SingleAsync(c => c.Name == productSeed.Category);
                     product.Category = category;
                     product.Properties = new List<PropertyValue>();
                     product.ProductViews = new List<ProductView>();
                     product.ProductTags = new List<ProductTag>();
                     product.SoldQuantity = Random.Next(1000, 100000);
-                    product.Created=new DateTime(2021,1,1).AddDays(Random.Next(365));
+                    product.Created = new DateTime(2021, 1, 1).AddDays(Random.Next(365));
 
                     foreach (var propertySeed in productSeed.Properties)
                     {
                         var property = category.Properties.Single(p => p.Name == propertySeed.Name);
-                        product.Properties.Add(new PropertyValue
+                        var pv = new PropertyValue
                         {
-                            Property = property,
-                            Value = propertySeed.Value
-                        });
+                            Property = property
+                        };
+
+                        switch (property.Type)
+                        {
+                            case "String":
+                                pv.StringValue=propertySeed.Value;
+                                break;
+                            case "Integer":
+                                pv.IntegerValue = int.Parse(propertySeed.Value);
+                                break;
+                        }
+                        product.Properties.Add(pv);
                     }
 
                     for (var i = 0; i < productSeed.Urls.Length; i++)
@@ -159,6 +169,16 @@ namespace API.Seed
                         };
                         product.ProductTags.Add(tag);
                     }
+
+                    foreach (var categoryTag in category.CategoryTags)
+                    {
+                        product.ProductTags.Add(new ProductTag
+                        {
+                            Name = categoryTag.Name,
+                            Score = 10
+                        });
+                    }
+
                     if (!string.IsNullOrWhiteSpace(product.Model))
                     {
                         product.ProductTags.Add(new ProductTag

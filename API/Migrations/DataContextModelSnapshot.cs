@@ -358,13 +358,16 @@ namespace API.Migrations
 
                     SqlServerPropertyBuilderExtensions.UseIdentityColumn(b.Property<int>("Id"), 1L, 1);
 
+                    b.Property<int?>("IntegerValue")
+                        .HasColumnType("int");
+
                     b.Property<int>("ProductId")
                         .HasColumnType("int");
 
                     b.Property<int>("PropertyId")
                         .HasColumnType("int");
 
-                    b.Property<string>("Value")
+                    b.Property<string>("StringValue")
                         .HasColumnType("nvarchar(max)");
 
                     b.HasKey("Id");

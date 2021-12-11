@@ -556,7 +556,8 @@ namespace API.Migrations
                         .Annotation("SqlServer:Identity", "1, 1"),
                     ProductId = table.Column<int>(type: "int", nullable: false),
                     PropertyId = table.Column<int>(type: "int", nullable: false),
-                    Value = table.Column<string>(type: "nvarchar(max)", nullable: true)
+                    StringValue = table.Column<string>(type: "nvarchar(max)", nullable: true),
+                    IntegerValue = table.Column<int>(type: "int", nullable: true)
                 },
                 constraints: table =>
                 {
