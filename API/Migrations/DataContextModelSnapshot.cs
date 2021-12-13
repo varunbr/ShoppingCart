@@ -246,6 +246,9 @@ namespace API.Migrations
                     b.Property<double>("Amount")
                         .HasColumnType("float");
 
+                    b.Property<bool>("Available")
+                        .HasColumnType("bit");
+
                     b.Property<string>("Brand")
                         .HasColumnType("nvarchar(max)");
 
@@ -423,10 +426,7 @@ namespace API.Migrations
 
                     SqlServerPropertyBuilderExtensions.UseIdentityColumn(b.Property<int>("Id"), 1L, 1);
 
-                    b.Property<bool>("Available")
-                        .HasColumnType("bit");
-
-                    b.Property<int>("Count")
+                    b.Property<int>("Available")
                         .HasColumnType("int");
 
                     b.Property<int>("MaxPerOrder")
@@ -439,6 +439,9 @@ namespace API.Migrations
                         .IsConcurrencyToken()
                         .ValueGeneratedOnAddOrUpdate()
                         .HasColumnType("rowversion");
+
+                    b.Property<int>("SoldQuantity")
+                        .HasColumnType("int");
 
                     b.Property<int>("StoreId")
                         .HasColumnType("int");

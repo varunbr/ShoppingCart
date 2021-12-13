@@ -5,6 +5,7 @@
         public int Id { get; set; }
         public string Name { get; set; }
         public string Features { get; set; }
+        public bool Available { get; set; }
         public double Amount { get; set; }
         public string PhotoUrl { get; set; }
     }

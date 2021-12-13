@@ -1,6 +1,7 @@
 ﻿using Microsoft.EntityFrameworkCore;
 using System.Linq;
 using System.Threading.Tasks;
+using API.Entities;
 using AutoMapper;
 
 namespace API.Data
@@ -40,6 +41,17 @@ namespace API.Data
         public async Task<bool> UserExist(string userName)
         {
             return await DataContext.Users.AnyAsync(u => u.UserName == userName.ToLower());
+        }
+
+        public async Task<Location> GetUserLocation(int userId)
+        {
+            if (userId == 0) 
+                return null;
+
+            return await DataContext.Addresses.Where(a => a.User.Id == userId)
+                .Include(a=>a.Location.Parent.Parent.Parent)
+                .Select(a => a.Location)
+                .FirstOrDefaultAsync();
         }
 
         #endregion

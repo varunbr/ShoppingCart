@@ -196,10 +196,13 @@ namespace API.Seed
                         storeItems.Add(new StoreItem
                         {
                             Store = store,
-                            Count = Random.Next(10, 1000),
-                            MaxPerOrder = maxPreOrder
+                            SoldQuantity = Random.Next(0, 1000),
+                            MaxPerOrder = maxPreOrder,
+                            Available = Random.Next(0, 1000)
                         });
                     }
+
+                    product.Available = true;
                     product.StoreItems = storeItems;
 
                     await context.Products.AddAsync(product);
