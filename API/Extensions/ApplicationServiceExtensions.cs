@@ -1,6 +1,7 @@
 ﻿using API.Data;
 using API.Entities;
 using API.Helpers;
+using API.Seed;
 using API.Services;
 using Microsoft.AspNetCore.Authentication.JwtBearer;
 using Microsoft.AspNetCore.Identity;
@@ -24,6 +25,7 @@ namespace API.Extensions
             services.AddAutoMapper(typeof(AutoMapperProfiles).Assembly);
             services.AddScoped<IUnitOfWork, UnitOfWork>();
             services.AddScoped<ITokenService, TokenService>();
+            services.AddScoped<SeedData, SeedData>();
 
             services.AddIdentity<User, IdentityRole<int>>(opt => { opt.Password.RequireNonAlphanumeric = false; })
                 .AddEntityFrameworkStores<DataContext>();

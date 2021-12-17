@@ -31,12 +31,12 @@ namespace API.Helpers
             CreateMap<SearchContext, SearchContextDto>()
                 .ForMember(dest => dest.Price, opt => opt.MapFrom(src => src.GetPrice(src.PriceFrom, src.PriceTo)));
 
-            CreateMap<PropertyValue, PropertyValueDto>()
-                .ForMember(dest => dest.Name, act => act.MapFrom(src => src.Property.Name));
             CreateMap<ProductView, PhotoDto>()
                 .ForMember(dest => dest.Url, act => act.MapFrom(src => src.Photo.Url));
             CreateMap<Product, ProductDetailDto>()
-                .ForMember(dest=>dest.Photos,act=>act.MapFrom(src=>src.ProductViews));
+                .ForMember(dest => dest.Category, act => act.MapFrom(src => src.Category.Name))
+                .ForMember(dest => dest.Properties, act => act.Ignore())
+                .ForMember(dest => dest.Photos, act => act.MapFrom(src => src.ProductViews));
 
             //Mappings for JSON SeedData to Entity Classes
             CreateMap<Country, Location>()

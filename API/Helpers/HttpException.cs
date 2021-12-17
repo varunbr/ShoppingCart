@@ -1,15 +1,16 @@
-﻿using System;
+﻿using Microsoft.AspNetCore.Http;
+using System;
 using System.IO;
 
 namespace API.Helpers
 {
     public class HttpException : IOException
     {
-        public HttpException(int statusCode, string message) : base(message)
+        public HttpException(string message, int statusCode = StatusCodes.Status400BadRequest) : base(message)
         {
             StatusCode = statusCode;
         }
-        public HttpException(int statusCode, string message, Exception inner) : base(message, inner)
+        public HttpException(string message, Exception inner, int statusCode = StatusCodes.Status400BadRequest) : base(message, inner)
         {
             StatusCode = statusCode;
         }

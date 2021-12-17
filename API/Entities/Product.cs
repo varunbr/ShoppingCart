@@ -12,8 +12,10 @@ namespace API.Entities
         public string Description { get; set; }
         public string Features { get; set; }
         public double Amount { get; set; }
+        public int MaxPerOrder { get; set; }
         public int SoldQuantity { get; set; }
         public int CategoryId { get; set; }
+        public bool Available { get; set; }
         public DateTime Created { get; set; }
         public Category Category { get; set; }
         public ICollection<ProductView> ProductViews { get; set; }
