@@ -12,7 +12,7 @@ using Microsoft.EntityFrameworkCore.Storage.ValueConversion;
 namespace API.Migrations
 {
     [DbContext(typeof(DataContext))]
-    [Migration("20211213020644_InitialSchema")]
+    [Migration("20211215040355_InitialSchema")]
     partial class InitialSchema
     {
         protected override void BuildTargetModel(ModelBuilder modelBuilder)
@@ -266,6 +266,9 @@ namespace API.Migrations
                     b.Property<string>("Features")
                         .HasColumnType("nvarchar(max)");
 
+                    b.Property<int>("MaxPerOrder")
+                        .HasColumnType("int");
+
                     b.Property<string>("Model")
                         .HasColumnType("nvarchar(max)");
 
@@ -429,9 +432,6 @@ namespace API.Migrations
                     SqlServerPropertyBuilderExtensions.UseIdentityColumn(b.Property<int>("Id"), 1L, 1);
 
                     b.Property<int>("Available")
-                        .HasColumnType("int");
-
-                    b.Property<int>("MaxPerOrder")
                         .HasColumnType("int");
 
                     b.Property<int>("ProductId")

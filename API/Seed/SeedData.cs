@@ -16,21 +16,47 @@ namespace API.Seed
 {
     public class SeedData
     {
+        private readonly UserManager<User> _userManager;
+        private readonly RoleManager<IdentityRole<int>> _roleManager;
+        private readonly IConfiguration _config;
+        private readonly DataContext _context;
+        private readonly IMapper _mapper;
         private static readonly Random Random = new();
 
-        public static async Task SeedRoles(RoleManager<IdentityRole<int>> roleManager)
+        public SeedData(UserManager<User> userManager, RoleManager<IdentityRole<int>> roleManager,
+            IConfiguration config, DataContext context, IMapper mapper)
         {
-            if (await roleManager.Roles.AnyAsync()) return;
+            _userManager = userManager;
+            _roleManager = roleManager;
+            _config = config;
+            _context = context;
+            _mapper = mapper;
+        }
+
+        public async Task SeedDatabase()
+        {
+            await _context.Database.MigrateAsync();
+            await SeedRoles();
+            await SeedLocation();
+            await SeedUsers();
+            await SeedStore();
+            await SeedCategory();
+            await SeedProduct();
+        }
+
+        async Task SeedRoles()
+        {
+            if (await _roleManager.Roles.AnyAsync()) return;
 
             foreach (var role in Enum.GetNames<Role>())
             {
-                await roleManager.CreateAsync(new IdentityRole<int> { Name = role });
+                await _roleManager.CreateAsync(new IdentityRole<int> { Name = role });
             }
         }
 
-        public static async Task SeedUsers(UserManager<User> userManager, DataContext context, IConfiguration config)
+        async Task SeedUsers()
         {
-            if (await userManager.Users.AnyAsync()) return;
+            if (await _userManager.Users.AnyAsync()) return;
 
             var data = await File.ReadAllTextAsync("Seed/UserSeed.json");
             var users = JsonSerializer.Deserialize<List<User>>(data);
@@ -44,23 +70,23 @@ namespace API.Seed
                 {
                     Balance = 1000
                 };
-                user.Address = await GetRandomAddress(context);
+                user.Address = await GetRandomAddress();
 
                 if (user.UserName == "admin")
                 {
-                    await userManager.CreateAsync(user, config["AdminPassword"]);
-                    await userManager.AddToRolesAsync(user, new[] { Role.User.ToString(), Role.Admin.ToString() });
+                    await _userManager.CreateAsync(user, _config["AdminPassword"]);
+                    await _userManager.AddToRolesAsync(user, new[] { Role.User.ToString(), Role.Admin.ToString() });
                     continue;
                 }
 
-                await userManager.CreateAsync(user, "User@2021");
-                await userManager.AddToRoleAsync(user, Role.User.ToString());
+                await _userManager.CreateAsync(user, "User@2021");
+                await _userManager.AddToRoleAsync(user, Role.User.ToString());
             }
         }
 
-        public static async Task SeedStore(DataContext context)
+        async Task SeedStore()
         {
-            if (await context.Stores.AnyAsync()) return;
+            if (await _context.Stores.AnyAsync()) return;
 
             var stores = new[] { "SuperComNet", "StoreEcom", "CORSECA", "PETILANTE Online",
                 "RetailNet", "Akshnav Online", "OmniTechRetail", "IWQNBecommerce","RetailHomes","HomeKart" };
@@ -71,43 +97,43 @@ namespace API.Seed
                 {
                     Name = name,
                     Account = new Account { Balance = 10000 },
-                    Address = await GetRandomAddress(context)
+                    Address = await GetRandomAddress()
                 };
-                await context.Stores.AddAsync(store);
-                await context.SaveChangesAsync();
+                await _context.Stores.AddAsync(store);
+                await _context.SaveChangesAsync();
             }
         }
 
-        public static async Task SeedLocation(DataContext context, IMapper mapper)
+        async Task SeedLocation()
         {
-            if (await context.Locations.AnyAsync()) return;
+            if (await _context.Locations.AnyAsync()) return;
 
             var data = await File.ReadAllTextAsync("Seed/LocationSeed.json");
             var country = JsonSerializer.Deserialize<Country>(data);
-            var location = mapper.Map<Location>(country);
+            var location = _mapper.Map<Location>(country);
 
-            await context.Locations.AddRangeAsync(location);
-            await context.SaveChangesAsync();
+            await _context.Locations.AddRangeAsync(location);
+            await _context.SaveChangesAsync();
         }
 
-        public static async Task SeedCategory(DataContext context, IMapper mapper)
+        async Task SeedCategory()
         {
-            if (await context.Categories.AnyAsync()) return;
+            if (await _context.Categories.AnyAsync()) return;
 
             var data = await File.ReadAllTextAsync("Seed/CategorySeed.json");
             var productCategories = JsonSerializer.Deserialize<List<ProductCategory>>(data);
             var categories = new List<Category>();
 
             if (productCategories != null)
-                categories.AddRange(productCategories.Select(mapper.Map<Category>));
+                categories.AddRange(productCategories.Select(_mapper.Map<Category>));
 
-            await context.Categories.AddRangeAsync(categories);
-            await context.SaveChangesAsync();
+            await _context.Categories.AddRangeAsync(categories);
+            await _context.SaveChangesAsync();
         }
 
-        public static async Task SeedProduct(DataContext context, IMapper mapper)
+        async Task SeedProduct()
         {
-            if (await context.Products.AnyAsync()) return;
+            if (await _context.Products.AnyAsync()) return;
 
             var data = await File.ReadAllTextAsync("Seed/ProductSeed.json");
             var productSeeds = JsonSerializer.Deserialize<List<ProductSeed>>(data);
@@ -115,10 +141,10 @@ namespace API.Seed
             if (productSeeds != null)
                 foreach (var productSeed in productSeeds)
                 {
-                    var product = mapper.Map<Product>(productSeed);
-                    var category = await context.Categories
+                    var product = _mapper.Map<Product>(productSeed);
+                    var category = await _context.Categories
                         .Include(c => c.Properties)
-                        .Include(c=>c.CategoryTags)
+                        .Include(c => c.CategoryTags)
                         .SingleAsync(c => c.Name == productSeed.Category);
                     product.Category = category;
                     product.Properties = new List<PropertyValue>();
@@ -138,7 +164,7 @@ namespace API.Seed
                         switch (property.Type)
                         {
                             case "String":
-                                pv.StringValue=propertySeed.Value;
+                                pv.StringValue = propertySeed.Value;
                                 break;
                             case "Integer":
                                 pv.IntegerValue = int.Parse(propertySeed.Value);
@@ -188,8 +214,8 @@ namespace API.Seed
                         });
                     }
 
-                    var maxPreOrder = Random.Next(1, 5);
-                    var stores = await context.Stores.OrderBy(s => Guid.NewGuid()).Take(2).ToListAsync();
+                    product.MaxPerOrder = Random.Next(1, 5);
+                    var stores = await _context.Stores.OrderBy(s => Guid.NewGuid()).Take(2).ToListAsync();
                     var storeItems = new List<StoreItem>();
                     foreach (var store in stores)
                     {
@@ -197,7 +223,6 @@ namespace API.Seed
                         {
                             Store = store,
                             SoldQuantity = Random.Next(0, 1000),
-                            MaxPerOrder = maxPreOrder,
                             Available = Random.Next(0, 1000)
                         });
                     }
@@ -205,14 +230,14 @@ namespace API.Seed
                     product.Available = true;
                     product.StoreItems = storeItems;
 
-                    await context.Products.AddAsync(product);
-                    await context.SaveChangesAsync();
+                    await _context.Products.AddAsync(product);
+                    await _context.SaveChangesAsync();
                 }
         }
 
-        private static async Task<Address> GetRandomAddress(DataContext context)
+        async Task<Address> GetRandomAddress()
         {
-            var location = await context.Locations
+            var location = await _context.Locations
                 .Where(l => l.Type == "Area")
                 .OrderBy(l => Guid.NewGuid())
                 .FirstAsync();

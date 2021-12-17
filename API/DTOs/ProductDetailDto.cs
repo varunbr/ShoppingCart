@@ -11,6 +11,7 @@ namespace API.DTOs
         public string Description { get; set; }
         public string Features { get; set; }
         public double Amount { get; set; }
+        public int MaxPerOrder { get; set; }
         public string Category { get; set; }
         public bool Available { get; set; }
         public double DeliveryCharge { get; set; }

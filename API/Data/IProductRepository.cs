@@ -1,4 +1,5 @@
-﻿using System.Threading.Tasks;
+﻿using System.Collections.Generic;
+using System.Threading.Tasks;
 using API.DTOs;
 
 namespace API.Data;
@@ -6,4 +7,5 @@ namespace API.Data;
 public interface IProductRepository
 {
     Task<ProductDetailDto> GetProduct(int productId,int userId);
+    Task<CheckoutDto> CheckOut(int userId, List<CheckoutItem> items);
 }

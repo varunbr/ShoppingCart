@@ -1,8 +1,8 @@
-﻿using Microsoft.EntityFrameworkCore;
+﻿using API.Entities;
+using AutoMapper;
+using Microsoft.EntityFrameworkCore;
 using System.Linq;
 using System.Threading.Tasks;
-using API.Entities;
-using AutoMapper;
 
 namespace API.Data
 {
@@ -45,13 +45,30 @@ namespace API.Data
 
         public async Task<Location> GetUserLocation(int userId)
         {
-            if (userId == 0) 
+            if (userId == 0)
                 return null;
 
             return await DataContext.Addresses.Where(a => a.User.Id == userId)
-                .Include(a=>a.Location.Parent.Parent.Parent)
+                .Include(a => a.Location.Parent.Parent.Parent)
                 .Select(a => a.Location)
                 .FirstOrDefaultAsync();
+        }
+
+        #endregion
+
+        #region Product
+
+        public async Task<bool> IsInterStateDelivery(int userId, int storeId)
+        {
+            if (userId == 0) return false;
+
+            var userLocationId = await DataContext.Addresses.Where(a => a.User.Id == userId)
+                .Select(a => a.Location.Parent.ParentId)
+                .FirstOrDefaultAsync();
+
+            return await DataContext.Stores
+                .Where(s => s.Id == storeId && s.Address.Location.Parent.ParentId == userLocationId)
+                .AnyAsync();
         }
 
         #endregion

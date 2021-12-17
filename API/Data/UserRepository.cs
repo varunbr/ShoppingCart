@@ -43,7 +43,7 @@ namespace API.Data
         {
             if (!await DataContext.Locations.AnyAsync(l => l.Id == addressDto.LocationId &&
                                                            l.Type.Equals(LocationType.Area.ToString())))
-                throw new HttpException(StatusCodes.Status400BadRequest, "Invalid location Id of Area.");
+                throw new HttpException("Invalid location Id of Area.");
 
             var user = await DataContext.Users.Include(u => u.Address).SingleAsync(u => u.Id == userId);
             user.Address ??= new Address();
