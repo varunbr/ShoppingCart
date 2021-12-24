@@ -7,5 +7,4 @@ namespace API.Data;
 public interface IProductRepository
 {
     Task<ProductDetailDto> GetProduct(int productId,int userId);
-    Task<CheckoutDto> CheckOut(int userId, List<CheckoutItem> items);
 }

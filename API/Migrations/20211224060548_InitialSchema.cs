@@ -455,7 +455,8 @@ namespace API.Migrations
                     TotalAmount = table.Column<double>(type: "float", nullable: false),
                     DeliveryCharge = table.Column<double>(type: "float", nullable: false),
                     Status = table.Column<string>(type: "nvarchar(max)", nullable: true),
-                    StoreId = table.Column<int>(type: "int", nullable: false)
+                    StoreId = table.Column<int>(type: "int", nullable: false),
+                    TransactionId = table.Column<int>(type: "int", nullable: true)
                 },
                 constraints: table =>
                 {
@@ -472,6 +473,11 @@ namespace API.Migrations
                         principalTable: "Stores",
                         principalColumn: "Id",
                         onDelete: ReferentialAction.Cascade);
+                    table.ForeignKey(
+                        name: "FK_Orders_Transactions_TransactionId",
+                        column: x => x.TransactionId,
+                        principalTable: "Transactions",
+                        principalColumn: "Id");
                 });
 
             migrationBuilder.CreateTable(
@@ -621,6 +627,7 @@ namespace API.Migrations
                         .Annotation("SqlServer:Identity", "1, 1"),
                     OrderId = table.Column<int>(type: "int", nullable: false),
                     StoreItemId = table.Column<int>(type: "int", nullable: false),
+                    Status = table.Column<string>(type: "nvarchar(max)", nullable: true),
                     Price = table.Column<double>(type: "float", nullable: false),
                     Count = table.Column<int>(type: "int", nullable: false)
                 },
@@ -775,6 +782,13 @@ namespace API.Migrations
                 name: "IX_Orders_StoreId",
                 table: "Orders",
                 column: "StoreId");
+
+            migrationBuilder.CreateIndex(
+                name: "IX_Orders_TransactionId",
+                table: "Orders",
+                column: "TransactionId",
+                unique: true,
+                filter: "[TransactionId] IS NOT NULL");
 
             migrationBuilder.CreateIndex(
                 name: "IX_Orders_UserId",
@@ -933,9 +947,6 @@ namespace API.Migrations
                 name: "TrackEvents");
 
             migrationBuilder.DropTable(
-                name: "Transactions");
-
-            migrationBuilder.DropTable(
                 name: "AspNetRoles");
 
             migrationBuilder.DropTable(
@@ -963,13 +974,16 @@ namespace API.Migrations
                 name: "Stores");
 
             migrationBuilder.DropTable(
-                name: "Accounts");
+                name: "Transactions");
 
             migrationBuilder.DropTable(
                 name: "Addresses");
 
             migrationBuilder.DropTable(
                 name: "Photos");
+
+            migrationBuilder.DropTable(
+                name: "Accounts");
 
             migrationBuilder.DropTable(
                 name: "Locations");

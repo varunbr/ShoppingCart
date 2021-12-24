@@ -13,5 +13,6 @@ namespace API.Entities
         public double Amount { get; set; }
         public string Status { get; set; }
         public string Description { get; set; }
+        public Order Order { get; set; }
     }
 }
