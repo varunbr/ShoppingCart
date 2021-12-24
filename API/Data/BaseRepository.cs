@@ -1,6 +1,8 @@
 ﻿using API.Entities;
+using API.Helpers;
 using AutoMapper;
 using Microsoft.EntityFrameworkCore;
+using System;
 using System.Linq;
 using System.Threading.Tasks;
 
@@ -54,6 +56,12 @@ namespace API.Data
                 .FirstOrDefaultAsync();
         }
 
+        public async Task<bool> UserHasAddress(int userId)
+        {
+            if (userId == 0) return false;
+            return await DataContext.Users.AnyAsync(u => u.AddressId != null);
+        }
+
         #endregion
 
         #region Product
@@ -69,6 +77,33 @@ namespace API.Data
             return await DataContext.Stores
                 .Where(s => s.Id == storeId && s.Address.Location.Parent.ParentId == userLocationId)
                 .AnyAsync();
+        }
+
+        #endregion
+
+        #region Account
+
+        public async Task<Transaction> ProcessTransaction(int from, int to, double amount, string description)
+        {
+            var transaction = new Transaction
+            {
+                Amount = amount,
+                Date = DateTime.UtcNow,
+                Description = description,
+                FromId = from,
+                ToId = to
+            };
+
+            var fromAcc = await DataContext.Accounts.SingleAsync(a => a.Id == from);
+            var toAcc = await DataContext.Accounts.SingleAsync(a => a.Id == to);
+
+            if (fromAcc.Balance < amount)
+                throw new HttpException("Insufficient balance to cover this transactions.");
+
+            fromAcc.Balance -= amount;
+            toAcc.Balance += amount;
+
+            return transaction;
         }
 
         #endregion

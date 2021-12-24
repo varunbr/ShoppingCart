@@ -169,6 +169,10 @@ namespace API.Data
                 .WithOne(oi => oi.Order)
                 .HasForeignKey(oi => oi.OrderId)
                 .OnDelete(DeleteBehavior.Restrict);
+            builder.Entity<Order>()
+                .HasOne(o => o.Transaction)
+                .WithOne(t => t.Order)
+                .HasForeignKey<Order>(o => o.TransactionId);
 
             builder.Entity<Track>()
                 .HasOne(t => t.Order)

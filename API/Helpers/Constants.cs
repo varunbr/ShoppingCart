@@ -20,4 +20,12 @@
         public const string Latest = "Latest";
         public const string Default = "Default";
     }
+
+    public class Status
+    {
+        public const string Created = "Created";
+        public const string Ordered = "Ordered";
+        public const string Failed = "Failed";
+        public const string Success = "Success";
+    }
 }

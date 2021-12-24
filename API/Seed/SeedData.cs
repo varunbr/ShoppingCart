@@ -68,7 +68,7 @@ namespace API.Seed
                 user.UserName = user.UserName.ToLower();
                 user.Account = new Account
                 {
-                    Balance = 1000
+                    Balance = 100000
                 };
                 user.Address = await GetRandomAddress();
 

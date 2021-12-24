@@ -12,7 +12,7 @@ using Microsoft.EntityFrameworkCore.Storage.ValueConversion;
 namespace API.Migrations
 {
     [DbContext(typeof(DataContext))]
-    [Migration("20211215040355_InitialSchema")]
+    [Migration("20211224060548_InitialSchema")]
     partial class InitialSchema
     {
         protected override void BuildTargetModel(ModelBuilder modelBuilder)
@@ -174,6 +174,9 @@ namespace API.Migrations
                     b.Property<double>("TotalAmount")
                         .HasColumnType("float");
 
+                    b.Property<int?>("TransactionId")
+                        .HasColumnType("int");
+
                     b.Property<string>("Type")
                         .HasColumnType("nvarchar(max)");
 
@@ -183,6 +186,10 @@ namespace API.Migrations
                     b.HasKey("Id");
 
                     b.HasIndex("StoreId");
+
+                    b.HasIndex("TransactionId")
+                        .IsUnique()
+                        .HasFilter("[TransactionId] IS NOT NULL");
 
                     b.HasIndex("UserId");
 
@@ -205,6 +212,9 @@ namespace API.Migrations
 
                     b.Property<double>("Price")
                         .HasColumnType("float");
+
+                    b.Property<string>("Status")
+                        .HasColumnType("nvarchar(max)");
 
                     b.Property<int>("StoreItemId")
                         .HasColumnType("int");
@@ -876,6 +886,10 @@ namespace API.Migrations
                         .OnDelete(DeleteBehavior.Cascade)
                         .IsRequired();
 
+                    b.HasOne("API.Entities.Transaction", "Transaction")
+                        .WithOne("Order")
+                        .HasForeignKey("API.Entities.Order", "TransactionId");
+
                     b.HasOne("API.Entities.User", "User")
                         .WithMany("Orders")
                         .HasForeignKey("UserId")
@@ -883,6 +897,8 @@ namespace API.Migrations
                         .IsRequired();
 
                     b.Navigation("Store");
+
+                    b.Navigation("Transaction");
 
                     b.Navigation("User");
                 });
@@ -1282,6 +1298,11 @@ namespace API.Migrations
             modelBuilder.Entity("API.Entities.Track", b =>
                 {
                     b.Navigation("Events");
+                });
+
+            modelBuilder.Entity("API.Entities.Transaction", b =>
+                {
+                    b.Navigation("Order");
                 });
 
             modelBuilder.Entity("API.Entities.User", b =>
