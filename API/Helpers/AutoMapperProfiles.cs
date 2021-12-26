@@ -38,6 +38,10 @@ namespace API.Helpers
                 .ForMember(dest => dest.Properties, act => act.Ignore())
                 .ForMember(dest => dest.Photos, act => act.MapFrom(src => src.ProductViews));
 
+            CreateMap<OrderItem, OrderItemDto>()
+                .ForMember(dest => dest.Name, act => act.MapFrom(src => src.StoreItem.Product.Name))
+                .ForMember(dest => dest.ProductId, act => act.MapFrom(src => src.StoreItem.ProductId));
+            CreateMap<Order, UserOrderDto>();
             //Mappings for JSON SeedData to Entity Classes
             CreateMap<Country, Location>()
                 .ForMember(dest => dest.Type, act => act.MapFrom(src => "Country"))
