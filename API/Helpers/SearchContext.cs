@@ -5,10 +5,9 @@ using System.Collections.Generic;
 
 namespace API.Helpers
 {
-    public class SearchContext : PageParams
+    public class SearchContext : BaseParams
     {
         public Dictionary<string, string> QueryParams { get; }
-        public string OrderBy { get; }
         public string SearchText { get; }
         public string Category { get; set; }
         public string Brand { get; set; }
@@ -18,8 +17,10 @@ namespace API.Helpers
         public Dictionary<string, string> Filters { get; }
         public List<Property> Properties { get; set; }
 
-        public SearchContext(Dictionary<string, string> queryParams) : base(queryParams)
+        public SearchContext(Dictionary<string, string> queryParams)
         {
+            PageNumber = GetValue(queryParams, nameof(PageNumber));
+            PageSize = GetValue(queryParams, nameof(PageSize));
             QueryParams = queryParams ?? new Dictionary<string, string>();
             QueryParams.TryGetValue("q", out var searchText);
             SearchText = searchText?.Trim() ?? string.Empty;
@@ -38,6 +39,13 @@ namespace API.Helpers
         public string GetPrice(int? from, int? to)
         {
             return from != null || to != null ? $"{from}-{to}" : null;
+        }
+
+        private int GetValue(Dictionary<string, string> queryParams, string key)
+        {
+            queryParams.TryGetValue(key, out var value);
+            int.TryParse(value, out var intValue);
+            return intValue;
         }
     }
 }

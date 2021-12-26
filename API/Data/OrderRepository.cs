@@ -2,6 +2,7 @@
 using API.Entities;
 using API.Helpers;
 using AutoMapper;
+using AutoMapper.QueryableExtensions;
 using Microsoft.EntityFrameworkCore;
 using System;
 using System.Collections.Generic;
@@ -20,6 +21,12 @@ namespace API.Data
         {
             if (items == null || !items.Any())
                 throw new HttpException("No item available!");
+
+            if (items.GroupBy(i => i.StoreItemId).Any(g => g.Count() > 1))
+                throw new HttpException("Duplicate StoreItem is not allowed");
+
+            if (items.Any(i => i.ItemQuantity <= 0))
+                throw new HttpException("Invalid item quantity.");
 
             var store = await DataContext.StoreItems
                 .Where(si => si.Id == items.First().StoreItemId)
@@ -183,6 +190,26 @@ namespace API.Data
             return await DataContext.SaveChangesAsync() <= 0
                 ? throw new HttpException("Failed to create Order!")
                 : order;
+        }
+
+        public async Task<IEnumerable<UserOrderDto>> GetUserOrders(int userId, BaseParams @params)
+        {
+            var orders = DataContext.Orders
+                .Where(o => o.UserId == userId)
+                .OrderByDescending(o => o.Created)
+                .ProjectTo<UserOrderDto>(Mapper.ConfigurationProvider)
+                .AsNoTracking();
+
+            return await PagedList<UserOrderDto>.CreateAsync(orders, @params.PageSize, @params.PageNumber);
+        }
+
+        public async Task<UserOrderDto> GetUserOrder(int userId, int orderId)
+        {
+            return await DataContext.Orders
+                .Where(o => o.UserId == userId && o.Id == orderId)
+                .ProjectTo<UserOrderDto>(Mapper.ConfigurationProvider)
+                .AsNoTracking()
+                .FirstOrDefaultAsync();
         }
     }
 }
