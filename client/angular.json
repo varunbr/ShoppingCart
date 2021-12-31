@@ -27,6 +27,7 @@
               "src/assets"
             ],
             "styles": [
+              "src/theme.scss",
               "src/styles.css"
             ],
             "scripts": []
