@@ -1,4 +1,5 @@
-import { Component, OnInit } from '@angular/core';
+import { Component, EventEmitter, Input, OnInit, Output } from '@angular/core';
+import { AccountService } from '../services/account.service';
 
 @Component({
   selector: 'app-nav',
@@ -7,8 +8,19 @@ import { Component, OnInit } from '@angular/core';
 })
 export class NavComponent implements OnInit {
   value: string;
+  @Input() isDark = false;
+  @Output() changeTheme = new EventEmitter<boolean>();
 
-  constructor() {}
+  constructor(public accountService: AccountService) {}
 
   ngOnInit(): void {}
+
+  toggleTheme(): void {
+    this.isDark = !this.isDark;
+    this.changeTheme.emit(this.isDark);
+  }
+
+  logout() {
+    this.accountService.logout();
+  }
 }

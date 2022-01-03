@@ -18,7 +18,7 @@
             <button mat-icon-button (click)="sidenav.toggle()" fxShow="true" fxHide.gt-sm>
               <mat-icon>menu</mat-icon>
             </button>
-            <span>ShoppingCart</span>
+            <span class="brand" routerLink="/">ShoppingCart</span>
           </div>
           <form #searchForm="ngForm" fxShow="true" fxHide.lt-sm>
             <mat-form-field style="width: 20rem" floatLabel="never">
@@ -29,18 +29,25 @@
               </button>
             </mat-form-field>
           </form>
-          <div fxLayout="row" class="pe-4">
-            <div class="pe-2" fxShow="true" fxHide.lt-md>
+          <div fxLayout="row" class="pe-4" fxLayoutGap="2%">
+            <div fxShow="true" fxHide.lt-md>
               <a href="#" mat-button>Menu Item 1</a>
               <a href="#" mat-button>Menu Item 2</a>
             </div>
-            <button mat-icon-button [matMenuTriggerFor]="navMenu">
-              <img class="profile" src="https://varunbr.github.io/assets/images/pp.jpg" alt="Profile">
+            <button mat-icon-button (click)="toggleTheme()">
+              <mat-icon>{{isDark ? "light_mode":"dark_mode"}}</mat-icon>
+            </button>
+            <div *ngIf="!(accountService.user$ | async)">
+              <a routerLink="/login" mat-raised-button color="accent">Login</a>
+            </div>
+            <button *ngIf="(accountService.user$ | async) as user" mat-icon-button [matMenuTriggerFor]="navMenu">
+              <img class="profile" src="{{user.photoUrl || './assets/images/profile.png'}}" alt="Profile">
               <mat-icon>arrow_drop_down</mat-icon>
             </button>
+
             <mat-menu #navMenu="matMenu">
               <button mat-menu-item>Profile</button>
-              <button mat-menu-item>Logout</button>
+              <button mat-menu-item (click)="logout()">Logout</button>
             </mat-menu>
           </div>
         </div>

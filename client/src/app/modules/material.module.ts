@@ -8,6 +8,7 @@ import { MatSidenavModule } from '@angular/material/sidenav';
 import { MatListModule } from '@angular/material/list';
 import { MatFormFieldModule } from '@angular/material/form-field';
 import { MatInputModule } from '@angular/material/input';
+import { MatSnackBarModule } from '@angular/material/snack-bar';
 import { FlexLayoutModule } from '@angular/flex-layout';
 
 const Material = [
@@ -20,6 +21,7 @@ const Material = [
   MatListModule,
   MatFormFieldModule,
   MatInputModule,
+  MatSnackBarModule,
   FlexLayoutModule,
 ];
 

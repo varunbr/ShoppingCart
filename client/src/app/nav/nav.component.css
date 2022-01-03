@@ -21,3 +21,7 @@
   width: 40px;
   border-radius: 50%;
 }
+
+.brand{
+  cursor: pointer;
+}

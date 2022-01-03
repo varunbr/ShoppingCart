@@ -1,5 +1,5 @@
-<div class="mat-app-background dark-theme" style="height: 100%;">
-    <app-nav>
-        <app-home></app-home>
+<div class="mat-app-background" [ngClass]="{'dark-theme':isDark}" style="height: 100%;">
+    <app-nav [isDark]="isDark" (changeTheme)="toggleTheme($event)">
+        <router-outlet></router-outlet>
     </app-nav>
 </div>
