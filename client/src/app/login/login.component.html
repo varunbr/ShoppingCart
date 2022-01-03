@@ -1,0 +1,26 @@
+<div fxLayout="row" fxLayoutAlign="center" style="margin-top: 100px;">
+    <mat-card class="text-center" fxFlex="40" fxFlex.lt-sm="90" fxFlex.lt-md="60" fxFlex.lt-lg="50">
+        <mat-card-title class="my-4">Log in to account</mat-card-title>
+        <mat-card-content class="mt-5">
+            <form #loginForm="ngForm" (ngSubmit)="onSubmit()">
+                <div class="px-2" fxLayout="column" fxLayoutAlign="center">
+                    <mat-form-field appearance="outline">
+                        <mat-label>Username</mat-label>
+                        <input matInput type="text" [(ngModel)]="modal.userName" name="username" required />
+                    </mat-form-field>
+                    <mat-form-field appearance="outline">
+                        <mat-label>Password</mat-label>
+                        <input matInput type="password" [(ngModel)]="modal.password" name="password" required />
+                    </mat-form-field>
+                    <button mat-flat-button color="primary" [disabled]="loginForm.invalid"
+                        type="submit">Login</button>
+                </div>
+            </form>
+        </mat-card-content>
+        <mat-divider inset></mat-divider>
+        <mat-card-actions class="mb-2 px-3">            
+            <p class="mat-typography">New to ShoppingCart? Create an account</p>
+            <button mat-flat-button color="accent" routerLink="/register" type="button">Create</button>
+        </mat-card-actions>
+    </mat-card>
+</div>

@@ -1,21 +1,26 @@
-import { Component } from '@angular/core';
-import { BreakpointObserver, Breakpoints } from '@angular/cdk/layout';
-import { Observable } from 'rxjs';
-import { map, shareReplay } from 'rxjs/operators';
+import { Component, EventEmitter, Input, OnInit, Output } from '@angular/core';
+import { AccountService } from '../services/account.service';
 
 @Component({
   selector: 'app-nav',
   templateUrl: './nav.component.html',
-  styleUrls: ['./nav.component.css']
+  styleUrls: ['./nav.component.css'],
 })
-export class NavComponent {
+export class NavComponent implements OnInit {
+  value: string;
+  @Input() isDark = false;
+  @Output() changeTheme = new EventEmitter<boolean>();
 
-  isHandset$: Observable<boolean> = this.breakpointObserver.observe(Breakpoints.Handset)
-    .pipe(
-      map(result => result.matches),
-      shareReplay()
-    );
+  constructor(public accountService: AccountService) {}
 
-  constructor(private breakpointObserver: BreakpointObserver) {}
+  ngOnInit(): void {}
 
+  toggleTheme(): void {
+    this.isDark = !this.isDark;
+    this.changeTheme.emit(this.isDark);
+  }
+
+  logout() {
+    this.accountService.logout();
+  }
 }

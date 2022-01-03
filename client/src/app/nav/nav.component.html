@@ -1,20 +1,72 @@
 <mat-sidenav-container class="sidenav-container">
-  <mat-sidenav #drawer class="sidenav" fixedInViewport [attr.role]="(isHandset$ | async) ? 'dialog' : 'navigation'"
-    [mode]="(isHandset$ | async) ? 'over' : 'side'" [opened]="(isHandset$ | async) === false">
-    <mat-toolbar>ShoppingCart</mat-toolbar>
+  <mat-sidenav #sidenav>
     <mat-nav-list>
-      <a mat-list-item href="#">Link 1</a>
-      <a mat-list-item href="#">Link 2</a>
-      <a mat-list-item href="#">Link 3</a>
+      <a (click)="sidenav.toggle()" href="#" mat-list-item>Close</a>
+      <a href="#" mat-list-item>Menu Item 1</a>
+      <a href="#" mat-list-item>Menu Item 2</a>
+      <a href="#" mat-list-item>Menu Item 3</a>
+      <a href="#" mat-list-item>Menu Item 4</a>
+      <a href="#" mat-list-item>Menu Item 5</a>
+      <a href="#" mat-list-item>Menu Item 6</a>
     </mat-nav-list>
   </mat-sidenav>
   <mat-sidenav-content>
     <mat-toolbar color="primary">
-      <button type="button" aria-label="Toggle sidenav" mat-icon-button (click)="drawer.toggle()"
-        *ngIf="isHandset$ | async">
-        <mat-icon aria-label="Side nav toggle icon">menu</mat-icon>
-      </button>
-      <span>ShoppingCart</span>
+      <mat-toolbar-row>
+        <div fxLayout="row" fxLayoutGap="2%" fxFlexFill fxLayoutAlign="space-between center">
+          <div>
+            <button mat-icon-button (click)="sidenav.toggle()" fxShow="true" fxHide.gt-sm>
+              <mat-icon>menu</mat-icon>
+            </button>
+            <span class="brand" routerLink="/">ShoppingCart</span>
+          </div>
+          <form #searchForm="ngForm" fxShow="true" fxHide.lt-sm>
+            <mat-form-field style="width: 20rem" floatLabel="never">
+              <input matInput #searchInput="matInput" type="text" placeholder="Search" name="search" autocomplete="off"
+                [(ngModel)]="value" />
+              <button matSuffix mat-icon-button (click)="value=''">
+                <mat-icon>search</mat-icon>
+              </button>
+            </mat-form-field>
+          </form>
+          <div fxLayout="row" class="pe-4" fxLayoutGap="2%">
+            <div fxShow="true" fxHide.lt-md>
+              <a href="#" mat-button>Menu Item 1</a>
+              <a href="#" mat-button>Menu Item 2</a>
+            </div>
+            <button mat-icon-button (click)="toggleTheme()">
+              <mat-icon>{{isDark ? "light_mode":"dark_mode"}}</mat-icon>
+            </button>
+            <div *ngIf="!(accountService.user$ | async)">
+              <a routerLink="/login" mat-raised-button color="accent">Login</a>
+            </div>
+            <button *ngIf="(accountService.user$ | async) as user" mat-icon-button [matMenuTriggerFor]="navMenu">
+              <img class="profile" src="{{user.photoUrl || './assets/images/profile.png'}}" alt="Profile">
+              <mat-icon>arrow_drop_down</mat-icon>
+            </button>
+
+            <mat-menu #navMenu="matMenu">
+              <button mat-menu-item>Profile</button>
+              <button mat-menu-item (click)="logout()">Logout</button>
+            </mat-menu>
+          </div>
+        </div>
+      </mat-toolbar-row>
+      <mat-toolbar-row fxShow="false" fxShow.lt-sm>
+        <div fxLayout="row" style="width: 100vw;" fxLayoutAlign="center center">
+          <div>
+            <form #searchForm="ngForm">
+              <mat-form-field style="width:75vw" floatLabel="never">
+                <input matInput #searchInput="matInput" type="text" placeholder="Search" name="search"
+                  autocomplete="off" [(ngModel)]="value" />
+                <button matSuffix mat-icon-button (click)="value=''">
+                  <mat-icon>search</mat-icon>
+                </button>
+              </mat-form-field>
+            </form>
+          </div>
+        </div>
+      </mat-toolbar-row>
     </mat-toolbar>
     <ng-content></ng-content>
   </mat-sidenav-content>

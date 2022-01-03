@@ -24,7 +24,8 @@
             ],
             "styles": [
               "src/theme.scss",
-              "src/styles.css"
+              "src/styles.css",
+              "src/bootstrap-utilities.min.css"
             ],
             "scripts": []
           },
