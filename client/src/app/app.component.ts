@@ -1,6 +1,7 @@
 import { Component, OnInit } from '@angular/core';
 import { User } from './modal/user';
 import { AccountService } from './services/account.service';
+import { BusyService } from './services/busy.service';
 
 @Component({
   selector: 'app-root',
@@ -10,7 +11,10 @@ import { AccountService } from './services/account.service';
 export class AppComponent implements OnInit {
   title = 'ShoppingCart';
   isDark = false;
-  constructor(private accountSerice: AccountService) {}
+  constructor(
+    private accountSerice: AccountService,
+    public busy: BusyService
+  ) {}
 
   ngOnInit() {
     this.getTheme();
