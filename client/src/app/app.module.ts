@@ -14,6 +14,7 @@ import { ErrorInterceptor } from './interceptors/error.interceptor';
 import { JwtInterceptor } from './interceptors/jwt.interceptor';
 import { SpinnerComponent } from './components/spinner/spinner.component';
 import { LoadingInterceptor } from './interceptors/loading.interceptor';
+import { SearchComponent } from './search/search.component';
 
 @NgModule({
   declarations: [
@@ -22,6 +23,7 @@ import { LoadingInterceptor } from './interceptors/loading.interceptor';
     HomeComponent,
     LoginComponent,
     SpinnerComponent,
+    SearchComponent,
   ],
   imports: [
     BrowserModule,

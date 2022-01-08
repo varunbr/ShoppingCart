@@ -1,25 +1,37 @@
+import { Overlay, OverlayRef } from '@angular/cdk/overlay';
+import { ComponentPortal } from '@angular/cdk/portal';
 import { Injectable } from '@angular/core';
-import { BehaviorSubject } from 'rxjs';
+import { SpinnerComponent } from '../components/spinner/spinner.component';
 
 @Injectable({
   providedIn: 'root',
 })
 export class BusyService {
   requestCount = 0;
-  private source = new BehaviorSubject<boolean>(null);
-  show$ = this.source.asObservable();
+  private spinnerRef: OverlayRef = this.cdkSpinnerCreate();
 
-  constructor() {}
+  constructor(private overlay: Overlay) {}
 
   busy() {
     this.requestCount++;
-    this.source.next(true);
+    this.spinnerRef.attach(new ComponentPortal(SpinnerComponent));
   }
 
   idle() {
     this.requestCount--;
     if (this.requestCount <= 0) {
-      this.source.next(false);
+      this.spinnerRef.detach();
     }
+  }
+
+  private cdkSpinnerCreate() {
+    return this.overlay.create({
+      hasBackdrop: true,
+      positionStrategy: this.overlay
+        .position()
+        .global()
+        .centerHorizontally()
+        .centerVertically(),
+    });
   }
 }

@@ -1,4 +1,5 @@
 import { Component, EventEmitter, Input, OnInit, Output } from '@angular/core';
+import { ActivatedRoute, Router } from '@angular/router';
 import { AccountService } from '../services/account.service';
 
 @Component({
@@ -11,9 +12,17 @@ export class NavComponent implements OnInit {
   @Input() isDark = false;
   @Output() changeTheme = new EventEmitter<boolean>();
 
-  constructor(public accountService: AccountService) {}
+  constructor(
+    public accountService: AccountService,
+    private router: Router,
+    private route: ActivatedRoute
+  ) {}
 
-  ngOnInit(): void {}
+  ngOnInit(): void {
+    this.route.queryParamMap.subscribe((params) => {
+      this.value = params.get('q');
+    });
+  }
 
   toggleTheme(): void {
     this.isDark = !this.isDark;
@@ -22,5 +31,17 @@ export class NavComponent implements OnInit {
 
   logout() {
     this.accountService.logout();
+  }
+
+  search() {
+    if (this.isValid()) {
+      this.router.navigate(['/search'], {
+        queryParams: { q: this.value.trim() },
+      });
+    }
+  }
+
+  isValid() {
+    return this.value && this.value.trim();
   }
 }

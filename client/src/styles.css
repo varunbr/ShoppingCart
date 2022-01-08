@@ -23,3 +23,87 @@ body {
   background-color: darkgoldenrod;
   color: whitesmoke;
 }
+
+/* lt-xl */
+@media only screen and (max-width: 1919px) {
+  .title {
+    font-size: 18px !important;
+  }
+  .content {
+    font-size: 14px !important;
+  }
+  .image-box {
+    height: 170px;
+    width: 170px;
+    background-color: white;
+    border-radius: 15px;
+  }
+  .image {
+    width: 150px;
+    height: 150px;
+    object-fit: contain;
+  }
+}
+
+/* lt-lg */
+@media only screen and (max-width: 1279px) {
+  .title {
+    font-size: 16px !important;
+  }
+  .content {
+    font-size: 14px !important;
+  }
+  .image-box {
+    height: 150px;
+    width: 150px;
+    background-color: white;
+    border-radius: 15px;
+  }
+  .image {
+    width: 135px;
+    height: 135px;
+    object-fit: contain;
+  }
+}
+
+/* lt-md */
+@media only screen and (max-width: 959px) {
+  .title {
+    font-size: 16px !important;
+  }
+  .content {
+    font-size: 14px !important;
+  }
+  .image-box {
+    height: 130px;
+    width: 130px;
+    background-color: white;
+    border-radius: 15px;
+  }
+  .image {
+    width: 120px;
+    height: 120px;
+    object-fit: contain;
+  }
+}
+
+/*  lt-sm */
+@media only screen and (max-width: 599px) {
+  .title {
+    font-size: 14px !important;
+  }
+  .content {
+    font-size: 12px !important;
+  }
+  .image-box {
+    height: 100px;
+    width: 100px;
+    background-color: white;
+    border-radius: 15px;
+  }
+  .image {
+    width: 90px;
+    height: 90px;
+    object-fit: contain;
+  }
+}

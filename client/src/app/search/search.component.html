@@ -1,0 +1,65 @@
+<mat-drawer-container [hasBackdrop]="lt_md">
+    <mat-drawer #drawer [opened]="!lt_md" [mode]="lt_md ?'over':'side'" style="width:300px;">
+        <div class="m-1">
+            <mat-card>
+                <h2 class="title">Filters</h2>
+            </mat-card>
+            <mat-card>
+                <p class="content">
+                    Category: {{products?.context.category}}
+                    <br>
+                    Price: {{products?.context.price}}
+                    <br>
+                    OrderBy: {{products?.context.orderBy}}
+                    <br>
+                    Brand: {{products?.context.brand}}
+                    <br>
+                    Properties: <span *ngFor="let item of products?.context.properties">
+                        {{item.name}}
+                    </span>
+                </p>
+            </mat-card>
+        </div>
+    </mat-drawer>
+
+    <div fxFlex>
+        <mat-card fxLayout="row" fxLayoutAlign=" center" class="m-1" fxLayoutGap="2%">
+            <button *ngIf="lt_md" mat-raised-button color="primary" (click)="drawer.toggle()">
+                <mat-icon>filter_alt</mat-icon> Filter
+            </button>
+            <h3 class="title">Showing results for "{{search}}"</h3>
+        </mat-card>
+
+        <mat-card ngClass="cursor" fxLayout="column" class="m-1" *ngFor="let item of products?.items">
+            <div fxLayout="row" fxFlex fxLayoutGap="5%" fxLayoutAlign=" center">
+                <div class="image-box" fxLayout="row" fxLayoutAlign="center center">
+                    <img class="image" src={{item.photoUrl}}>
+                </div>
+                <div fxLayout="column" fxFlex>
+                    <div>
+                        <h2 class="title">{{item.name}}<br>{{item.amount | currency:'INR'}}</h2>
+                    </div>
+                    <mat-card-content fxHide fxShow.gt-xs="true">
+                        <mat-card-subtitle class="content">
+                            <li *ngFor="let line of item?.features.split('\n')">
+                                {{line}}
+                            </li>
+                        </mat-card-subtitle>
+                    </mat-card-content>
+                </div>
+            </div>
+            <mat-card-content class="mt-2" fxHide fxShow.lt-sm="true">
+                <mat-card-subtitle class="content">
+                    <li *ngFor="let line of item?.features.split('\n')">
+                        {{line}}
+                    </li>
+                </mat-card-subtitle>
+            </mat-card-content>
+        </mat-card>
+    </div>
+</mat-drawer-container>
+
+<div fxLayout="row">
+
+
+</div>

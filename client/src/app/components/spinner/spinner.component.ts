@@ -7,7 +7,7 @@ import { Component, Input, OnInit } from '@angular/core';
 })
 export class SpinnerComponent implements OnInit {
   @Input() diameter: number = 100;
-  @Input() overlay: boolean = false;
+  @Input() overlay: boolean = true;
   @Input() color: string = 'accent';
   constructor() {}
 

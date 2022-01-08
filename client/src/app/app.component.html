@@ -1,5 +1,4 @@
 <div class="mat-app-background" [ngClass]="{'dark-theme':isDark}" style="height: 100%;">
-    <app-spinner *ngIf="busy.show$ | async" [overlay]="true"></app-spinner>
     <app-nav [isDark]="isDark" (changeTheme)="toggleTheme($event)">
         <router-outlet></router-outlet>
     </app-nav>
