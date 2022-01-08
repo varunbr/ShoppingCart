@@ -20,11 +20,11 @@
             </button>
             <span class="brand" routerLink="/">ShoppingCart</span>
           </div>
-          <form #searchForm="ngForm" fxShow="true" fxHide.lt-sm>
+          <form #searchForm="ngForm" fxShow="true" fxHide.lt-sm (ngSubmit)="search()">
             <mat-form-field style="width: 20rem" floatLabel="never">
               <input matInput #searchInput="matInput" type="text" placeholder="Search" name="search" autocomplete="off"
                 [(ngModel)]="value" />
-              <button matSuffix mat-icon-button (click)="value=''">
+              <button matSuffix mat-icon-button>
                 <mat-icon>search</mat-icon>
               </button>
             </mat-form-field>
@@ -55,11 +55,11 @@
       <mat-toolbar-row fxShow="false" fxShow.lt-sm>
         <div fxLayout="row" style="width: 100vw;" fxLayoutAlign="center center">
           <div>
-            <form #searchForm="ngForm">
+            <form #searchForm2="ngForm" (ngSubmit)="search()">
               <mat-form-field style="width:75vw" floatLabel="never">
                 <input matInput #searchInput="matInput" type="text" placeholder="Search" name="search"
                   autocomplete="off" [(ngModel)]="value" />
-                <button matSuffix mat-icon-button (click)="value=''">
+                <button matSuffix mat-icon-button type="submit">
                   <mat-icon>search</mat-icon>
                 </button>
               </mat-form-field>

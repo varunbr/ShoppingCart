@@ -10,6 +10,7 @@ import { MatFormFieldModule } from '@angular/material/form-field';
 import { MatInputModule } from '@angular/material/input';
 import { MatSnackBarModule } from '@angular/material/snack-bar';
 import { MatProgressSpinnerModule } from '@angular/material/progress-spinner';
+import { OverlayModule } from '@angular/cdk/overlay';
 import { FlexLayoutModule } from '@angular/flex-layout';
 
 const Material = [
@@ -24,6 +25,7 @@ const Material = [
   MatInputModule,
   MatSnackBarModule,
   MatProgressSpinnerModule,
+  OverlayModule,
   FlexLayoutModule,
 ];
 

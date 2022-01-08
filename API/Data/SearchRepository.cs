@@ -38,7 +38,8 @@ namespace API.Data
                     g.Key,
                     Score = g.Sum(p => p.Score),
                     Price = g.First().Product.Amount,
-                    g.First().Product.Created
+                    g.First().Product.Created,
+                    g.First().Product.SoldQuantity
                 });
 
             var order = context.OrderBy switch
@@ -46,7 +47,7 @@ namespace API.Data
                 OrderBy.HighToLow => group.OrderByDescending(g => g.Price),
                 OrderBy.LowToHigh => group.OrderBy(g => g.Price),
                 OrderBy.Latest => group.OrderByDescending(g => g.Created),
-                _ => group.OrderByDescending(g => g.Score)
+                _ => group.OrderByDescending(g => g.Score).ThenByDescending(g=>g.SoldQuantity)
             };
 
             var productIds = await order.AddPagination(context.PageNumber, context.PageSize)
