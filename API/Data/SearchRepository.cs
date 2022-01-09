@@ -19,14 +19,14 @@ namespace API.Data
         {
         }
 
-        public async Task<SearchResult> Search(Dictionary<string, string> queryParams)
+        public async Task<Response<ProductDto, SearchContextDto>> Search(Dictionary<string, string> queryParams)
         {
             var context = new SearchContext(queryParams);
             await GetCategory(context);
             return await GetProducts(context);
         }
 
-        private async Task<SearchResult> GetProducts(SearchContext context)
+        private async Task<Response<ProductDto, SearchContextDto>> GetProducts(SearchContext context)
         {
             var query = DataContext.ProductTags.AsQueryable();
             query = ApplyFilters(query, context);
@@ -62,8 +62,7 @@ namespace API.Data
 
             var result = products.OrderBy(p => productIds.IndexOf(p.Id)).ToList();
 
-            return new SearchResult(
-                new PagedList<ProductDto>(result, 0, context.PageSize, context.PageNumber), Mapper.Map<SearchContextDto>(context));
+            return Response<ProductDto,SearchContextDto>.Create(result, Mapper.Map<SearchContextDto>(context));
         }
 
         private IQueryable<ProductTag> ApplyFilters(IQueryable<ProductTag> query, SearchContext context)

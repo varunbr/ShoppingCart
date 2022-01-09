@@ -1,4 +1,6 @@
-﻿namespace API.Helpers
+﻿using System;
+
+namespace API.Helpers
 {
     public class BaseParams
     {
@@ -24,8 +26,29 @@
                     <= 0 => 10,
                     _ => value
                 };
+                SetTotalPages();
             }
         }
+
+        public int TotalPages { get; set; }
+
+        private int _totalCount;
+        public int TotalCount
+        {
+            get => _totalCount;
+            set
+            {
+                _totalCount = value;
+                SetTotalPages();
+            }
+        }
+
         public string OrderBy { get; set; }
+
+        private void SetTotalPages()
+        {
+            if (_totalCount <= 0) return;
+            TotalPages = (int)Math.Ceiling(_totalCount / (decimal)_pageSize);
+        }
     }
 }

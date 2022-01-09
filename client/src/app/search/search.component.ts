@@ -1,47 +1,47 @@
 import { Component, OnDestroy, OnInit } from '@angular/core';
-import { ActivatedRoute } from '@angular/router';
+import { ActivatedRoute, Params } from '@angular/router';
 import { Subscription } from 'rxjs';
+import { BaseListComponent } from '../base/component';
+import { Product, ProductContext, ProductParams } from '../modal/product';
 import { MediaService } from '../services/media.service';
-import { SearchService } from '../services/search.service';
+import { ProductService } from '../services/product.service';
 
 @Component({
   selector: 'app-search',
   templateUrl: './search.component.html',
   styleUrls: ['./search.component.css'],
 })
-export class SearchComponent implements OnInit, OnDestroy {
+export class SearchComponent
+  extends BaseListComponent<Product, ProductParams, ProductContext>
+  implements OnInit, OnDestroy
+{
   search: string;
-  products: any;
   lt_md = false;
-  open = false;
   private mediaSubscription: Subscription;
 
   constructor(
     private route: ActivatedRoute,
-    private searchService: SearchService,
+    productService: ProductService,
     private mediaObserver: MediaService
-  ) {}
+  ) {
+    super(productService);
+  }
 
   ngOnInit(): void {
-    this.route.queryParamMap.subscribe((params) => {
-      this.search = params.get('q');
-      console.log(params);
-      this.searchProduct();
+    this.route.queryParams.subscribe((params) => {
+      this.search = params['q'];
+      this.searchProduct(params);
     });
 
     this.mediaSubscription = this.mediaObserver.mediaChange$.subscribe(
       (changes) => {
         this.lt_md = changes.includes('lt-md');
-        this.open = false;
       }
     );
   }
 
-  searchProduct() {
-    this.searchService.searchProducts(this.search).subscribe((response) => {
-      this.products = response;
-      console.log(response);
-    });
+  searchProduct(params: Params) {
+    this.loadModals(params);
   }
 
   ngOnDestroy(): void {
