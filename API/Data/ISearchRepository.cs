@@ -6,6 +6,6 @@ namespace API.Data
 {
     public interface ISearchRepository
     {
-        Task<SearchResult> Search(Dictionary<string, string> queryParams);
+        Task<Response<ProductDto, SearchContextDto>> Search(Dictionary<string, string> queryParams);
     }
 }

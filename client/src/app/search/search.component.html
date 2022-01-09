@@ -1,4 +1,4 @@
-<mat-drawer-container [hasBackdrop]="lt_md">
+<mat-drawer-container [hasBackdrop]="lt_md" [ngClass]="lt_md ? 'full-screen-md' : 'full-screen'">
     <mat-drawer #drawer [opened]="!lt_md" [mode]="lt_md ?'over':'side'" style="width:300px;">
         <div class="m-1">
             <mat-card>
@@ -6,15 +6,15 @@
             </mat-card>
             <mat-card>
                 <p class="content">
-                    Category: {{products?.context.category}}
+                    Category: {{context?.category}}
                     <br>
-                    Price: {{products?.context.price}}
+                    Price: {{context?.price}}
                     <br>
-                    OrderBy: {{products?.context.orderBy}}
+                    OrderBy: {{context?.orderBy}}
                     <br>
-                    Brand: {{products?.context.brand}}
+                    Brand: {{context?.brand}}
                     <br>
-                    Properties: <span *ngFor="let item of products?.context.properties">
+                    Properties: <span *ngFor="let item of context?.properties">
                         {{item.name}}
                     </span>
                 </p>
@@ -30,7 +30,7 @@
             <h3 class="title">Showing results for "{{search}}"</h3>
         </mat-card>
 
-        <mat-card ngClass="cursor" fxLayout="column" class="m-1" *ngFor="let item of products?.items">
+        <mat-card ngClass="cursor" fxLayout="column" class="m-1" *ngFor="let item of modals">
             <div fxLayout="row" fxFlex fxLayoutGap="5%" fxLayoutAlign=" center">
                 <div class="image-box" fxLayout="row" fxLayoutAlign="center center">
                     <img class="image" src={{item.photoUrl}}>
@@ -58,8 +58,3 @@
         </mat-card>
     </div>
 </mat-drawer-container>
-
-<div fxLayout="row">
-
-
-</div>

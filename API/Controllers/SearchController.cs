@@ -19,7 +19,6 @@ namespace API.Controllers
         public async Task<ActionResult> Get([FromQuery] Dictionary<string, string> queryParams)
         {
             var result = await _uow.SearchRepository.Search(queryParams);
-            Response.AddPaginationHeader(result.Items.PageNumber, result.Items.PageSize, result.Items.TotalPages, result.Items.TotalCount);
             return Ok(result);
         }
     }

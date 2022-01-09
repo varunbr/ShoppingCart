@@ -192,7 +192,7 @@ namespace API.Data
                 : order;
         }
 
-        public async Task<IEnumerable<UserOrderDto>> GetUserOrders(int userId, BaseParams @params)
+        public async Task<Response<UserOrderDto,BaseParams>> GetUserOrders(int userId, BaseParams @params)
         {
             var orders = DataContext.Orders
                 .Where(o => o.UserId == userId)
@@ -200,7 +200,7 @@ namespace API.Data
                 .ProjectTo<UserOrderDto>(Mapper.ConfigurationProvider)
                 .AsNoTracking();
 
-            return await PagedList<UserOrderDto>.CreateAsync(orders, @params.PageSize, @params.PageNumber);
+            return await Response<UserOrderDto,BaseParams>.CreateAsync(orders, @params);
         }
 
         public async Task<UserOrderDto> GetUserOrder(int userId, int orderId)
