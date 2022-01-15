@@ -1,0 +1,20 @@
+<p class="title">{{name}}</p>
+<div fxLayout="row" fxLayoutAlign="space-between center">
+    <mat-form-field fxFlex="45" appearance="outline">
+        <mat-label>Min</mat-label>
+        <mat-select (selectionChange)="onChange()" [(value)]="from">
+            <mat-option>Min</mat-option>
+            <mat-option *ngFor="let item of values" [value]="item.value" [disabled]="item.flag > 0">{{item.name}}
+            </mat-option>
+        </mat-select>
+    </mat-form-field>
+    <mat-form-field fxFlex="45" appearance="outline">
+        <mat-label>Max</mat-label>
+        <mat-select (selectionChange)="onChange()" [(value)]="to">
+            <mat-option>Max</mat-option>
+            <mat-option *ngFor="let item of values | reverse" [value]="item.value" [disabled]="item.flag < 0">
+                {{item.name}}
+            </mat-option>
+        </mat-select>
+    </mat-form-field>
+</div>

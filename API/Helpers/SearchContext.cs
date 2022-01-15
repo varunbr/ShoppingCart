@@ -27,6 +27,8 @@ namespace API.Helpers
             Keywords = SearchText.ToLower().SubWords();
             QueryParams.TryGetValue(Constants.OrderBy, out var orderBy);
             OrderBy = orderBy;
+            QueryParams.TryGetValue(Constants.Brand, out var brand);
+            Brand = brand;
             if (QueryParams.TryGetValue(Constants.Price, out var range) && range.IsValidIntegerRange())
             {
                 range.GetRange(out int? from, out var to);

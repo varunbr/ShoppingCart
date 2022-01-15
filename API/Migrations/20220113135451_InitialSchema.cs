@@ -317,6 +317,7 @@ namespace API.Migrations
                     Type = table.Column<string>(type: "nvarchar(max)", nullable: true),
                     Values = table.Column<string>(type: "nvarchar(max)", nullable: true),
                     Unit = table.Column<string>(type: "nvarchar(max)", nullable: true),
+                    Filter = table.Column<bool>(type: "bit", nullable: false),
                     CategoryId = table.Column<int>(type: "int", nullable: false)
                 },
                 constraints: table =>

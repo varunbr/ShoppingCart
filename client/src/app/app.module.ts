@@ -15,6 +15,11 @@ import { JwtInterceptor } from './interceptors/jwt.interceptor';
 import { SpinnerComponent } from './components/spinner/spinner.component';
 import { LoadingInterceptor } from './interceptors/loading.interceptor';
 import { SearchComponent } from './search/search.component';
+import { ProductFilterComponent } from './search/product-filter/product-filter.component';
+import { RangeInputComponent } from './components/range-input/range-input.component';
+import { ReversePipe } from './components/pipes/reverse.pipe';
+import { ToIntArrayPipe } from './components/pipes/to-int-array.pipe';
+import { MultiSelectComponent } from './components/multi-select/multi-select.component';
 
 @NgModule({
   declarations: [
@@ -24,6 +29,11 @@ import { SearchComponent } from './search/search.component';
     LoginComponent,
     SpinnerComponent,
     SearchComponent,
+    ProductFilterComponent,
+    RangeInputComponent,
+    ReversePipe,
+    ToIntArrayPipe,
+    MultiSelectComponent,
   ],
   imports: [
     BrowserModule,
