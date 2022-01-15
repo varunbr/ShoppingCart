@@ -16,7 +16,9 @@ $light-theme: mat.define-light-theme(
   )
 );
 
-@include mat.all-component-themes($light-theme);
+.light-theme {
+  @include mat.all-component-themes($light-theme);
+}
 
 //Dark Theme
 $dark-primary: mat.define-palette(mat.$deep-purple-palette);

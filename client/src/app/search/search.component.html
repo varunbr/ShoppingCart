@@ -1,23 +1,14 @@
 <mat-drawer-container [hasBackdrop]="lt_md" [ngClass]="lt_md ? 'full-screen-md' : 'full-screen'">
     <mat-drawer #drawer [opened]="!lt_md" [mode]="lt_md ?'over':'side'" style="width:300px;">
         <div class="m-1">
-            <mat-card>
+            <mat-card fxLayout="row" fxLayoutAlign="space-between center">
                 <h2 class="title">Filters</h2>
+                <button *ngIf="lt_md" mat-button color="accent" (click)="drawer.toggle()">
+                    <mat-icon>close</mat-icon> Close
+                </button>
             </mat-card>
             <mat-card>
-                <p class="content">
-                    Category: {{context?.category}}
-                    <br>
-                    Price: {{context?.price}}
-                    <br>
-                    OrderBy: {{context?.orderBy}}
-                    <br>
-                    Brand: {{context?.brand}}
-                    <br>
-                    Properties: <span *ngFor="let item of context?.properties">
-                        {{item.name}}
-                    </span>
-                </p>
+                <app-product-filter [context]="context"></app-product-filter>
             </mat-card>
         </div>
     </mat-drawer>

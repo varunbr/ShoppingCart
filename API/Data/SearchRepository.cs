@@ -47,7 +47,7 @@ namespace API.Data
                 OrderBy.HighToLow => group.OrderByDescending(g => g.Price),
                 OrderBy.LowToHigh => group.OrderBy(g => g.Price),
                 OrderBy.Latest => group.OrderByDescending(g => g.Created),
-                _ => group.OrderByDescending(g => g.Score).ThenByDescending(g=>g.SoldQuantity)
+                _ => group.OrderByDescending(g => g.Score).ThenByDescending(g => g.SoldQuantity)
             };
 
             var productIds = await order.AddPagination(context.PageNumber, context.PageSize)
@@ -62,7 +62,7 @@ namespace API.Data
 
             var result = products.OrderBy(p => productIds.IndexOf(p.Id)).ToList();
 
-            return Response<ProductDto,SearchContextDto>.Create(result, Mapper.Map<SearchContextDto>(context));
+            return Response<ProductDto, SearchContextDto>.Create(result, Mapper.Map<SearchContextDto>(context));
         }
 
         private IQueryable<ProductTag> ApplyFilters(IQueryable<ProductTag> query, SearchContext context)
@@ -99,10 +99,13 @@ namespace API.Data
             if (context.PriceFrom != null)
                 query = query.Where(t => t.Product.Amount >= context.PriceFrom);
             if (context.PriceTo != null)
-                query = query.Where(t => t.Product.Amount <= context.PriceFrom);
+                query = query.Where(t => t.Product.Amount <= context.PriceTo);
 
             if (!string.IsNullOrEmpty(context.Brand))
-                query = query.Where(t => t.Product.Brand == context.Brand);
+            {
+                var values = context.Brand.Split(',');
+                query = query.Where(t => values.Contains(t.Product.Brand));
+            }
             return query;
         }
 
@@ -132,13 +135,7 @@ namespace API.Data
         {
             foreach (var param in context.QueryParams)
             {
-                if (param.Key.Equals(Constants.Brand, StringComparison.InvariantCultureIgnoreCase))
-                {
-                    context.Brand = param.Value;
-                    continue;
-                }
-
-                var property = context.Properties.FirstOrDefault(p => p.Name == param.Key);
+                var property = context.Properties.FirstOrDefault(p => p.Name == param.Key && p.Filter);
                 if (property == null) continue;
 
                 switch (property.Type)

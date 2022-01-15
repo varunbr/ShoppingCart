@@ -196,6 +196,8 @@ namespace API.Seed
                         product.ProductTags.Add(tag);
                     }
 
+                    product.ProductTags.Add(new ProductTag {Name = product.Brand,Score = 15});
+
                     foreach (var categoryTag in category.CategoryTags)
                     {
                         product.ProductTags.Add(new ProductTag
@@ -289,6 +291,7 @@ namespace API.Seed
     {
         public string Name { get; set; }
         public string Type { get; set; }
+        public bool Filter { get; set; } = true;
         public string Values { get; set; }
         public string Unit { get; set; }
     }

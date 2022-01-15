@@ -14,14 +14,23 @@
                 ],
                 "Properties": [
                     {
+                        "Name": "Price",
+                        "Type": "Integer",
+                        "Filter": false,
+                        "Values": "5000,10000,15000,20000,25000,30000,40000,50000,100000,150000",
+                        "Unit": "₹"
+                    },
+                    {
                         "Name": "Brand",
                         "Type": "String",
+                        "Filter": false,
                         "Values": "realme,POCO,SAMSUNG,MI,Redmi,OnePlus,iphone",
                         "Unit": ""
                     },
                     {
                         "Name": "Color",
                         "Type": "String",
+                        "Filter": false,
                         "Values": "",
                         "Unit": ""
                     },
@@ -34,19 +43,19 @@
                     {
                         "Name": "RAM",
                         "Type": "Integer",
-                        "Values": "2-16",
+                        "Values": "2,4,6,8,12,16",
                         "Unit": "GB"
                     },
                     {
                         "Name": "Storage",
                         "Type": "Integer",
-                        "Values": "4-512",
+                        "Values": "4,8,16,32,64,128,256,512",
                         "Unit": "GB"
                     },
                     {
                         "Name": "Battery",
                         "Type": "Integer",
-                        "Values": "2000-7000",
+                        "Values": "2000,2500,3000,3500,4000,4500,5000,5500,6000,6500,7000",
                         "Unit": "mAh"
                     },
                     {
@@ -76,8 +85,16 @@
                         ],
                         "Properties": [
                             {
+                                "Name": "Price",
+                                "Type": "Integer",
+                                "Filter": false,
+                                "Values": "500,700,1000,1500,2000,3000",
+                                "Unit": "₹"
+                            },
+                            {
                                 "Name": "Brand",
                                 "Type": "String",
+                                "Filter": false,
                                 "Values": "boAt,OnePlus,realme,SONY,OPPO,MI,JBL",
                                 "Unit": ""
                             },
@@ -113,14 +130,22 @@
                         ],
                         "Properties": [
                             {
+                                "Name": "Price",
+                                "Type": "Integer",
+                                "Filter": false,
+                                "Values": "500,700,1000,1500,2000",
+                                "Unit": "₹"
+                            },
+                            {
                                 "Name": "Capacity",
                                 "Type": "Integer",
-                                "Values": "5000-25000",
+                                "Values": "5000,10000,15000,20000",
                                 "Unit": "mAh"
                             },
                             {
                                 "Name": "Brand",
                                 "Type": "String",
+                                "Filter": false,
                                 "Values": "MI,realme,Redmi,Syska,PHILIPS,iball",
                                 "Unit": ""
                             }
@@ -140,15 +165,23 @@
                         ],
                         "Properties": [
                             {
+                                "Name": "Price",
+                                "Type": "Integer",
+                                "Filter": false,
+                                "Values": "500,700,1000,1500,2000,3000,5000,10000",
+                                "Unit": "₹"
+                            },
+                            {
                                 "Name": "Brand",
                                 "Type": "String",
+                                "Filter": false,
                                 "Values": "HP,SanDisk,Strontium,SAMSUNG,TOSHIBA,iball",
                                 "Unit": ""
                             },
                             {
                                 "Name": "Capacity",
                                 "Type": "Integer",
-                                "Values": "4-1024",
+                                "Values": "4,8,16,32,64,128,256,512,1024",
                                 "Unit": "GB"
                             }
                         ],
@@ -167,8 +200,16 @@
                 ],
                 "Properties": [
                     {
+                        "Name": "Price",
+                        "Type": "Integer",
+                        "Filter": false,
+                        "Values": "20000,30000,40000,50000,60000,70000,80000,100000,150000",
+                        "Unit": "₹"
+                    },
+                    {
                         "Name": "Brand",
                         "Type": "String",
+                        "Filter": false,
                         "Values": "HP,ASUS,Lenovo,Dell,acer,MSI,Apple,MI,Avita",
                         "Unit": ""
                     },
@@ -187,25 +228,25 @@
                     {
                         "Name": "Dedicated Graphics Memory",
                         "Type": "Integer",
-                        "Values": "2-16",
+                        "Values": "2,4,8,16",
                         "Unit": "GB"
                     },
                     {
                         "Name": "Hard Disk Capacity",
                         "Type": "Integer",
-                        "Values": "256-2048",
+                        "Values": "256,512,1024,2048",
                         "Unit": "GB"
                     },
                     {
                         "Name": "RAM Capacity",
                         "Type": "Integer",
-                        "Values": "4-32",
+                        "Values": "4,8,16,32",
                         "Unit": "GB"
                     },
                     {
                         "Name": "Weight",
                         "Type": "Integer",
-                        "Values": "1000-3000",
+                        "Values": "1000,1300,1500,1700,1900,2100,2300,2600",
                         "Unit": "Grams"
                     },
                     {
@@ -227,8 +268,16 @@
                 ],
                 "Properties": [
                     {
+                        "Name": "Price",
+                        "Type": "Integer",
+                        "Filter": false,
+                        "Values": "20000,30000,50000,70000,100000,150000",
+                        "Unit": "₹"
+                    },
+                    {
                         "Name": "Brand",
                         "Type": "String",
+                        "Filter": false,
                         "Values": "Canon,NIKON,SONY,Panasonic,acer,MSI,Apple,MI,Avita",
                         "Unit": ""
                     },
@@ -258,8 +307,16 @@
                 ],
                 "Properties": [
                     {
+                        "Name": "Price",
+                        "Type": "Integer",
+                        "Filter": false,
+                        "Values": "500,1000,1500,2000,3000,5000,7000,10000",
+                        "Unit": "₹"
+                    },
+                    {
                         "Name": "Brand",
                         "Type": "String",
+                        "Filter": false,
                         "Values": "ZEBRONICS,F&D,SONY,PHILIPS,Intex,boAt,MOTOROLA,JBL",
                         "Unit": ""
                     },
@@ -296,15 +353,23 @@
                 ],
                 "Properties": [
                     {
+                        "Name": "Price",
+                        "Type": "Integer",
+                        "Filter": false,
+                        "Values": "10000,15000,20000,25000,30000,35000,40000,50000,60000,80000,100000",
+                        "Unit": "₹"
+                    },
+                    {
                         "Name": "Brand",
                         "Type": "String",
+                        "Filter": false,
                         "Values": "MI,relame,SAMSUNG,OnePlus,LG,SONY",
                         "Unit": ""
                     },
                     {
                         "Name": "Screen Size",
                         "Type": "Integer",
-                        "Values": "24-60",
+                        "Values": "24,28,43,48,55,65",
                         "Unit": "inch"
                     },
                     {
@@ -340,13 +405,13 @@
                     {
                         "Name": "Number of HDMI Ports",
                         "Type": "Integer",
-                        "Values": "1-4",
+                        "Values": "1,2,3,4",
                         "Unit": ""
                     },
                     {
                         "Name": "Number of USB Ports",
                         "Type": "Integer",
-                        "Values": "1-4",
+                        "Values": "1,2,3,4",
                         "Unit": ""
                     }
                 ]
@@ -363,15 +428,23 @@
                 ],
                 "Properties": [
                     {
+                        "Name": "Price",
+                        "Type": "Integer",
+                        "Filter": false,
+                        "Values": "10000,15000,20000,25000,30000,35000,40000,45000,50000",
+                        "Unit": "₹"
+                    },
+                    {
                         "Name": "Brand",
                         "Type": "String",
+                        "Filter": false,
                         "Values": "SAMSUNG,LG,Whirlpool,IFB,Panasonic,BOSCH,Haier",
                         "Unit": ""
                     },
                     {
                         "Name": "Capacity",
                         "Type": "Integer",
-                        "Values": "5-10",
+                        "Values": "5,6,7,8,9",
                         "Unit": "KG"
                     },
                     {
@@ -396,27 +469,35 @@
                 ],
                 "Properties": [
                     {
+                        "Name": "Price",
+                        "Type": "Integer",
+                        "Filter": false,
+                        "Values": "25000,30000,35000,40000,45000,50000,55000",
+                        "Unit": "₹"
+                    },
+                    {
                         "Name": "Brand",
                         "Type": "String",
+                        "Filter": false,
                         "Values": "SAMSUNG,LG,Whirlpool,Panasonic,Voltas,Blue Star,Haier",
                         "Unit": ""
                     },
                     {
                         "Name": "Ideal for Room Size",
                         "Type": "Integer",
-                        "Values": "100-250",
+                        "Values": "90,110,150,200",
                         "Unit": "sqft"
                     },
                     {
                         "Name": "Capacity",
                         "Type": "Integer",
-                        "Values": "1000-2500",
+                        "Values": "1000,1200,1500,1600,1800,2000",
                         "Unit": "KG"
                     },
                     {
                         "Name": "Energy Rating",
                         "Type": "Integer",
-                        "Values": "1-5",
+                        "Values": "2,3,4",
                         "Unit": "Star"
                     },
                     {
@@ -456,8 +537,16 @@
                 ],
                 "Properties": [
                     {
+                        "Name": "Price",
+                        "Type": "Integer",
+                        "Filter": false,
+                        "Values": "10000,15000,20000,25000,30000,35000,40000,50000,60000",
+                        "Unit": "₹"
+                    },
+                    {
                         "Name": "Brand",
                         "Type": "String",
+                        "Filter": false,
                         "Values": "SAMSUNG,LG,Whirlpool,Panasonic,Godrej,ONIDA,Haier",
                         "Unit": ""
                     },
@@ -470,13 +559,13 @@
                     {
                         "Name": "Capacity",
                         "Type": "Integer",
-                        "Values": "80-900",
+                        "Values": "80,170,200,250,300,400,500",
                         "Unit": "L"
                     },
                     {
                         "Name": "Energy Rating",
                         "Type": "Integer",
-                        "Values": "1-5",
+                        "Values": "2,3,4",
                         "Unit": "Star"
                     },
                     {
@@ -497,8 +586,16 @@
                         "Products": [],
                         "Properties": [
                             {
+                                "Name": "Price",
+                                "Type": "Integer",
+                                "Filter": false,
+                                "Values": "5000,7500,10000,12500",
+                                "Unit": "₹"
+                            },
+                            {
                                 "Name": "Brand",
                                 "Type": "String",
+                                "Filter": false,
                                 "Values": "SAMSUNG,LG,Whirlpool,Panasonic,Godrej,IFB",
                                 "Unit": ""
                             },
@@ -511,13 +608,13 @@
                             {
                                 "Name": "Capacity",
                                 "Type": "Integer",
-                                "Values": "18-30",
+                                "Values": "18,20,22,25,27,30",
                                 "Unit": "L"
                             },
                             {
                                 "Name": "Power Output",
                                 "Type": "Integer",
-                                "Values": "700-2000",
+                                "Values": "700,900,1100,1300,1500",
                                 "Unit": "W"
                             }
                         ]
@@ -528,8 +625,16 @@
                         "Products": [],
                         "Properties": [
                             {
+                                "Name": "Price",
+                                "Type": "Integer",
+                                "Filter": false,
+                                "Values": "500,1000,2000,5000,10000,15000,20000",
+                                "Unit": "₹"
+                            },
+                            {
                                 "Name": "Brand",
                                 "Type": "String",
+                                "Filter": false,
                                 "Values": "BAJAJ,Prestige,Preethi,BOSCH,PHILIPS,WONDERCHEF",
                                 "Unit": ""
                             },
@@ -547,8 +652,16 @@
                         "Products": [],
                         "Properties": [
                             {
+                                "Name": "Price",
+                                "Type": "Integer",
+                                "Filter": false,
+                                "Values": "500,1000,2000,5000,10000,15000,20000",
+                                "Unit": "₹"
+                            },
+                            {
                                 "Name": "Brand",
                                 "Type": "String",
+                                "Filter": false,
                                 "Values": "BAJAJ,Prestige,Pigeon,Sansui,Panasonic",
                                 "Unit": ""
                             },
@@ -561,7 +674,7 @@
                             {
                                 "Name": "Capacity",
                                 "Type": "Integer",
-                                "Values": "1-5",
+                                "Values": "1,2,3,4,5",
                                 "Unit": "L"
                             }
                         ]

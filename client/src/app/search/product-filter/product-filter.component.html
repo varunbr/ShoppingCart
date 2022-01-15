@@ -1,0 +1,27 @@
+<div fxLayout="row" fxLayoutAlign="space-between center">
+  <button mat-flat-button color="accent" (click)="clear()">
+    <mat-icon>clear_all</mat-icon>
+    Clear
+  </button>
+  <button mat-flat-button color="accent" (click)="apply()">
+    <mat-icon>search</mat-icon>
+    Apply
+  </button>
+</div>
+<br>
+<p class="title">Category: {{_context?.category}}</p>
+<app-range-input *ngIf="price" [name]="price.name" [(value)]="value[price.name]" [range]="price.values | toIntArray"
+  [prefix]="price.unit">
+</app-range-input>
+<div *ngIf="brand" fxLayout="column">
+  <app-multi-select [name]="brand.name" [values]="brand.values" [(value)]="value[brand.name]">
+  </app-multi-select>
+</div>
+<div *ngFor="let item of _context?.properties">
+  <app-range-input *ngIf="item.type === 'Integer' && item.filter" [name]="item.name" [range]="item.values | toIntArray"
+    [(value)]="value[item.name]" [postfix]="item.unit">
+  </app-range-input>
+  <app-multi-select *ngIf="item.type !== 'Integer' && item.filter" [name]="item.name" [values]="item.values"
+    [(value)]="value[item.name]">
+  </app-multi-select>
+</div>
