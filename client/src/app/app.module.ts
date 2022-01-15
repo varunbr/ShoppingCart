@@ -14,12 +14,13 @@ import { ErrorInterceptor } from './interceptors/error.interceptor';
 import { JwtInterceptor } from './interceptors/jwt.interceptor';
 import { SpinnerComponent } from './components/spinner/spinner.component';
 import { LoadingInterceptor } from './interceptors/loading.interceptor';
-import { SearchComponent } from './search/search.component';
-import { ProductFilterComponent } from './search/product-filter/product-filter.component';
+import { SearchComponent } from './product/search/search.component';
+import { ProductFilterComponent } from './product/search/product-filter/product-filter.component';
 import { RangeInputComponent } from './components/range-input/range-input.component';
 import { ReversePipe } from './components/pipes/reverse.pipe';
 import { ToIntArrayPipe } from './components/pipes/to-int-array.pipe';
 import { MultiSelectComponent } from './components/multi-select/multi-select.component';
+import { ProductDetailComponent } from './product/product-detail/product-detail.component';
 
 @NgModule({
   declarations: [
@@ -34,6 +35,7 @@ import { MultiSelectComponent } from './components/multi-select/multi-select.com
     ReversePipe,
     ToIntArrayPipe,
     MultiSelectComponent,
+    ProductDetailComponent,
   ],
   imports: [
     BrowserModule,

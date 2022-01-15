@@ -21,7 +21,8 @@
             <h3 class="title">Showing results for "{{search}}"</h3>
         </mat-card>
 
-        <mat-card ngClass="cursor" fxLayout="column" class="m-1" *ngFor="let item of modals">
+        <mat-card ngClass="cursor" fxLayout="column" class="m-1" [routerLink]="'/product/' + item.id"
+            *ngFor="let item of modals">
             <div fxLayout="row" fxFlex fxLayoutGap="5%" fxLayoutAlign=" center">
                 <div class="image-box" fxLayout="row" fxLayoutAlign="center center">
                     <img class="image" src={{item.photoUrl}}>

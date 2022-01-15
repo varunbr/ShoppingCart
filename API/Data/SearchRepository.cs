@@ -31,7 +31,13 @@ namespace API.Data
             var query = DataContext.ProductTags.AsQueryable();
             query = ApplyFilters(query, context);
 
-            var group = query.Where(t => context.Keywords.Contains(t.Name) || t.Name == context.SearchText)
+            var inner = PredicateBuilder.False<ProductTag>();
+            foreach (var keyword in context.Keywords)
+            {
+                inner = inner.Or(p => p.Name.Contains(keyword));
+            }
+
+            var group = query.Where(inner)
                 .GroupBy(t => t.ProductId)
                 .Select(g => new
                 {

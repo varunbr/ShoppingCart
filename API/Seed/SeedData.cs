@@ -196,7 +196,8 @@ namespace API.Seed
                         product.ProductTags.Add(tag);
                     }
 
-                    product.ProductTags.Add(new ProductTag {Name = product.Brand,Score = 15});
+                    product.ProductTags.Add(new ProductTag { Name = product.Brand, Score = 15 });
+                    product.ProductTags.Add(new ProductTag { Name = product.Model, Score = 100 });
 
                     foreach (var categoryTag in category.CategoryTags)
                     {
