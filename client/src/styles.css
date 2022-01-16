@@ -9,19 +9,19 @@ body {
   font-family: Roboto, "Helvetica Neue", sans-serif;
 }
 
-.error {
-  background-color: crimson;
-  color: whitesmoke;
+.error-snack-bar {
+  background-color: orangered !important;
+  color: whitesmoke !important;
 }
 
-.success {
-  background-color: green;
-  color: whitesmoke;
+.success-snack-bar {
+  background-color: green !important;
+  color: whitesmoke !important;
 }
 
-.warn {
-  background-color: darkgoldenrod;
-  color: whitesmoke;
+.warn-snack-bar {
+  background-color: darkgoldenrod !important;
+  color: whitesmoke !important;
 }
 
 /* lt-xl */

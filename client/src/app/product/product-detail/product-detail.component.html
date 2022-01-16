@@ -1,0 +1,56 @@
+<div *ngIf="product" fxLayout="row wrap">
+    <div class="m-2" fxFlex=40 fxFlex.lt-md=50 fxFlex.lt-sm=100>
+        <app-gallery [urls]="imageUrls"></app-gallery>
+        <div class="mt-2">
+            <mat-card fxLayout="row" fxLayoutGap="5%">
+                <button fxFlex mat-raised-button color="accent">
+                    <mat-icon>shopping_cart</mat-icon> Add To Cart
+                </button>
+                <button fxFlex mat-raised-button color="warn">
+                    <mat-icon>flash_on</mat-icon>Buy Now
+                </button>
+            </mat-card>
+        </div>
+    </div>
+    <div class="m-2" fxFlex>
+        <mat-card>
+            <mat-card-title class="mt-2">{{product?.name}}</mat-card-title>
+            <h2>{{product?.amount | currency:'INR'}}</h2>
+            <mat-card-content>
+                <div fxLayout="column">
+                    <div>
+                        <h2>Features</h2>
+                        <mat-card-subtitle>
+                            <li *ngFor="let line of product?.features.split('\n')">
+                                {{line}}
+                            </li>
+                        </mat-card-subtitle>
+                    </div>
+                    <div>
+                        <h2>Specifications</h2>
+                        <mat-card-subtitle fxLayout="column" fxLayoutGap="2%">
+                            <div fxLayout="row">
+                                <div fxFlex=30>Category</div>
+                                <div fxFlex>{{product?.category}}</div>
+                            </div>
+                            <div fxLayout="row">
+                                <div fxFlex=30>Model</div>
+                                <div fxFlex>{{product?.model}}</div>
+                            </div>
+                            <div fxLayout="row" *ngFor="let property of product?.properties">
+                                <div fxFlex=30>{{property.name}}</div>
+                                <div fxFlex>{{property.value}}</div>
+                            </div>
+                        </mat-card-subtitle>
+                    </div>
+                    <div>
+                        <h2>Description</h2>
+                        <mat-card-subtitle>
+                            {{product?.description}}
+                        </mat-card-subtitle>
+                    </div>
+                </div>
+            </mat-card-content>
+        </mat-card>
+    </div>
+</div>

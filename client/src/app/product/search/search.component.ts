@@ -1,10 +1,10 @@
 import { Component, OnDestroy, OnInit } from '@angular/core';
 import { ActivatedRoute, Params } from '@angular/router';
 import { Subscription } from 'rxjs';
-import { BaseListComponent } from '../base/component';
-import { Product, ProductContext, ProductParams } from '../modal/product';
-import { MediaService } from '../services/media.service';
-import { ProductService } from '../services/product.service';
+import { BaseListComponent } from '../../base/component';
+import { Product, ProductContext, ProductParams } from '../../modal/product';
+import { MediaService } from '../../services/media.service';
+import { ProductService } from '../../services/product.service';
 
 @Component({
   selector: 'app-search',
