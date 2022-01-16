@@ -1,0 +1,19 @@
+.ngx-gallery {
+  display: inline-block;
+  margin-bottom: 20px;
+}
+ngx-gallery ::ng-deep ngx-gallery-image .ngx-gallery-arrow {
+  color: lightgray;
+}
+ngx-gallery ::ng-deep ngx-gallery-thumbnails .ngx-gallery-arrow {
+  color: lightgray;
+}
+ngx-gallery ::ng-deep .ngx-gallery-thumbnail {
+  border: none !important;
+}
+ngx-gallery ::ng-deep a.ngx-gallery-thumbnaila {
+  border: 2px solid lightgray !important;
+}
+ngx-gallery ::ng-deep a.ngx-gallery-active {
+  border: 4px solid darkgray !important;
+}

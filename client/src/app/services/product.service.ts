@@ -12,7 +12,7 @@ export class ProductService extends BaseListService<
   ProductParams,
   ProductContext
 > {
-  baseUrl = environment.apiUrl + 'search';
+  baseUrl = environment.apiUrl + 'product';
 
   constructor(http: HttpClient) {
     super(http, true);
@@ -24,5 +24,9 @@ export class ProductService extends BaseListService<
 
   getQueryString(): string {
     return '';
+  }
+
+  getProductDetail(id: number) {
+    return this.http.get<any>(this.baseUrl + `/${id}`);
   }
 }

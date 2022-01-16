@@ -1,5 +1,6 @@
 import { Component, OnInit } from '@angular/core';
 import { ActivatedRoute } from '@angular/router';
+import { ProductService } from 'src/app/services/product.service';
 
 @Component({
   selector: 'app-product-detail',
@@ -7,7 +8,12 @@ import { ActivatedRoute } from '@angular/router';
   styleUrls: ['./product-detail.component.css'],
 })
 export class ProductDetailComponent implements OnInit {
-  constructor(private route: ActivatedRoute) {}
+  imageUrls: {}[] = [];
+  product;
+  constructor(
+    private route: ActivatedRoute,
+    private productService: ProductService
+  ) {}
 
   ngOnInit(): void {
     this.route.params.subscribe((params) => {
@@ -16,6 +22,18 @@ export class ProductDetailComponent implements OnInit {
   }
 
   getProduct(id: number) {
-    console.log(id);
+    this.productService.getProductDetail(id).subscribe((response) => {
+      console.log(response);
+      this.product = response;
+      let urls = [];
+      response?.photos.forEach((element) => {
+        urls.push({
+          small: element.url,
+          medium: element.url,
+          big: element.url,
+        });
+      });
+      this.imageUrls = urls;
+    });
   }
 }

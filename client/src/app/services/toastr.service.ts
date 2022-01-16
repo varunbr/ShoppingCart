@@ -17,14 +17,14 @@ export class ToastrService {
   }
 
   error(message: string) {
-    this.open(message, 'error');
+    this.open(message, 'error-snack-bar');
   }
 
   success(message: string) {
-    this.open(message, 'success');
+    this.open(message, 'success-snack-bar');
   }
 
   warn(message: string) {
-    this.open(message, 'warn');
+    this.open(message, 'warn-snack-bar');
   }
 }

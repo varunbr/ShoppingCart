@@ -22,6 +22,7 @@ namespace API.Data
         public async Task<Response<ProductDto, SearchContextDto>> Search(Dictionary<string, string> queryParams)
         {
             var context = new SearchContext(queryParams);
+            if (string.IsNullOrEmpty(context.SearchText)) throw new HttpException("Search value shouldn't be empty.");
             await GetCategory(context);
             return await GetProducts(context);
         }

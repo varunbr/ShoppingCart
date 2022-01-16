@@ -1,4 +1,5 @@
-﻿using API.Data;
+﻿using System.Collections.Generic;
+using API.Data;
 using API.Extensions;
 using Microsoft.AspNetCore.Mvc;
 using System.Threading.Tasks;
@@ -12,6 +13,13 @@ namespace API.Controllers
         public ProductController(IUnitOfWork uow)
         {
             _uow = uow;
+        }
+
+        [HttpGet]
+        public async Task<ActionResult> Get([FromQuery] Dictionary<string, string> queryParams)
+        {
+            var result = await _uow.SearchRepository.Search(queryParams);
+            return Ok(result);
         }
 
         [HttpGet("{id}")]
