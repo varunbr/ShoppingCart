@@ -14,7 +14,7 @@
     </mat-drawer>
 
     <div fxFlex>
-        <mat-card fxLayout="row" fxLayoutAlign=" center" class="m-1" fxLayoutGap="2%">
+        <mat-card fxLayout="row" fxLayoutAlign="space-between center" class="m-1" fxLayoutGap="2%">
             <button *ngIf="lt_md" mat-raised-button color="primary" (click)="drawer.toggle()">
                 <mat-icon>filter_alt</mat-icon> Filter
             </button>
@@ -47,6 +47,10 @@
                     </li>
                 </mat-card-subtitle>
             </mat-card-content>
+        </mat-card>
+        <mat-card *ngIf="this.context">
+            <app-pagination [page]="this.context.pageNumber" (pageChange)="navigateToPage($event)">
+            </app-pagination>
         </mat-card>
     </div>
 </mat-drawer-container>

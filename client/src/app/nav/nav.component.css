@@ -16,12 +16,21 @@
   z-index: 1;
 }
 
-.profile{
+.profile {
   height: 40px;
   width: 40px;
   border-radius: 50%;
 }
 
-.brand{
+.brand {
   cursor: pointer;
+}
+
+.scroll-to-top {
+  position: fixed;
+  top: calc(100vh - 120px);
+  left: 90%;
+  margin-right: -50%;
+  transform: translate(-50%, -50%);
+  z-index: 99;
 }

@@ -11,6 +11,7 @@
         public const string OrderBy = "OrderBy";
         public const string Price = "Price";
         public const string Brand = "Brand";
+        public const string Category = "Category";
     }
 
     public class OrderBy

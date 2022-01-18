@@ -1,8 +1,8 @@
 import { Component, OnDestroy, OnInit } from '@angular/core';
-import { ActivatedRoute, Params } from '@angular/router';
+import { ActivatedRoute, Params, Router } from '@angular/router';
 import { Subscription } from 'rxjs';
 import { BaseListComponent } from '../../base/component';
-import { Product, ProductContext, ProductParams } from '../../modal/product';
+import { Product, ProductContext } from '../../modal/product';
 import { MediaService } from '../../services/media.service';
 import { ProductService } from '../../services/product.service';
 
@@ -12,15 +12,17 @@ import { ProductService } from '../../services/product.service';
   styleUrls: ['./search.component.css'],
 })
 export class SearchComponent
-  extends BaseListComponent<Product, ProductParams, ProductContext>
+  extends BaseListComponent<Product, ProductContext>
   implements OnInit, OnDestroy
 {
   search: string;
   lt_md = false;
+  queryParams: {};
   private mediaSubscription: Subscription;
 
   constructor(
     private route: ActivatedRoute,
+    private router: Router,
     productService: ProductService,
     private mediaObserver: MediaService
   ) {
@@ -30,6 +32,7 @@ export class SearchComponent
   ngOnInit(): void {
     this.route.queryParams.subscribe((params) => {
       this.search = params['q'];
+      this.queryParams = { ...params };
       this.searchProduct(params);
     });
 
@@ -46,5 +49,21 @@ export class SearchComponent
 
   ngOnDestroy(): void {
     this.mediaSubscription.unsubscribe();
+  }
+
+  navigateToPage(page: number) {
+    window.scroll({
+      top: 0,
+      left: 0,
+      behavior: 'smooth',
+    });
+    delete this.queryParams['pageNumber'];
+    let params =
+      page !== 1
+        ? { ...this.queryParams, pageNumber: page }
+        : { ...this.queryParams };
+    this.router.navigate(['/search'], {
+      queryParams: params,
+    });
   }
 }

@@ -1,4 +1,11 @@
-import { Component, EventEmitter, Input, OnInit, Output } from '@angular/core';
+import {
+  Component,
+  EventEmitter,
+  HostListener,
+  Input,
+  OnInit,
+  Output,
+} from '@angular/core';
 import { ActivatedRoute, Router } from '@angular/router';
 import { AccountService } from '../services/account.service';
 
@@ -43,5 +50,30 @@ export class NavComponent implements OnInit {
 
   isValid() {
     return this.value && this.value.trim();
+  }
+
+  toScroll: boolean;
+  topPosToStartShowing = 200;
+  @HostListener('window:scroll')
+  checkScroll() {
+    const scrollPosition =
+      window.pageYOffset ||
+      document.documentElement.scrollTop ||
+      document.body.scrollTop ||
+      0;
+
+    if (scrollPosition >= this.topPosToStartShowing) {
+      this.toScroll = true;
+    } else {
+      this.toScroll = false;
+    }
+  }
+
+  goToTop() {
+    window.scroll({
+      top: 0,
+      left: 0,
+      behavior: 'smooth',
+    });
   }
 }

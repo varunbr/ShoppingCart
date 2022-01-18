@@ -43,9 +43,43 @@ export class ProductFilterComponent implements OnInit {
   getFilterValue() {
     this.value['Price'] = this._context?.price;
     this.value['Brand'] = this._context?.brand;
+    this.value['Category'] = this._context?.category;
     let filters = this._context?.filters;
     for (const key in filters) {
       this.value[key] = filters[key];
     }
   }
+
+  categoryList = [
+    {
+      name: 'Electronics',
+      children: [
+        'Mobiles',
+        'Memory Cards',
+        'Power Banks',
+        'Headphones',
+        'Laptops',
+        'Camera',
+        'Speakers',
+      ],
+    },
+    {
+      name: 'Home & Appliances',
+      children: [
+        'Television',
+        'Washing Machine',
+        'Air Conditioners',
+        'Refrigerators',
+      ],
+    },
+    {
+      name: 'Kitchen & Appliances',
+      children: [
+        'Microwave Ovens',
+        'Juicer Mixer Grinder',
+        'Electric Cookers',
+        'Dishwashers',
+      ],
+    },
+  ];
 }
