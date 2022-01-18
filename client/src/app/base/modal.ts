@@ -5,7 +5,6 @@ export abstract class BaseParams {
   pageNumber = 1;
   pageSize = 12;
   orderBy: string;
-  abstract getIdentifier(): string;
 }
 
 export interface BaseContext {

@@ -9,7 +9,20 @@
   </button>
 </div>
 <br>
-<p class="title">Category: {{_context?.category}}</p>
+<div fxLayout="column">
+  <p class="title">Category</p>
+  <mat-form-field appearance="outline" fxFlex>
+    <mat-label>Select Category</mat-label>
+    <mat-select [(value)]="value['Category']">
+      <mat-option>Select Category</mat-option>
+      <mat-optgroup *ngFor="let group of categoryList" [label]="group.name">
+        <mat-option *ngFor="let item of group.children" [value]="item">
+          {{item}}
+        </mat-option>
+      </mat-optgroup>
+    </mat-select>
+  </mat-form-field>
+</div>
 <app-range-input *ngIf="price" [name]="price.name" [(value)]="value[price.name]" [range]="price.values | toIntArray"
   [prefix]="price.unit">
 </app-range-input>

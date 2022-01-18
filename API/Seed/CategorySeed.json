@@ -67,127 +67,120 @@
                 ]
             },
             {
-                "Category": "Mobile Accessories",
-                "Properties": [],
+                "Category": "Headphones",
                 "Products": [],
-                "SubCategories": [
+                "Tags": [
+                    "Headphones",
+                    "Headphone",
+                    "Headsets",
+                    "Headset",
+                    "TWS",
+                    "Earphone",
+                    "Earphones"
+                ],
+                "Properties": [
                     {
-                        "Category": "Headphones & Headsets",
-                        "Products": [],
-                        "Tags": [
-                            "Headphones",
-                            "Headphone",
-                            "Headsets",
-                            "Headset",
-                            "TWS",
-                            "Earphone",
-                            "Earphones"
-                        ],
-                        "Properties": [
-                            {
-                                "Name": "Price",
-                                "Type": "Integer",
-                                "Filter": false,
-                                "Values": "500,700,1000,1500,2000,3000",
-                                "Unit": "₹"
-                            },
-                            {
-                                "Name": "Brand",
-                                "Type": "String",
-                                "Filter": false,
-                                "Values": "boAt,OnePlus,realme,SONY,OPPO,MI,JBL",
-                                "Unit": ""
-                            },
-                            {
-                                "Name": "Color",
-                                "Type": "String",
-                                "Values": "Black,Blue,Red,White,Yellow",
-                                "Unit": ""
-                            },
-                            {
-                                "Name": "Headphone Type",
-                                "Type": "String",
-                                "Values": "In the Ear,On the Ear,True Wireless",
-                                "Unit": ""
-                            },
-                            {
-                                "Name": "Connectivity",
-                                "Type": "String",
-                                "Values": "Bluetooth,Wired",
-                                "Unit": ""
-                            }
-                        ],
-                        "SubCategories": []
+                        "Name": "Price",
+                        "Type": "Integer",
+                        "Filter": false,
+                        "Values": "500,700,1000,1500,2000,3000",
+                        "Unit": "₹"
                     },
                     {
-                        "Category": "Power Banks",
-                        "Products": [],
-                        "Tags": [
-                            "Power Bank",
-                            "PowerBank",
-                            "Power Banks",
-                            "PowerBanks"
-                        ],
-                        "Properties": [
-                            {
-                                "Name": "Price",
-                                "Type": "Integer",
-                                "Filter": false,
-                                "Values": "500,700,1000,1500,2000",
-                                "Unit": "₹"
-                            },
-                            {
-                                "Name": "Capacity",
-                                "Type": "Integer",
-                                "Values": "5000,10000,15000,20000",
-                                "Unit": "mAh"
-                            },
-                            {
-                                "Name": "Brand",
-                                "Type": "String",
-                                "Filter": false,
-                                "Values": "MI,realme,Redmi,Syska,PHILIPS,iball",
-                                "Unit": ""
-                            }
-                        ],
-                        "SubCategories": []
+                        "Name": "Brand",
+                        "Type": "String",
+                        "Filter": false,
+                        "Values": "boAt,OnePlus,realme,SONY,OPPO,MI,JBL",
+                        "Unit": ""
                     },
                     {
-                        "Category": "Memory Cards",
-                        "Products": [],
-                        "Tags": [
-                            "Memory Cards",
-                            "Memory Card",
-                            "MemoryCards",
-                            "MemoryCard",
-                            "MicroSD",
-                            "SD Card"
-                        ],
-                        "Properties": [
-                            {
-                                "Name": "Price",
-                                "Type": "Integer",
-                                "Filter": false,
-                                "Values": "500,700,1000,1500,2000,3000,5000,10000",
-                                "Unit": "₹"
-                            },
-                            {
-                                "Name": "Brand",
-                                "Type": "String",
-                                "Filter": false,
-                                "Values": "HP,SanDisk,Strontium,SAMSUNG,TOSHIBA,iball",
-                                "Unit": ""
-                            },
-                            {
-                                "Name": "Capacity",
-                                "Type": "Integer",
-                                "Values": "4,8,16,32,64,128,256,512,1024",
-                                "Unit": "GB"
-                            }
-                        ],
-                        "SubCategories": []
+                        "Name": "Color",
+                        "Type": "String",
+                        "Values": "Black,Blue,Red,White,Yellow",
+                        "Unit": ""
+                    },
+                    {
+                        "Name": "Headphone Type",
+                        "Type": "String",
+                        "Values": "In the Ear,On the Ear,True Wireless",
+                        "Unit": ""
+                    },
+                    {
+                        "Name": "Connectivity",
+                        "Type": "String",
+                        "Values": "Bluetooth,Wired",
+                        "Unit": ""
                     }
-                ]
+                ],
+                "SubCategories": []
+            },
+            {
+                "Category": "Power Banks",
+                "Products": [],
+                "Tags": [
+                    "Power Bank",
+                    "PowerBank",
+                    "Power Banks",
+                    "PowerBanks"
+                ],
+                "Properties": [
+                    {
+                        "Name": "Price",
+                        "Type": "Integer",
+                        "Filter": false,
+                        "Values": "500,700,1000,1500,2000",
+                        "Unit": "₹"
+                    },
+                    {
+                        "Name": "Capacity",
+                        "Type": "Integer",
+                        "Values": "5000,10000,15000,20000",
+                        "Unit": "mAh"
+                    },
+                    {
+                        "Name": "Brand",
+                        "Type": "String",
+                        "Filter": false,
+                        "Values": "MI,realme,Redmi,Syska,PHILIPS,iball",
+                        "Unit": ""
+                    }
+                ],
+                "SubCategories": []
+            },
+            {
+                "Category": "Memory Cards",
+                "Products": [],
+                "Tags": [
+                    "Memory Cards",
+                    "Memory Card",
+                    "MemoryCards",
+                    "MemoryCard",
+                    "MicroSD",
+                    "SD Card"
+                ],
+                "Properties": [
+                    {
+                        "Name": "Price",
+                        "Type": "Integer",
+                        "Filter": false,
+                        "Values": "500,700,1000,1500,2000,3000,5000,10000",
+                        "Unit": "₹"
+                    },
+                    {
+                        "Name": "Brand",
+                        "Type": "String",
+                        "Filter": false,
+                        "Values": "HP,SanDisk,Strontium,SAMSUNG,TOSHIBA,iball",
+                        "Unit": ""
+                    },
+                    {
+                        "Name": "Capacity",
+                        "Type": "Integer",
+                        "Values": "4,8,16,32,64,128,256,512,1024",
+                        "Unit": "GB"
+                    }
+                ],
+                "SubCategories": []
             },
             {
                 "Category": "Laptops",
@@ -575,118 +568,118 @@
                         "Unit": ""
                     }
                 ]
-            },
-            {
-                "Category": "Home Lighting",
-                "Products": [],
-                "SubCategories": [
-                    {
-                        "Category": "Microwave Ovens",
-                        "SubCategories": [],
-                        "Products": [],
-                        "Properties": [
-                            {
-                                "Name": "Price",
-                                "Type": "Integer",
-                                "Filter": false,
-                                "Values": "5000,7500,10000,12500",
-                                "Unit": "₹"
-                            },
-                            {
-                                "Name": "Brand",
-                                "Type": "String",
-                                "Filter": false,
-                                "Values": "SAMSUNG,LG,Whirlpool,Panasonic,Godrej,IFB",
-                                "Unit": ""
-                            },
-                            {
-                                "Name": "Type",
-                                "Type": "String",
-                                "Values": "Convection,Convection & Grill,Grill,Inverter,Solo",
-                                "Unit": ""
-                            },
-                            {
-                                "Name": "Capacity",
-                                "Type": "Integer",
-                                "Values": "18,20,22,25,27,30",
-                                "Unit": "L"
-                            },
-                            {
-                                "Name": "Power Output",
-                                "Type": "Integer",
-                                "Values": "700,900,1100,1300,1500",
-                                "Unit": "W"
-                            }
-                        ]
-                    },
-                    {
-                        "Category": "Juicer Mixer Grinder",
-                        "SubCategories": [],
-                        "Products": [],
-                        "Properties": [
-                            {
-                                "Name": "Price",
-                                "Type": "Integer",
-                                "Filter": false,
-                                "Values": "500,1000,2000,5000,10000,15000,20000",
-                                "Unit": "₹"
-                            },
-                            {
-                                "Name": "Brand",
-                                "Type": "String",
-                                "Filter": false,
-                                "Values": "BAJAJ,Prestige,Preethi,BOSCH,PHILIPS,WONDERCHEF",
-                                "Unit": ""
-                            },
-                            {
-                                "Name": "Type",
-                                "Type": "String",
-                                "Values": "Mixer Grinder,Juicer Mixer Grinder,Juicer",
-                                "Unit": ""
-                            }
-                        ]
-                    },
-                    {
-                        "Category": "Electric Cookers",
-                        "SubCategories": [],
-                        "Products": [],
-                        "Properties": [
-                            {
-                                "Name": "Price",
-                                "Type": "Integer",
-                                "Filter": false,
-                                "Values": "500,1000,2000,5000,10000,15000,20000",
-                                "Unit": "₹"
-                            },
-                            {
-                                "Name": "Brand",
-                                "Type": "String",
-                                "Filter": false,
-                                "Values": "BAJAJ,Prestige,Pigeon,Sansui,Panasonic",
-                                "Unit": ""
-                            },
-                            {
-                                "Name": "Type",
-                                "Type": "String",
-                                "Values": "Rice Cooker,Travel Cooker,Food Steamer,Egg Boiler,Deep Fryer",
-                                "Unit": ""
-                            },
-                            {
-                                "Name": "Capacity",
-                                "Type": "Integer",
-                                "Values": "1,2,3,4,5",
-                                "Unit": "L"
-                            }
-                        ]
-                    },
-                    {
-                        "Category": "Dishwashers",
-                        "SubCategories": [],
-                        "Properties": []
-                    }
-                ],
-                "Properties": []
             }
         ]
+    },
+    {
+        "Category": "Kitchen & Appliances",
+        "Products": [],
+        "SubCategories": [
+            {
+                "Category": "Microwave Ovens",
+                "SubCategories": [],
+                "Products": [],
+                "Properties": [
+                    {
+                        "Name": "Price",
+                        "Type": "Integer",
+                        "Filter": false,
+                        "Values": "5000,7500,10000,12500",
+                        "Unit": "₹"
+                    },
+                    {
+                        "Name": "Brand",
+                        "Type": "String",
+                        "Filter": false,
+                        "Values": "SAMSUNG,LG,Whirlpool,Panasonic,Godrej,IFB",
+                        "Unit": ""
+                    },
+                    {
+                        "Name": "Type",
+                        "Type": "String",
+                        "Values": "Convection,Convection & Grill,Grill,Inverter,Solo",
+                        "Unit": ""
+                    },
+                    {
+                        "Name": "Capacity",
+                        "Type": "Integer",
+                        "Values": "18,20,22,25,27,30",
+                        "Unit": "L"
+                    },
+                    {
+                        "Name": "Power Output",
+                        "Type": "Integer",
+                        "Values": "700,900,1100,1300,1500",
+                        "Unit": "W"
+                    }
+                ]
+            },
+            {
+                "Category": "Juicer Mixer Grinder",
+                "SubCategories": [],
+                "Products": [],
+                "Properties": [
+                    {
+                        "Name": "Price",
+                        "Type": "Integer",
+                        "Filter": false,
+                        "Values": "500,1000,2000,5000,10000,15000,20000",
+                        "Unit": "₹"
+                    },
+                    {
+                        "Name": "Brand",
+                        "Type": "String",
+                        "Filter": false,
+                        "Values": "BAJAJ,Prestige,Preethi,BOSCH,PHILIPS,WONDERCHEF",
+                        "Unit": ""
+                    },
+                    {
+                        "Name": "Type",
+                        "Type": "String",
+                        "Values": "Mixer Grinder,Juicer Mixer Grinder,Juicer",
+                        "Unit": ""
+                    }
+                ]
+            },
+            {
+                "Category": "Electric Cookers",
+                "SubCategories": [],
+                "Products": [],
+                "Properties": [
+                    {
+                        "Name": "Price",
+                        "Type": "Integer",
+                        "Filter": false,
+                        "Values": "500,1000,2000,5000,10000,15000,20000",
+                        "Unit": "₹"
+                    },
+                    {
+                        "Name": "Brand",
+                        "Type": "String",
+                        "Filter": false,
+                        "Values": "BAJAJ,Prestige,Pigeon,Sansui,Panasonic",
+                        "Unit": ""
+                    },
+                    {
+                        "Name": "Type",
+                        "Type": "String",
+                        "Values": "Rice Cooker,Travel Cooker,Food Steamer,Egg Boiler,Deep Fryer",
+                        "Unit": ""
+                    },
+                    {
+                        "Name": "Capacity",
+                        "Type": "Integer",
+                        "Values": "1,2,3,4,5",
+                        "Unit": "L"
+                    }
+                ]
+            },
+            {
+                "Category": "Dishwashers",
+                "SubCategories": [],
+                "Properties": []
+            }
+        ],
+        "Properties": []
     }
 ]

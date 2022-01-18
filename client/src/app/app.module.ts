@@ -29,6 +29,7 @@ import { ToIntArrayPipe } from './components/pipes/to-int-array.pipe';
 import { MultiSelectComponent } from './components/multi-select/multi-select.component';
 import { ProductDetailComponent } from './product/product-detail/product-detail.component';
 import { GalleryComponent } from './components/gallery/gallery.component';
+import { PaginationComponent } from './components/pagination/pagination.component';
 
 @Injectable()
 export class HammerConfig extends HammerGestureConfig {
@@ -52,6 +53,7 @@ export class HammerConfig extends HammerGestureConfig {
     MultiSelectComponent,
     ProductDetailComponent,
     GalleryComponent,
+    PaginationComponent,
   ],
   imports: [
     BrowserModule,

@@ -21,7 +21,7 @@ namespace API.Data
 
         public async Task<Response<ProductDto, SearchContextDto>> Search(Dictionary<string, string> queryParams)
         {
-            var context = new SearchContext(queryParams);
+            var context = new SearchContext(new Dictionary<string, string>(queryParams, StringComparer.OrdinalIgnoreCase));
             if (string.IsNullOrEmpty(context.SearchText)) throw new HttpException("Search value shouldn't be empty.");
             await GetCategory(context);
             return await GetProducts(context);
@@ -118,21 +118,33 @@ namespace API.Data
 
         private async Task GetCategory(SearchContext context)
         {
-            var category = await DataContext.CategoryTags
-                .Where(t => context.Keywords.Contains(t.Name))
-                .GroupBy(t => t.Category.Name)
-                .OrderByDescending(g => g.Sum(t => t.Score))
-                .Select(g => new
-                {
-                    g.Key,
-                    g.FirstOrDefault().CategoryId
-                })
-                .FirstOrDefaultAsync();
-
-            if (category != null)
+            int? categoryId;
+            if (context.Category == null)
             {
-                context.Category = category.Key;
-                var properties = await DataContext.Properties.Where(p => p.CategoryId == category.CategoryId).ToListAsync();
+                var category = await DataContext.CategoryTags
+                    .Where(t => context.Keywords.Contains(t.Name))
+                    .GroupBy(t => t.Category.Name)
+                    .OrderByDescending(g => g.Sum(t => t.Score))
+                    .Select(g => new
+                    {
+                        g.Key,
+                        g.FirstOrDefault().CategoryId
+                    })
+                    .FirstOrDefaultAsync();
+                categoryId = category?.CategoryId;
+                context.Category = category?.Key;
+            }
+            else
+            {
+                categoryId = await DataContext.Categories
+                    .Where(c => c.Name == context.Category)
+                    .Select(c => c.Id).FirstOrDefaultAsync();
+            }
+
+
+            if (categoryId != null)
+            {
+                var properties = await DataContext.Properties.Where(p => p.CategoryId == categoryId).ToListAsync();
                 context.Properties = properties;
                 AddFilters(context);
             }

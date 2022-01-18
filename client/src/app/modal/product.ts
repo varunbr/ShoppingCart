@@ -6,10 +6,6 @@ export class ProductParams extends BaseParams {
   category = '';
   brand = '';
   filters = new Map<string, string>();
-
-  getIdentifier(): string {
-    return '';
-  }
 }
 
 export interface Product extends BaseModal {
