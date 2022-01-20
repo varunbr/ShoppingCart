@@ -6,5 +6,5 @@ namespace API.Data;
 
 public interface IProductRepository
 {
-    Task<ProductDetailDto> GetProduct(int productId,int userId);
+    Task<ProductModelDto> GetProduct(int productId,int userId);
 }

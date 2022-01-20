@@ -1,6 +1,6 @@
 ﻿using API.DTOs;
+using API.Entities;
 using API.Extensions;
-using API.Helpers;
 using AutoMapper;
 using AutoMapper.QueryableExtensions;
 using Microsoft.EntityFrameworkCore;
@@ -16,62 +16,76 @@ namespace API.Data
         {
         }
 
-        public async Task<ProductDetailDto> GetProduct(int productId, int userId)
+        public async Task<ProductModelDto> GetProduct(int productId, int userId)
         {
             var userLocation = await GetUserLocation(userId);
 
-            var product = await DataContext.Products
+            var model = await DataContext.Products
                 .Where(p => p.Id == productId)
-                .ProjectTo<ProductDetailDto>(Mapper.ConfigurationProvider)
-                .AsNoTracking()
+                .Select(p => p.Model)
                 .FirstOrDefaultAsync();
 
-            if (product == null) return null;
+            if (string.IsNullOrEmpty(model)) return null;
 
-            product.DeliveryCharge = product.Amount >= 500 ? 0 : 60;
+            var products = await GetProducts(model, userLocation);
+            
+            return products.GetProductModel();
+        }
 
-            if (userLocation != null)
-            {
-                var stateId = userLocation.Parent.ParentId;
-                var storeItem = await DataContext.StoreItems
-                    .Where(si => si.ProductId == productId && si.Available > 0)
-                    .Where(si => si.Store.Address.Location.Parent.ParentId == stateId)
-                    .Select(si => new { si.Store.Name, si.Id })
-                    .AsNoTracking()
-                    .FirstOrDefaultAsync();
-
-                if (storeItem != null)
-                {
-                    product.DeliveryCharge = product.Amount >= 500 ? 0 : 40;
-                    product.StoreItemId = storeItem.Id;
-                    product.StoreName = storeItem.Name;
-                }
-            }
-
-            if (product.Available && string.IsNullOrEmpty(product.StoreName))
-            {
-                var storeItem = await DataContext.StoreItems
-                    .Where(si => si.ProductId == productId && si.Available > 0)
-                    .Select(si => new { si.Store.Name, si.Id })
-                    .AsNoTracking()
-                    .FirstOrDefaultAsync();
-
-                if (storeItem != null)
-                {
-                    product.StoreItemId = storeItem.Id;
-                    product.StoreName = storeItem.Name;
-                }
-            }
-
-            var pv = await DataContext.PropertyValues
-                .Where(pv => pv.ProductId == productId)
-                .Include(pv => pv.Property)
+        private async Task<List<ProductDetailDto>> GetProducts(string model, Location userLocation)
+        {
+            var products = await DataContext.Products
+                .Where(p => p.Model == model)
+                .ProjectTo<ProductDetailDto>(Mapper.ConfigurationProvider)
                 .AsNoTracking()
                 .ToListAsync();
 
-            product.Properties = pv.GetPropertyValue();
+            foreach (var product in products)
+            {
+                product.DeliveryCharge = product.Amount >= 500 ? 0 : 60;
 
-            return product;
+                if (userLocation != null && product.Available)
+                {
+                    var stateId = userLocation.Parent.ParentId;
+                    var storeItem = await DataContext.StoreItems
+                        .Where(si => si.ProductId == product.Id && si.Available > 0)
+                        .Where(si => si.Store.Address.Location.Parent.ParentId == stateId)
+                        .Select(si => new { si.Store.Name, si.Id })
+                        .AsNoTracking()
+                        .FirstOrDefaultAsync();
+
+                    if (storeItem != null)
+                    {
+                        product.DeliveryCharge = product.Amount >= 500 ? 0 : 40;
+                        product.StoreItemId = storeItem.Id;
+                        product.StoreName = storeItem.Name;
+                    }
+                }
+
+                if (product.Available && string.IsNullOrEmpty(product.StoreName))
+                {
+                    var storeItem = await DataContext.StoreItems
+                        .Where(si => si.ProductId == product.Id && si.Available > 0)
+                        .Select(si => new { si.Store.Name, si.Id })
+                        .AsNoTracking()
+                        .FirstOrDefaultAsync();
+
+                    if (storeItem != null)
+                    {
+                        product.StoreItemId = storeItem.Id;
+                        product.StoreName = storeItem.Name;
+                    }
+                }
+
+                var pv = await DataContext.PropertyValues
+                    .Where(pv => pv.ProductId == product.Id)
+                    .Include(pv => pv.Property)
+                    .AsNoTracking()
+                    .ToListAsync();
+
+                product.Properties = pv.GetPropertyValue();
+            }
+            return products;
         }
     }
 }

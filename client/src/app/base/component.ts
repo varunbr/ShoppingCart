@@ -6,7 +6,7 @@ export abstract class BaseListComponent<
   Modal extends BaseModal,
   Context extends BaseContext
 > {
-  modals: Modal[] = [];
+  modals: Modal[];
   context: Context;
 
   constructor(private modalService: BaseListService<Modal, Context>) {}

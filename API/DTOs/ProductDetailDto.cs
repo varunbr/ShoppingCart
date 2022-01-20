@@ -2,6 +2,12 @@
 
 namespace API.DTOs
 {
+    public class ProductModelDto
+    {
+        public Dictionary<int,ProductDetailDto> Products { get; set; } = new();
+        public List<PropertyVariant> Variants { get; set; } = new();
+    }
+
     public class ProductDetailDto
     {
         public int Id { get; set; }
@@ -19,5 +25,11 @@ namespace API.DTOs
         public int StoreItemId { get; set; }
         public ICollection<PhotoDto> Photos { get; set; }
         public ICollection<PropertyValueDto> Properties { get; set; }
+    }
+
+    public class PropertyVariant
+    {
+        public string Name { get; set; }
+        public List<string> Values { get; set; } = new();
     }
 }

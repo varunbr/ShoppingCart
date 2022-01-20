@@ -16,6 +16,22 @@
         <mat-card>
             <mat-card-title class="mt-2">{{product?.name}}</mat-card-title>
             <h2>{{product?.amount | currency:'INR'}}</h2>
+            <h2 *ngIf="variants && variants?.length > 0">Variants</h2>
+            <div *ngIf="variants && variants?.length > 0" fxLayout="row" fxLayoutGap="10px">
+                <div fxLayout="column" fxLayoutGap="10px" fxLayoutAlign=" center" *ngFor="let variant of variants">
+                    <div><b>{{variant.name}}</b></div>
+                    <div fxLayout="row" *ngFor="let value of variant.values" style="width: 100%;">
+                        <button fxFlex *ngIf="variant.selected === value" mat-flat-button color="accent">
+                            {{value}}
+                        </button>
+                        <button fxFlex *ngIf="variant.selected !== value" (click)="changeVariant(variant.name,value)"
+                            mat-stroked-button>
+                            {{value}}
+                        </button>
+                    </div>
+                </div>
+            </div>
+            <br>
             <mat-card-content>
                 <div fxLayout="column">
                     <div>
