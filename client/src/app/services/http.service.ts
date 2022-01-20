@@ -34,12 +34,12 @@ export class HttpService<T> {
       );
   }
 
-  get(url: string, cache = false) {
-    let response = this.modalResponse.get(url);
+  get(url: string, cache = false, identifier = url) {
+    let response = this.modalResponse.get(identifier);
     if (cache && response) return of(response);
     return this.http.get<any>(url).pipe(
       map((response) => {
-        this.modalResponse.set(url, response);
+        this.modalResponse.set(identifier, response);
         return response;
       })
     );

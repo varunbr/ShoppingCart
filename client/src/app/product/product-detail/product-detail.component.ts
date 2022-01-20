@@ -1,5 +1,10 @@
 import { Component, OnInit } from '@angular/core';
-import { ActivatedRoute } from '@angular/router';
+import { ActivatedRoute, Router } from '@angular/router';
+import {
+  ProductDetail,
+  ProductModel,
+  ProductVariant,
+} from 'src/app/modal/product';
 import { ProductService } from 'src/app/services/product.service';
 
 @Component({
@@ -9,9 +14,12 @@ import { ProductService } from 'src/app/services/product.service';
 })
 export class ProductDetailComponent implements OnInit {
   imageUrls: {}[] = [];
-  product;
+  product: ProductDetail;
+  variants: ProductVariant[];
+  productModel: ProductModel;
   constructor(
     private route: ActivatedRoute,
+    private router: Router,
     private productService: ProductService
   ) {}
 
@@ -23,10 +31,12 @@ export class ProductDetailComponent implements OnInit {
 
   getProduct(id: number) {
     this.productService.getProductDetail(id).subscribe((response) => {
-      console.log(response);
-      this.product = response;
+      this.productModel = response;
+      this.product = response.products[id.toString()];
+      this.variants = response.variants;
+      this.setVariantSelections(this.product, this.variants);
       let urls = [];
-      response?.photos.forEach((element) => {
+      this.product?.photos.forEach((element) => {
         urls.push({
           small: element.url,
           medium: element.url,
@@ -35,5 +45,24 @@ export class ProductDetailComponent implements OnInit {
       });
       this.imageUrls = urls;
     });
+  }
+
+  setVariantSelections(product: ProductDetail, variants: ProductVariant[]) {
+    for (let variant of variants) {
+      let value = product?.properties.find(
+        ({ name }) => name === variant.name
+      )?.value;
+      variant.selected = value;
+    }
+  }
+
+  changeVariant(name: string, value: string) {
+    let id = this.productService.getTargetVariant(
+      name,
+      value,
+      this.variants,
+      this.productModel
+    );
+    if (id) this.router.navigateByUrl(`/product/${id}`, { replaceUrl: true });
   }
 }

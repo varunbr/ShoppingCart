@@ -21,6 +21,12 @@
             <h3 class="title">Showing results for "{{search}}"</h3>
         </mat-card>
 
+        <mat-card *ngIf="modals && modals?.length <= 0" fxLayout="column" fxLayoutAlign="center center" style="height: 50vh;">
+            <img src='./assets/images/NotFound.png' style="width:30vw;max-width: 200px;">
+            <mat-card-title class="mt-4">Sorry, no results found!</mat-card-title>
+            <mat-card-subtitle>Please check the spelling or try searching for something else</mat-card-subtitle>
+        </mat-card>
+
         <mat-card ngClass="cursor" fxLayout="column" class="m-1" [routerLink]="'/product/' + item.id"
             *ngFor="let item of modals">
             <div fxLayout="row" fxFlex fxLayoutGap="5%" fxLayoutAlign=" center">
