@@ -5,6 +5,11 @@ body {
   font-family: Roboto, "Helvetica Neue", sans-serif;
 }
 
+html,
+body {
+  min-height: 100vh;
+}
+
 .error-snack-bar {
   background-color: orangered !important;
   color: whitesmoke !important;

@@ -5,7 +5,7 @@ import {
   HammerGestureConfig,
   HAMMER_GESTURE_CONFIG,
 } from '@angular/platform-browser';
-import { FormsModule } from '@angular/forms';
+import { FormsModule, ReactiveFormsModule } from '@angular/forms';
 import { HttpClientModule, HTTP_INTERCEPTORS } from '@angular/common/http';
 import { BrowserAnimationsModule } from '@angular/platform-browser/animations';
 import { NgxGalleryModule } from '@kolkov/ngx-gallery';
@@ -16,7 +16,7 @@ import { AppComponent } from './app.component';
 import { NavComponent } from './nav/nav.component';
 import { MaterialModule } from './modules/material.module';
 import { HomeComponent } from './home/home.component';
-import { LoginComponent } from './login/login.component';
+import { LoginComponent } from './authentication/login/login.component';
 import { ErrorInterceptor } from './interceptors/error.interceptor';
 import { JwtInterceptor } from './interceptors/jwt.interceptor';
 import { SpinnerComponent } from './components/spinner/spinner.component';
@@ -30,6 +30,10 @@ import { MultiSelectComponent } from './components/multi-select/multi-select.com
 import { ProductDetailComponent } from './product/product-detail/product-detail.component';
 import { GalleryComponent } from './components/gallery/gallery.component';
 import { PaginationComponent } from './components/pagination/pagination.component';
+import { RegisterComponent } from './authentication/register/register.component';
+import { UserExistDirective } from './components/directives/user-exist.directive';
+import { InputComponent } from './components/forms/input/input.component';
+import { MAT_DATE_LOCALE } from '@angular/material/core';
 
 @Injectable()
 export class HammerConfig extends HammerGestureConfig {
@@ -54,6 +58,9 @@ export class HammerConfig extends HammerGestureConfig {
     ProductDetailComponent,
     GalleryComponent,
     PaginationComponent,
+    RegisterComponent,
+    UserExistDirective,
+    InputComponent,
   ],
   imports: [
     BrowserModule,
@@ -61,6 +68,7 @@ export class HammerConfig extends HammerGestureConfig {
     BrowserAnimationsModule,
     MaterialModule,
     FormsModule,
+    ReactiveFormsModule,
     HttpClientModule,
     HammerModule,
     NgxGalleryModule,
@@ -70,6 +78,7 @@ export class HammerConfig extends HammerGestureConfig {
     { provide: HTTP_INTERCEPTORS, useClass: LoadingInterceptor, multi: true },
     { provide: HTTP_INTERCEPTORS, useClass: JwtInterceptor, multi: true },
     { provide: HAMMER_GESTURE_CONFIG, useClass: HammerConfig },
+    { provide: MAT_DATE_LOCALE, useValue: 'en-GB' },
   ],
   bootstrap: [AppComponent],
 })

@@ -9,6 +9,8 @@ import { MatListModule } from '@angular/material/list';
 import { MatSelectModule } from '@angular/material/select';
 import { MatFormFieldModule } from '@angular/material/form-field';
 import { MatInputModule } from '@angular/material/input';
+import { MatNativeDateModule } from '@angular/material/core';
+import { MatDatepickerModule } from '@angular/material/datepicker';
 import { MatSnackBarModule } from '@angular/material/snack-bar';
 import { MatProgressSpinnerModule } from '@angular/material/progress-spinner';
 import { MatTooltipModule } from '@angular/material/tooltip';
@@ -26,6 +28,8 @@ const Material = [
   MatSelectModule,
   MatFormFieldModule,
   MatInputModule,
+  MatDatepickerModule,
+  MatNativeDateModule,
   MatSnackBarModule,
   MatProgressSpinnerModule,
   MatTooltipModule,

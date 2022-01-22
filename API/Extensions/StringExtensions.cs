@@ -1,4 +1,6 @@
-﻿using System.Collections.Generic;
+﻿using Microsoft.AspNetCore.Identity;
+using System.Collections.Generic;
+using System.Linq;
 
 namespace API.Extensions
 {
@@ -66,7 +68,7 @@ namespace API.Extensions
 
                 if (values.Length != 2) return false;
 
-                if (!string.IsNullOrWhiteSpace(values[0]) && !int.TryParse(values[0],out _))
+                if (!string.IsNullOrWhiteSpace(values[0]) && !int.TryParse(values[0], out _))
                     return false;
                 if (!string.IsNullOrWhiteSpace(values[1]) && !int.TryParse(values[1], out _))
                     return false;
@@ -76,6 +78,11 @@ namespace API.Extensions
             {
                 return false;
             }
+        }
+
+        public static string ToStringError(this IEnumerable<IdentityError> errors)
+        {
+            return string.Join("\n", errors.Select(e => e.Description));
         }
     }
 }

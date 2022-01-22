@@ -38,7 +38,7 @@ namespace API
             app.UseRouting();
 
             app.UseCors(options =>
-                options.WithOrigins("http://localhost:4200").AllowAnyHeader().AllowAnyMethod());
+                options.AllowAnyHeader().AllowAnyMethod().WithOrigins("https://varunbr.github.io", "http://localhost:4200"));
 
             app.UseAuthentication();
 
