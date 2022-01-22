@@ -24,6 +24,7 @@ export class ErrorInterceptor implements HttpInterceptor {
   ): Observable<HttpEvent<unknown>> {
     return next.handle(request).pipe(
       catchError((error) => {
+        console.log(error);
         switch (error.status) {
           case 400:
             if (error.error.errors) {
@@ -33,9 +34,9 @@ export class ErrorInterceptor implements HttpInterceptor {
               }
               throw modelStateErrors.flat();
             } else if (typeof error.error === 'object') {
-              this.toastr.error(error.status + ' ' + error.statusText);
+              this.toastr.error('Bad request');
             } else {
-              this.toastr.error(error.status + ' ' + error.error);
+              this.toastr.error(error.error);
             }
             break;
           case 401:
@@ -52,7 +53,6 @@ export class ErrorInterceptor implements HttpInterceptor {
             break;
           default:
             this.toastr.error('Something went wrong');
-            console.log(error);
             break;
         }
         return throwError(() => {
@@ -63,14 +63,12 @@ export class ErrorInterceptor implements HttpInterceptor {
   }
 
   handleAuthenticationError(error) {
-    console.log(error);
     this.accountService.logout();
     this.toastr.error('Authentication failed');
     this.router.navigateByUrl('/login');
   }
 
   handleServerError(error) {
-    console.log(error);
     this.toastr.error('Internal server error');
     let extras: NavigationExtras = { state: { error: error.error } };
     this.router.navigateByUrl('/server-error', extras);

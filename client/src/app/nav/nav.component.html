@@ -1,5 +1,5 @@
-<mat-sidenav-container class="sidenav-container">
-  <mat-sidenav #sidenav>
+<mat-sidenav-container class="sidenav-container" style="min-height: 100vh;">
+  <mat-sidenav #sidenav [fixedInViewport]="true">
     <mat-nav-list>
       <a (click)="sidenav.toggle()" href="#" mat-list-item>Close</a>
       <a href="#" mat-list-item>Menu Item 1</a>

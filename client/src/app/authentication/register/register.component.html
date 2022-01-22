@@ -1,0 +1,52 @@
+<div fxLayout="row" fxLayoutAlign="center" style="margin-top: 50px;">
+    <mat-card class="text-center" fxFlex="40" fxFlex.lt-sm="90" fxFlex.lt-md="60" fxFlex.lt-lg="50"
+        style="margin-bottom: 2px;">
+        <mat-card-title class="my-4">Create an account</mat-card-title>
+        <mat-card-content class="mt-5">
+            <form [formGroup]="registerForm" (ngSubmit)="onSubmit()" autocomplete="off">
+                <div fxLayout="row wrap" fxLayoutAlign="space-around center">
+                    <app-input fxFlex="45" fxFlex.lt-sm="90" label="Name" [formControl]="registerForm.get('name')">
+                    </app-input>
+                    <app-input fxFlex="45" fxFlex.lt-sm="90" label="Username"
+                        [formControl]="registerForm.get('userName')">
+                    </app-input>
+                    <app-input fxFlex="45" fxFlex.lt-sm="90" label="Email" type="email"
+                        [formControl]="registerForm.get('email')">
+                    </app-input>
+                    <app-input fxFlex="45" fxFlex.lt-sm="90" label="Phone"
+                        [formControl]="registerForm.get('phoneNumber')">
+                    </app-input>
+                    <app-input fxFlex="45" fxFlex.lt-sm="90" label="Password" type="password"
+                        [formControl]="registerForm.get('password')">
+                    </app-input>
+                    <app-input fxFlex="45" fxFlex.lt-sm="90" label="Confirm Password" type="password"
+                        [formControl]="registerForm.get('confirmPassword')">
+                    </app-input>
+                    <mat-form-field fxFlex="45" fxFlex.lt-sm="90" appearance="outline">
+                        <mat-label>Gender</mat-label>
+                        <mat-select formControlName="gender">
+                            <mat-option value="Male">Male</mat-option>
+                            <mat-option value="Female">Female</mat-option>
+                        </mat-select>
+                        <mat-error *ngIf="registerForm.get('gender').invalid">Please select Gender</mat-error>
+                    </mat-form-field>
+                    <mat-form-field fxFlex="45" fxFlex.lt-sm="90" appearance="outline">
+                        <mat-label>Date of Birth</mat-label>
+                        <input matInput [matDatepicker]="picker" formControlName="dateOfBirth">
+                        <mat-datepicker-toggle matSuffix [for]="picker"></mat-datepicker-toggle>
+                        <mat-datepicker touchUi #picker></mat-datepicker>
+                        <mat-error *ngIf="registerForm.get('dateOfBirth').invalid">Please select Date of birth
+                        </mat-error>
+                    </mat-form-field>
+                </div>
+                <button mat-flat-button [disabled]="!registerForm.valid" color="primary"
+                    type="submit">Register</button>
+            </form>
+        </mat-card-content>
+        <mat-divider inset></mat-divider>
+        <mat-card-actions class="mb-2 px-3">
+            <p class="mat-typography">Existing User?</p>
+            <button mat-flat-button color="accent" routerLink="/login" type="button">Login</button>
+        </mat-card-actions>
+    </mat-card>
+</div>

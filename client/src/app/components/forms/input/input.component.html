@@ -1,0 +1,14 @@
+<mat-form-field appearance="outline" style="width: 100%;">
+    <mat-label>{{label}}</mat-label>
+    <input type="{{type}}" matInput name="{{label}}" [formControl]="ngControl.control">
+    <mat-error *ngIf="ngControl.control.errors?.required">Please enter a {{label}}.</mat-error>
+    <mat-error *ngIf="ngControl.control.value && ngControl.control.errors?.notMatching">Password not matching.
+    </mat-error>
+    <mat-error *ngIf="ngControl.control.errors?.alreadyExist === true">{{ngControl.control.value}} already exist.
+    </mat-error>
+    <mat-error *ngIf="ngControl.control.errors?.email">Please enter valid {{label}}.</mat-error>
+    <mat-error *ngIf="ngControl.control.errors?.minlength">{{label}} must be atleast
+        {{ngControl.control.errors.minlength.requiredLength}} characters.</mat-error>
+    <mat-error *ngIf="ngControl.control.errors?.maxlength">{{label}} must be atmost
+        {{ngControl.control.errors.maxlength.requiredLength}} characters.</mat-error>
+</mat-form-field>

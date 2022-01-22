@@ -51,10 +51,10 @@ namespace API.Controllers
             user.Account = new Account { Balance = 1000 };
 
             var result = await _userManager.CreateAsync(user, registerDto.Password);
-            if (!result.Succeeded) return BadRequest(result.Errors);
+            if (!result.Succeeded) return BadRequest(result.Errors.ToStringError());
 
             result = await _userManager.AddToRoleAsync(user, Role.User.ToString());
-            if (!result.Succeeded) return BadRequest(result.Errors);
+            if (!result.Succeeded) return BadRequest(result.Errors.ToStringError());
 
             var token = await _tokenService.CreateToken(user);
 
