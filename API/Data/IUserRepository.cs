@@ -1,5 +1,6 @@
 ﻿using API.DTOs;
 using System.Threading.Tasks;
+using Microsoft.AspNetCore.Http;
 
 namespace API.Data
 {
@@ -13,5 +14,7 @@ namespace API.Data
         Task<AddressDto> GetAddress(int userId);
         Task UpdateAddress(int userId, AddressDto address);
         Task RemoveAddress(int userId);
+        Task<string> UpdateUserPhoto(IFormFile file, int userId);
+        Task DeleteUserPhoto(int userId);
     }
 }

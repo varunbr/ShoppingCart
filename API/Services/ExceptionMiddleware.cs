@@ -31,7 +31,7 @@ namespace API.Services
             {
                 _logger.LogWarning(ex.Message);
 
-                context.Response.StatusCode = StatusCodes.Status400BadRequest;
+                context.Response.StatusCode = ex.StatusCode;
                 var jsonResponse = ex.Message;
                 context.Response.ContentType = "application/json";
                 await context.Response.WriteAsync(jsonResponse);

@@ -2,6 +2,7 @@
 using API.Entities;
 using API.Extensions;
 using API.Helpers;
+using API.Services;
 using AutoMapper;
 using AutoMapper.QueryableExtensions;
 using Microsoft.EntityFrameworkCore;
@@ -15,7 +16,7 @@ namespace API.Data
 {
     public class SearchRepository : BaseRepository, ISearchRepository
     {
-        public SearchRepository(DataContext dataContext, IMapper mapper) : base(dataContext, mapper)
+        public SearchRepository(DataContext dataContext, IMapper mapper, IPhotoService photoService) : base(dataContext, mapper, photoService)
         {
         }
 

@@ -1,6 +1,7 @@
 ﻿using API.DTOs;
 using API.Entities;
 using API.Helpers;
+using API.Services;
 using AutoMapper;
 using AutoMapper.QueryableExtensions;
 using Microsoft.AspNetCore.Http;
@@ -12,7 +13,7 @@ namespace API.Data
 {
     public class UserRepository : BaseRepository, IUserRepository
     {
-        public UserRepository(DataContext dataContext, IMapper mapper) : base(dataContext, mapper)
+        public UserRepository(DataContext dataContext, IMapper mapper, IPhotoService photoService) : base(dataContext, mapper, photoService)
         {
 
         }
@@ -57,6 +58,28 @@ namespace API.Data
                 .SingleOrDefaultAsync();
             if (address != null)
                 DataContext.Addresses.Remove(address);
+        }
+
+        public async Task<string> UpdateUserPhoto(IFormFile file, int userId)
+        {
+            var photo = await DataContext.Photos.FirstOrDefaultAsync(p => p.User.Id == userId) ?? new Photo
+            {
+                User = new User { Id = userId }
+            };
+            var publicId = photo.PublicId;
+            await UpdatePhoto(file, photo, true);
+            if (!await SaveChanges())
+                throw new HttpException("Failed to update photo.", StatusCodes.Status500InternalServerError);
+
+            await DeletePhoto(publicId);
+            return photo.Url;
+        }
+
+        public async Task DeleteUserPhoto(int userId)
+        {
+            var photo = await DataContext.Photos.FirstOrDefaultAsync(p => p.User.Id == userId);
+            if (photo?.Url == null) throw new HttpException("Photo already removed!");
+            await DeletePhoto(photo);
         }
     }
 }

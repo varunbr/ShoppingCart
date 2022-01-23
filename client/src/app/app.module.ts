@@ -34,6 +34,7 @@ import { RegisterComponent } from './authentication/register/register.component'
 import { UserExistDirective } from './components/directives/user-exist.directive';
 import { InputComponent } from './components/forms/input/input.component';
 import { MAT_DATE_LOCALE } from '@angular/material/core';
+import { EditProfileComponent } from './edit-profile/edit-profile.component';
 
 @Injectable()
 export class HammerConfig extends HammerGestureConfig {
@@ -61,6 +62,7 @@ export class HammerConfig extends HammerGestureConfig {
     RegisterComponent,
     UserExistDirective,
     InputComponent,
+    EditProfileComponent,
   ],
   imports: [
     BrowserModule,

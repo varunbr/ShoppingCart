@@ -1,6 +1,8 @@
 ﻿using API.Entities;
 using API.Helpers;
+using API.Services;
 using AutoMapper;
+using Microsoft.AspNetCore.Http;
 using Microsoft.EntityFrameworkCore;
 using System;
 using System.Linq;
@@ -12,12 +14,28 @@ namespace API.Data
     {
         public DataContext DataContext { get; }
         public IMapper Mapper { get; }
+        public IPhotoService PhotoService { get; }
 
-        public BaseRepository(DataContext dataContext, IMapper mapper)
+        public BaseRepository(DataContext dataContext, IMapper mapper, IPhotoService photoService)
         {
             DataContext = dataContext;
             Mapper = mapper;
+            PhotoService = photoService;
         }
+
+        #region Save
+
+        public async Task<bool> SaveChanges()
+        {
+            return await DataContext.SaveChangesAsync() > 0;
+        }
+
+        public bool HasChanges()
+        {
+            return DataContext.ChangeTracker.HasChanges();
+        }
+
+        #endregion
 
         #region User
 
@@ -104,6 +122,30 @@ namespace API.Data
             toAcc.Balance += amount;
 
             return transaction;
+        }
+
+        #endregion
+
+        #region Photo
+
+        public async Task UpdatePhoto(IFormFile file, Photo photo, bool profile = false)
+        {
+            var result = await PhotoService.UploadImage(file, profile);
+            if (result.Error != null) throw new HttpException(result.Error.Message, StatusCodes.Status500InternalServerError);
+            photo.PublicId = result.PublicId;
+            photo.Url = result.SecureUrl.AbsoluteUri;
+        }
+
+        public async Task DeletePhoto(Photo photo)
+        {
+            await PhotoService.DeleteImage(photo.PublicId);
+            photo.PublicId = null;
+            photo.Url = null;
+        }
+
+        public async Task DeletePhoto(string publicId)
+        {
+            await PhotoService.DeleteImage(publicId);
         }
 
         #endregion

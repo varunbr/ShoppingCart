@@ -48,6 +48,7 @@ namespace API.Controllers
 
             var user = _mapper.Map<User>(registerDto);
             user.LastActive = DateTime.UtcNow;
+            user.Photo = new Photo();
             user.Account = new Account { Balance = 1000 };
 
             var result = await _userManager.CreateAsync(user, registerDto.Password);
@@ -91,7 +92,7 @@ namespace API.Controllers
             };
         }
 
-        [HttpPost("token-update")]
+        [HttpGet("token-update")]
         public async Task<ActionResult<UserDto>> GetUpdatedToken()
         {
             var id = HttpContext.User.GetUserId();
@@ -147,6 +148,22 @@ namespace API.Controllers
 
             _mapper.Map(user, profileDto);
             return profileDto;
+        }
+
+        [HttpPost("change-photo")]
+        public async Task<ActionResult> UpdateUserPhoto([FromForm] PhotoUpdateDto updateDto)
+        {
+            var id = HttpContext.User.GetUserId();
+            if (updateDto.Remove)
+            {
+                await _uow.UserRepository.DeleteUserPhoto(id);
+                return await _uow.SaveChanges()
+                    ? Ok(new { PhotoUrl = "" })
+                    : BadRequest("Failed to update photo.");
+            }
+
+            var url = await _uow.UserRepository.UpdateUserPhoto(updateDto.File, id);
+            return Ok(new { PhotoUrl = url });
         }
 
         [HttpGet("address")]
