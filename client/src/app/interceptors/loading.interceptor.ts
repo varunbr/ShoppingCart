@@ -16,7 +16,7 @@ export class LoadingInterceptor implements HttpInterceptor {
     request: HttpRequest<unknown>,
     next: HttpHandler
   ): Observable<HttpEvent<unknown>> {
-    if (request.headers.get('Background')) {
+    if (request.headers.get('Background') === 'true') {
       return next.handle(request);
     }
 

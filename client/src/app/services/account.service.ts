@@ -35,6 +35,49 @@ export class AccountService {
     );
   }
 
+  getProfile() {
+    return this.http.get<any>(this.baseUrl + 'profile');
+  }
+
+  updateProfile(body) {
+    return this.http.post<any>(this.baseUrl + 'profile', body).pipe(
+      map((response) => {
+        this.updateToken();
+        return response;
+      })
+    );
+  }
+
+  updateToken() {
+    this.http.get<User>(this.baseUrl + 'token-update').subscribe((user) => {
+      if (user) {
+        this.setUser(user);
+      }
+    });
+  }
+
+  changePhoto(fileToUpload: File) {
+    const formData: FormData = new FormData();
+    formData.append('file', fileToUpload);
+    return this.http.post<any>(this.baseUrl + 'change-photo', formData).pipe(
+      map((response) => {
+        this.updateToken();
+        return response;
+      })
+    );
+  }
+
+  removePhoto() {
+    const formData: FormData = new FormData();
+    formData.append('remove', 'true');
+    return this.http.post<any>(this.baseUrl + 'change-photo', formData).pipe(
+      map((response) => {
+        this.updateToken();
+        return response;
+      })
+    );
+  }
+
   logout() {
     localStorage.removeItem('user');
     this.userSource.next(null);

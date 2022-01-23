@@ -5,11 +5,13 @@ import { LoginComponent } from './authentication/login/login.component';
 import { ProductDetailComponent } from './product/product-detail/product-detail.component';
 import { SearchComponent } from './product/search/search.component';
 import { RegisterComponent } from './authentication/register/register.component';
+import { EditProfileComponent } from './edit-profile/edit-profile.component';
 
 const routes: Routes = [
   { path: '', component: HomeComponent },
   { path: 'login', component: LoginComponent },
   { path: 'register', component: RegisterComponent },
+  { path: 'edit-profile', component: EditProfileComponent },
   { path: 'search', component: SearchComponent },
   { path: 'product/:id', component: ProductDetailComponent },
   { path: '**', component: HomeComponent },

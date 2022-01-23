@@ -1,0 +1,71 @@
+<div *ngIf="user" fxLayout="column" fxLayoutGap="20px" fxLayoutAlign="center center" style="margin-top: 50px;">
+    <div fxLayoutAlign="center center">
+        <mat-card *ngIf="(accountService.user$ | async) as userInfo" class="text-center" fxFlex="200px">
+            <div class="edit-photo">
+                <img src="{{userInfo.photoUrl || './assets/images/profile.png'}}" alt="" class="rounded-circle"
+                    width="128">
+                <button color="primary" [matMenuTriggerFor]="menu" mat-mini-fab>
+                    <mat-icon>edit</mat-icon>
+                </button>
+            </div>
+            <input type="file" #file style="display:none" accept=".jpg,.png,.gif"
+                (change)="changePhoto($event.target.files)">
+            <mat-menu #menu="matMenu">
+                <button mat-menu-item (click)="file.click()">
+                    Change
+                </button>
+                <button [disabled]="!userInfo.photoUrl" mat-menu-item (click)="removePhoto()">
+                    Remove
+                </button>
+            </mat-menu>
+            <div fxLayout="row" fxLayoutAlign="space-between center">
+                <h3 color="primary">User Id</h3>
+                <mat-card-subtitle>{{user.id}}</mat-card-subtitle>
+            </div>
+        </mat-card>
+    </div>
+    <div fxLayoutAlign="center center">
+        <mat-card class="text-center" fxFlex="60" fxFlex.lt-sm="90" fxFlex.lt-md="80" fxFlex.lt-lg="70"
+            style="margin-bottom: 2px;">
+            <h2>Edit Profile</h2>
+            <mat-card-content class="mt-3">
+                <form [formGroup]="profileUpdate" (ngSubmit)="onSubmit()" autocomplete="off">
+                    <div fxLayout="row wrap" fxLayoutAlign="space-around center">
+                        <app-input fxFlex="45" fxFlex.lt-sm="90" label="Name" [formControl]="profileUpdate.get('name')">
+                        </app-input>
+                        <app-input fxFlex="45" fxFlex.lt-sm="90" label="Username"
+                            [formControl]="profileUpdate.get('userName')">
+                        </app-input>
+                        <app-input fxFlex="45" fxFlex.lt-sm="90" label="Email" type="email"
+                            [formControl]="profileUpdate.get('email')">
+                        </app-input>
+                        <app-input fxFlex="45" fxFlex.lt-sm="90" label="Phone"
+                            [formControl]="profileUpdate.get('phoneNumber')">
+                        </app-input>
+                        <mat-form-field fxFlex="45" fxFlex.lt-sm="90" appearance="outline">
+                            <mat-label>Gender</mat-label>
+                            <mat-select formControlName="gender">
+                                <mat-option value="Male">Male</mat-option>
+                                <mat-option value="Female">Female</mat-option>
+                            </mat-select>
+                            <mat-error *ngIf="profileUpdate.get('gender').invalid">Please select Gender</mat-error>
+                        </mat-form-field>
+                        <mat-form-field fxFlex="45" fxFlex.lt-sm="90" appearance="outline">
+                            <mat-label>Date of Birth</mat-label>
+                            <input matInput [matDatepicker]="picker" formControlName="dateOfBirth">
+                            <mat-datepicker-toggle matSuffix [for]="picker"></mat-datepicker-toggle>
+                            <mat-datepicker touchUi #picker></mat-datepicker>
+                            <mat-error *ngIf="profileUpdate.get('dateOfBirth').invalid">Please select Date of birth
+                            </mat-error>
+                        </mat-form-field>
+                    </div>
+                    <button mat-flat-button [disabled]="!profileUpdate.valid || profileUpdate.pristine" color="primary"
+                        type="submit">
+                        <mat-icon>done</mat-icon>
+                        Update
+                    </button>
+                </form>
+            </mat-card-content>
+        </mat-card>
+    </div>
+</div>

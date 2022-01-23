@@ -1,6 +1,7 @@
 ﻿using API.DTOs;
 using API.Entities;
 using API.Helpers;
+using API.Services;
 using AutoMapper;
 using AutoMapper.QueryableExtensions;
 using Microsoft.EntityFrameworkCore;
@@ -13,7 +14,7 @@ namespace API.Data
 {
     public class OrderRepository : BaseRepository, IOrderRepository
     {
-        public OrderRepository(DataContext dataContext, IMapper mapper) : base(dataContext, mapper)
+        public OrderRepository(DataContext dataContext, IMapper mapper, IPhotoService photoService) : base(dataContext, mapper, photoService)
         {
         }
 
@@ -192,7 +193,7 @@ namespace API.Data
                 : order;
         }
 
-        public async Task<Response<UserOrderDto,BaseParams>> GetUserOrders(int userId, BaseParams @params)
+        public async Task<Response<UserOrderDto, BaseParams>> GetUserOrders(int userId, BaseParams @params)
         {
             var orders = DataContext.Orders
                 .Where(o => o.UserId == userId)
@@ -200,7 +201,7 @@ namespace API.Data
                 .ProjectTo<UserOrderDto>(Mapper.ConfigurationProvider)
                 .AsNoTracking();
 
-            return await Response<UserOrderDto,BaseParams>.CreateAsync(orders, @params);
+            return await Response<UserOrderDto, BaseParams>.CreateAsync(orders, @params);
         }
 
         public async Task<UserOrderDto> GetUserOrder(int userId, int orderId)

@@ -14,7 +14,8 @@ export class BusyService {
 
   busy() {
     this.requestCount++;
-    this.spinnerRef.attach(new ComponentPortal(SpinnerComponent));
+    if (!this.spinnerRef.hasAttached())
+      this.spinnerRef.attach(new ComponentPortal(SpinnerComponent));
   }
 
   idle() {

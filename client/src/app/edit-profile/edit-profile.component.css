@@ -1,0 +1,13 @@
+mat-card {
+  border-radius: 25px;
+}
+.edit-photo {
+  display: inline-block;
+  position: relative;
+}
+
+.edit-photo button {
+  position: absolute;
+  bottom: 5px;
+  right: 5px;
+}

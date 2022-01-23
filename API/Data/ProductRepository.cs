@@ -1,6 +1,7 @@
 ﻿using API.DTOs;
 using API.Entities;
 using API.Extensions;
+using API.Services;
 using AutoMapper;
 using AutoMapper.QueryableExtensions;
 using Microsoft.EntityFrameworkCore;
@@ -12,7 +13,7 @@ namespace API.Data
 {
     public class ProductRepository : BaseRepository, IProductRepository
     {
-        public ProductRepository(DataContext dataContext, IMapper mapper) : base(dataContext, mapper)
+        public ProductRepository(DataContext dataContext, IMapper mapper, IPhotoService photoService) : base(dataContext, mapper, photoService)
         {
         }
 
@@ -28,7 +29,7 @@ namespace API.Data
             if (string.IsNullOrEmpty(model)) return null;
 
             var products = await GetProducts(model, userLocation);
-            
+
             return products.GetProductModel();
         }
 
