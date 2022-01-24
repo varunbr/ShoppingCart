@@ -57,3 +57,17 @@ export class ProductDetail extends BaseModal {
     );
   }
 }
+
+export class HomePage {
+  categoryProducts: CategoryProduct[];
+  categories: { name: string; photoUrl: string }[];
+}
+export class CategoryProduct {
+  category: string;
+  products: {
+    id: number;
+    name: string;
+    amount: number;
+    photoUrl: string;
+  }[];
+}

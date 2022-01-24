@@ -1,0 +1,7 @@
+.middle {
+  float: left;
+  margin: 15px;
+  overflow-x: hidden;
+  touch-action: pan-y !important;
+  white-space: nowrap;
+}

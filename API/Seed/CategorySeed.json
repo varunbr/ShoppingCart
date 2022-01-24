@@ -6,6 +6,7 @@
         "SubCategories": [
             {
                 "Category": "Mobiles",
+                "Url": "https://res.cloudinary.com/animated-broccoli/image/upload/v1642953515/ShoppingCart/Category/mobile_vivnvs.png",
                 "SubCategories": [],
                 "Tags": [
                     "Mobile",
@@ -68,6 +69,7 @@
             },
             {
                 "Category": "Headphones",
+                "Url": "https://res.cloudinary.com/animated-broccoli/image/upload/v1642953514/ShoppingCart/Category/headphones_uzpkcj.png",
                 "Products": [],
                 "Tags": [
                     "Headphones",
@@ -116,6 +118,7 @@
             },
             {
                 "Category": "Power Banks",
+                "Url": "https://res.cloudinary.com/animated-broccoli/image/upload/v1642953515/ShoppingCart/Category/power-bank_mlpp0h.png",
                 "Products": [],
                 "Tags": [
                     "Power Bank",
@@ -149,6 +152,7 @@
             },
             {
                 "Category": "Memory Cards",
+                "Url": "https://res.cloudinary.com/animated-broccoli/image/upload/v1642953515/ShoppingCart/Category/sd-card_xvhlqf.png",
                 "Products": [],
                 "Tags": [
                     "Memory Cards",
@@ -184,6 +188,7 @@
             },
             {
                 "Category": "Laptops",
+                "Url": "https://res.cloudinary.com/animated-broccoli/image/upload/v1642953514/ShoppingCart/Category/laptop_mkdyyg.png",
                 "Products": [],
                 "Tags": [
                     "Laptops",
@@ -253,6 +258,7 @@
             },
             {
                 "Category": "Camera",
+                "Url": "https://res.cloudinary.com/animated-broccoli/image/upload/v1642953514/ShoppingCart/Category/camera_bdi3jo.png",
                 "Products": [],
                 "Tags": [
                     "Camera",
@@ -291,6 +297,7 @@
             },
             {
                 "Category": "Speakers",
+                "Url": "https://res.cloudinary.com/animated-broccoli/image/upload/v1642953515/ShoppingCart/Category/speaker_bjqe8y.png",
                 "SubCategories": [],
                 "Products": [],
                 "Tags": [
@@ -335,6 +342,7 @@
         "SubCategories": [
             {
                 "Category": "Television",
+                "Url": "https://res.cloudinary.com/animated-broccoli/image/upload/v1642953515/ShoppingCart/Category/televisions_xuffce.png",
                 "SubCategories": [],
                 "Products": [],
                 "Tags": [
@@ -411,6 +419,7 @@
             },
             {
                 "Category": "Washing Machine",
+                "Url": "https://res.cloudinary.com/animated-broccoli/image/upload/v1642953515/ShoppingCart/Category/washing-machine_smwytm.png",
                 "SubCategories": [],
                 "Products": [],
                 "Tags": [
@@ -450,6 +459,7 @@
             },
             {
                 "Category": "Air Conditioners",
+                "Url": "https://res.cloudinary.com/animated-broccoli/image/upload/v1642953514/ShoppingCart/Category/air-conditioner_msx8tv.png",
                 "SubCategories": [],
                 "Products": [],
                 "Tags": [
@@ -521,6 +531,7 @@
             },
             {
                 "Category": "Refrigerators",
+                "Url": "https://res.cloudinary.com/animated-broccoli/image/upload/v1642953514/ShoppingCart/Category/fridge_ytdxpw.png",
                 "SubCategories": [],
                 "Products": [],
                 "Tags": [

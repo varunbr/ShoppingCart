@@ -283,6 +283,7 @@ namespace API.Seed
     public class ProductCategory
     {
         public string Category { get; set; }
+        public string Url { get; set; }
         public string[] Tags { get; set; }
         public List<Property> Properties { get; set; }
         public List<ProductCategory> SubCategories { get; set; }

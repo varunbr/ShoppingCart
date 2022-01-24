@@ -1,3 +1,25 @@
-<div>
-    Home!
+<div class="mt-2" *ngIf="homePage" fxLayoutGap="10px" fxLayout="column">
+    <app-scroll-content title="Browse by Category">
+        <div *ngFor="let category of homePage.categories">
+            <div fxLayout="column" fxLayoutAlign="center center" (click)="viewMore(category.name)"
+                style="cursor: pointer;">
+                <div class="image-box" fxLayout="row" fxLayoutAlign="center center">
+                    <img class="image" src={{category.photoUrl}}>
+                </div>
+                <h4 class="mt-2">{{category.name}}</h4>
+            </div>
+        </div>
+    </app-scroll-content>
+    <app-scroll-content [title]="categoryProduct.category" viewMoreLink="/search"
+        [viewMoreParams]="{q:categoryProduct.category}" *ngFor="let categoryProduct of homePage.categoryProducts">
+        <div *ngFor="let product of categoryProduct.products">
+            <div fxLayout="column" fxLayoutAlign="center center" [routerLink]="'/product/'+product.id"
+                style="cursor: pointer;">
+                <div class="image-box" fxLayout="row" fxLayoutAlign="center center">
+                    <img class="image" src={{product.photoUrl}}>
+                </div>
+                <h5 class="mt-2">{{product.name | reduce}}</h5>
+            </div>
+        </div>
+    </app-scroll-content>
 </div>

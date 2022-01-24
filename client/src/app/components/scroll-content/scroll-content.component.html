@@ -1,0 +1,25 @@
+<mat-card>
+    <mat-card-header fxLayout="row" fxLayoutAlign="space-between center">
+        <mat-card-title>{{title}}</mat-card-title>
+        <button *ngIf="viewMoreLink" mat-raised-button color="primary" [routerLink]="viewMoreLink"
+            [queryParams]="viewMoreParams">
+            View More
+        </button>
+    </mat-card-header>
+    <mat-card-content fxLayout="row" fxLayoutAlign="space-between center">
+        <div fxHide.lt-sm>
+            <button mat-mini-fab color="primary" [disabled]="start" (click)="scroll(false)">
+                <mat-icon>navigate_before</mat-icon>
+            </button>
+        </div>
+        <div #content class="middle" fxLayout="row" fxLayoutGap="10px" (pan)="onPan($event)"
+            (panend)="onPanEnd()">
+            <ng-content></ng-content>
+        </div>
+        <div fxHide.lt-sm>
+            <button mat-mini-fab color="primary" [disabled]="end" (click)="scroll()">
+                <mat-icon>navigate_next</mat-icon>
+            </button>
+        </div>
+    </mat-card-content>
+</mat-card>
