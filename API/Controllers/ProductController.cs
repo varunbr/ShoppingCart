@@ -31,5 +31,12 @@ namespace API.Controllers
                 return BadRequest("Product not found!");
             return Ok(product);
         }
+
+        [HttpGet("home")]
+        public async Task<ActionResult> GetHomePage()
+        {
+            var result = await _uow.SearchRepository.GetHomePage();
+            return Ok(result);
+        }
     }
 }

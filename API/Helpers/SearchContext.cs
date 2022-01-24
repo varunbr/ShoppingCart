@@ -52,4 +52,10 @@ namespace API.Helpers
             return intValue;
         }
     }
+
+    public class HomeContext
+    {
+        public int ItemsPerCategory { get; set; } = 12;
+        public List<string> Categories { get; set; }
+    }
 }

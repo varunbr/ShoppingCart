@@ -25,6 +25,10 @@ body {
   color: whitesmoke !important;
 }
 
+img {
+  -webkit-user-drag: none;
+}
+
 /* lt-xl */
 @media only screen and (max-width: 1919px) {
   .title {

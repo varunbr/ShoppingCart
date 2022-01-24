@@ -20,6 +20,8 @@ namespace API.Data
         {
         }
 
+        #region Search
+
         public async Task<Response<ProductDto, SearchContextDto>> Search(Dictionary<string, string> queryParams)
         {
             var context = new SearchContext(new Dictionary<string, string>(queryParams, StringComparer.OrdinalIgnoreCase));
@@ -167,5 +169,63 @@ namespace API.Data
                 }
             }
         }
+
+        #endregion
+
+        #region HomePage
+
+        public async Task<HomePageDto> GetHomePage()
+        {
+            var context = GetHomeContext();
+            var homePage = new HomePageDto();
+
+            foreach (var category in context.Categories)
+            {
+                var categoryId = await DataContext.Categories
+                    .Where(c => c.Name == category)
+                    .Select(c => c.Id).FirstAsync();
+
+                var productIds = await DataContext.Products
+                    .Where(p => p.CategoryId == categoryId && p.Available)
+                    .GroupBy(p => p.Model)
+                    .OrderByDescending(g => g.Average(p => p.SoldQuantity))
+                    .Select(g => g.First().Id)
+                    .Take(context.ItemsPerCategory)
+                    .ToListAsync();
+
+                var products = await DataContext.Products
+                    .Where(p => productIds.Contains(p.Id))
+                    .ProjectTo<ProductMiniDto>(Mapper.ConfigurationProvider)
+                    .AsNoTracking()
+                    .ToListAsync();
+
+                products = products.OrderBy(p => productIds.IndexOf(p.Id)).ToList();
+
+                homePage.CategoryProducts.Add(new CategoryProductDto
+                {
+                    Category = category,
+                    Products = products
+                });
+            }
+
+            var categories = await DataContext.Categories
+                .Where(c => c.Products.Any())
+                .ProjectTo<CategoryMiniDto>(Mapper.ConfigurationProvider)
+                .ToListAsync();
+            homePage.Categories = categories;
+
+            return homePage;
+        }
+
+        private HomeContext GetHomeContext()
+        {
+            var context = new HomeContext
+            {
+                Categories = new List<string> { "Mobiles", "Television", "Laptops", "Headphones" }
+            };
+            return context;
+        }
+
+        #endregion
     }
 }
