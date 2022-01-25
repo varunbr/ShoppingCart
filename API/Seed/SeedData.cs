@@ -252,9 +252,12 @@ namespace API.Seed
                 "Brundavan Cafe", "BMS College of Engineering", "Ashok Nagar Post Office"
             };
 
+            var names = new[] { "Home", "Office", "Work", "College","FarmHouse" };
+
             return new Address
             {
                 Location = location,
+                Name = names[Random.Next(0, names.Length)],
                 House = $"#{Random.Next(1, 100)}, {Random.Next(3, 26)}th Cross, {Random.Next(3, 15)}th Main",
                 Landmark = landmarks[Random.Next(0, landmarks.Length)],
                 PostalCode = Random.Next(500000, 599999).ToString()

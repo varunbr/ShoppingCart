@@ -192,5 +192,12 @@ namespace API.Controllers
                 return BadRequest("Failed to remove.");
             return NoContent();
         }
+
+        [HttpGet("location-list")]
+        public async Task<ActionResult> GetLocations([FromQuery]int parentId,[FromQuery]string childType)
+        {
+            var locations = await _uow.UserRepository.GetChildLocations(parentId, childType);
+            return Ok(locations);
+        }
     }
 }

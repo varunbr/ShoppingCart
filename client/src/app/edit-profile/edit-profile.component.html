@@ -68,4 +68,72 @@
             </mat-card-content>
         </mat-card>
     </div>
+    <div fxLayoutAlign="center center">
+        <mat-card class="text-center" fxFlex="60" fxFlex.lt-sm="90" fxFlex.lt-md="80" fxFlex.lt-lg="70"
+            style="margin-bottom: 2px;">
+            <h2>Address</h2>
+            <form #addressForm="ngForm" (ngSubmit)="updateAddress(addressForm)" fxLayout="row wrap"
+                fxLayoutAlign="space-around center">
+                <div fxLayout="row wrap" fxLayoutAlign="space-around center">
+                    <mat-form-field fxFlex="45" fxFlex.lt-sm="90" appearance="outline">
+                        <mat-label>Name</mat-label>
+                        <input required matInput type="text" name="name" placeholder="eg. Office"
+                            [(ngModel)]="address.name" />
+                    </mat-form-field>
+                    <mat-form-field fxFlex="45" fxFlex.lt-sm="90" appearance="outline">
+                        <mat-label>House No. & Street</mat-label>
+                        <input required matInput type="text" placeholder="eg. #02, 5th cross, 8th main" name="house"
+                            [(ngModel)]="address.house" />
+                    </mat-form-field>
+                    <mat-form-field fxFlex="45" fxFlex.lt-sm="90" appearance="outline">
+                        <mat-label>Landmark</mat-label>
+                        <input required matInput type="text" name="landmark" placeholder="eg. SBI Bank"
+                            [(ngModel)]="address.landmark" />
+                    </mat-form-field>
+                    <mat-form-field fxFlex="45" fxFlex.lt-sm="90" appearance="outline">
+                        <mat-label>Postal Code</mat-label>
+                        <input required matInput type="text" name="postalCode" placeholder="eg. 563114"
+                            [(ngModel)]="address.postalCode" />
+                    </mat-form-field>
+                    <mat-form-field fxFlex="45" fxFlex.lt-sm="90" appearance="outline">
+                        <mat-label>Country</mat-label>
+                        <mat-select required [(ngModel)]="address.countryId" name="countryId">
+                            <mat-option [value]="1">India</mat-option>
+                        </mat-select>
+                    </mat-form-field>
+                    <mat-form-field fxFlex="45" fxFlex.lt-sm="90" appearance="outline">
+                        <mat-label>State</mat-label>
+                        <mat-select required [(ngModel)]="address.stateId" name="stateId">
+                            <mat-option (onSelectionChange)="onSelect($event,'City')" *ngFor="let item of states"
+                                [value]="item.id">{{item.name}}
+                            </mat-option>
+                        </mat-select>
+                        <app-spinner *ngIf="loading==='State'" matSuffix [overlay]="false" diameter="24"></app-spinner>
+                    </mat-form-field>
+                    <mat-form-field fxFlex="45" fxFlex.lt-sm="90" appearance="outline">
+                        <mat-label>City</mat-label>
+                        <mat-select required [(ngModel)]="address.cityId" name="cityId">
+                            <mat-option (onSelectionChange)="onSelect($event,'Area')" *ngFor="let item of cities"
+                                [value]="item.id">{{item.name}}
+                            </mat-option>
+                        </mat-select>
+                        <app-spinner *ngIf="loading==='City'" matSuffix [overlay]="false" diameter="24"></app-spinner>
+                    </mat-form-field>
+                    <mat-form-field fxFlex="45" fxFlex.lt-sm="90" appearance="outline">
+                        <mat-label>Area</mat-label>
+                        <mat-select required [(ngModel)]="address.areaId" name="areaId">
+                            <mat-option *ngFor="let item of areas" [value]="item.id">{{item.name}}
+                            </mat-option>
+                        </mat-select>
+                        <app-spinner *ngIf="loading==='Area'" matSuffix [overlay]="false" diameter="24"></app-spinner>
+                    </mat-form-field>
+                </div>
+                <button mat-flat-button [disabled]="!addressForm.valid || addressForm.pristine" color="primary"
+                    type="submit">
+                    <mat-icon>done</mat-icon>
+                    Update
+                </button>
+            </form>
+        </mat-card>
+    </div>
 </div>

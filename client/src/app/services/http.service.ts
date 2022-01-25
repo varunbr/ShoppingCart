@@ -5,19 +5,21 @@ import {
 } from '@angular/common/http';
 import { Injectable } from '@angular/core';
 import { Params } from '@angular/router';
-import { map, of } from 'rxjs';
+import { map, Observable, of } from 'rxjs';
 
 @Injectable({
   providedIn: 'root',
 })
-export class HttpService<T> {
-  private paginatedResponse = new Map<string, T>();
-  private modalResponse = new Map<string, any>();
+export class HttpService {
+  private responseCache = new Map<string, any>();
   constructor(private http: HttpClient) {}
 
-  getPaginatedResult(url: string, params: Params, cache = false) {
+  get<T>(
+    url: string,
+    { params = {}, cache = false, background = false } = {}
+  ): Observable<T> {
     let identifier = this.getIdentifier(url, params);
-    let cacheResponse = this.paginatedResponse.get(identifier);
+    let cacheResponse = this.responseCache.get(identifier);
     if (cache && cacheResponse) {
       return of(cacheResponse);
     }
@@ -25,24 +27,24 @@ export class HttpService<T> {
     return this.http
       .get<T>(url, {
         params: this.getHttpParams(params),
+        headers: { Background: background.toString() },
       })
       .pipe(
         map((response) => {
-          this.paginatedResponse.set(identifier, response);
+          this.setCache(response, url, params, cache);
           return response;
         })
       );
   }
 
-  get(url: string, cache = false, identifier = url) {
-    let response = this.modalResponse.get(identifier);
-    if (cache && response) return of(response);
-    return this.http.get<any>(url).pipe(
-      map((response) => {
-        this.modalResponse.set(identifier, response);
-        return response;
-      })
-    );
+  post<T>(url: string, body) {
+    return this.http.post<T>(url, body);
+  }
+
+  setCache<T>(response: T, url: string, params: Params, cache = true) {
+    if (!cache) return;
+    let identifier = this.getIdentifier(url, params);
+    this.responseCache.set(identifier, response);
   }
 
   private getIdentifier(url: string, params: Params) {
@@ -50,7 +52,7 @@ export class HttpService<T> {
     for (const [key, value] of Object.entries(params)) {
       identifier = identifier + `&${key}=${value}`;
     }
-    return identifier;
+    return identifier.toLocaleLowerCase();
   }
 
   private getHttpParams(params: Params) {

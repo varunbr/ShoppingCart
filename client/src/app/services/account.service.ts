@@ -1,9 +1,19 @@
-import { HttpClient } from '@angular/common/http';
 import { Injectable } from '@angular/core';
 import { AbstractControl, AsyncValidatorFn } from '@angular/forms';
-import { BehaviorSubject, debounceTime, first, map, of, switchMap } from 'rxjs';
+import { Params } from '@angular/router';
+import {
+  BehaviorSubject,
+  debounceTime,
+  first,
+  map,
+  of,
+  switchMap,
+  tap,
+} from 'rxjs';
 import { environment } from 'src/environments/environment';
+import { Address, LocationInfo } from '../modal/address';
 import { User } from '../modal/user';
+import { HttpService } from './http.service';
 
 @Injectable({
   providedIn: 'root',
@@ -13,7 +23,7 @@ export class AccountService {
   user$ = this.userSource.asObservable();
   baseUrl = environment.apiUrl + 'account/';
 
-  constructor(private http: HttpClient) {}
+  constructor(private http: HttpService) {}
 
   login(model: any) {
     return this.http.post<User>(this.baseUrl + 'login', model).pipe(
@@ -36,7 +46,54 @@ export class AccountService {
   }
 
   getProfile() {
-    return this.http.get<any>(this.baseUrl + 'profile');
+    return this.http.get(this.baseUrl + 'profile');
+  }
+
+  getAddress() {
+    return this.http
+      .get<Address>(this.baseUrl + 'address')
+      .pipe(tap((response) => this.updateLocationCache(response)));
+  }
+
+  updateAddress(body) {
+    return this.http
+      .post<Address>(this.baseUrl + 'address', body)
+      .pipe(tap((response) => this.updateLocationCache(response)));
+  }
+
+  updateLocationCache(address: Address) {
+    this.http.setCache(
+      address.locations.areas,
+      this.baseUrl + 'location-list',
+      {
+        parentId: address.cityId,
+        childType: 'Area',
+      }
+    );
+    this.http.setCache(
+      address.locations.cities,
+      this.baseUrl + 'location-list',
+      {
+        parentId: address.stateId,
+        childType: 'City',
+      }
+    );
+    this.http.setCache(
+      address.locations.states,
+      this.baseUrl + 'location-list',
+      {
+        parentId: address.countryId,
+        childType: 'State',
+      }
+    );
+  }
+
+  getLocations(params: Params) {
+    return this.http.get<LocationInfo[]>(this.baseUrl + 'location-list', {
+      params,
+      cache: true,
+      background: true,
+    });
   }
 
   updateProfile(body) {
@@ -85,7 +142,7 @@ export class AccountService {
 
   userExist(userName: string) {
     return this.http.get(this.baseUrl + userName, {
-      headers: { Background: 'true' },
+      background: true,
     });
   }
 

@@ -8,9 +8,12 @@ export abstract class BaseListService<
 > {
   abstract baseUrl: string;
 
-  constructor(public http: HttpService<ResponseList<Modal, Context>>) {}
+  constructor(public http: HttpService) {}
 
-  getModals(params: Params, cache = false) {
-    return this.http.getPaginatedResult(this.baseUrl, params, true);
+  getModals(params: Params, cache = true) {
+    return this.http.get<ResponseList<Modal, Context>>(this.baseUrl, {
+      params,
+      cache,
+    });
   }
 }

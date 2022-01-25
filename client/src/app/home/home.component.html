@@ -1,7 +1,7 @@
 <div class="mt-2" *ngIf="homePage" fxLayoutGap="10px" fxLayout="column">
     <app-scroll-content title="Browse by Category">
         <div *ngFor="let category of homePage.categories">
-            <div fxLayout="column" fxLayoutAlign="center center" (click)="viewMore(category.name)"
+            <div fxLayout="column" fxLayoutAlign="center center" routerLink="/search" [queryParams]="{q:category.name}"
                 style="cursor: pointer;">
                 <div class="image-box" fxLayout="row" fxLayoutAlign="center center">
                     <img class="image" src={{category.photoUrl}}>
