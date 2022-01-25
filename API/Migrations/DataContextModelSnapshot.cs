@@ -60,6 +60,9 @@ namespace API.Migrations
                     b.Property<int>("LocationId")
                         .HasColumnType("int");
 
+                    b.Property<string>("Name")
+                        .HasColumnType("nvarchar(max)");
+
                     b.Property<string>("PostalCode")
                         .HasColumnType("nvarchar(max)");
 

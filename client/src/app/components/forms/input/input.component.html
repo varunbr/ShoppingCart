@@ -1,6 +1,6 @@
 <mat-form-field appearance="outline" style="width: 100%;">
     <mat-label>{{label}}</mat-label>
-    <input type="{{type}}" matInput name="{{label}}" [formControl]="ngControl.control">
+    <input type="{{type}}" matInput name="{{label}}" [placeholder]="placeholder" [formControl]="ngControl.control">
     <mat-error *ngIf="ngControl.control.errors?.required">Please enter a {{label}}.</mat-error>
     <mat-error *ngIf="ngControl.control.value && ngControl.control.errors?.notMatching">Password not matching.
     </mat-error>

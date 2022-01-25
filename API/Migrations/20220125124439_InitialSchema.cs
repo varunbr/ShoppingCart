@@ -130,6 +130,7 @@ namespace API.Migrations
                 {
                     Id = table.Column<int>(type: "int", nullable: false)
                         .Annotation("SqlServer:Identity", "1, 1"),
+                    Name = table.Column<string>(type: "nvarchar(max)", nullable: true),
                     House = table.Column<string>(type: "nvarchar(max)", nullable: true),
                     Landmark = table.Column<string>(type: "nvarchar(max)", nullable: true),
                     LocationId = table.Column<int>(type: "int", nullable: false),

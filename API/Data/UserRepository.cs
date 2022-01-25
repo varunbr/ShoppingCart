@@ -20,7 +20,7 @@ namespace API.Data
 
         public async Task<UserProfileDto> GetProfile(int id)
         {
-            var user = await DataContext.Users.AsQueryable()
+            var user = await DataContext.Users
                 .Where(u => u.Id == id)
                 .ProjectTo<UserProfileDto>(Mapper.ConfigurationProvider)
                 .AsNoTracking()
@@ -30,25 +30,30 @@ namespace API.Data
 
         public async Task<AddressDto> GetAddress(int userId)
         {
-            if (!await DataContext.Users.AnyAsync(u => u.Id == userId && u.AddressId > 0))
-                return null;
-            return await DataContext.Users.AsQueryable()
+            var address = await DataContext.Users
                 .Where(u => u.Id == userId)
                 .Select(u => u.Address)
                 .ProjectTo<AddressDto>(Mapper.ConfigurationProvider)
                 .AsNoTracking()
-                .SingleOrDefaultAsync();
+                .FirstOrDefaultAsync();
+
+            if (address != null)
+            {
+               address.Locations = await GetLocations(address.AreaId);
+            }
+            return address;
         }
 
         public async Task UpdateAddress(int userId, AddressDto addressDto)
         {
-            if (!await DataContext.Locations.AnyAsync(l => l.Id == addressDto.LocationId &&
+            if (!await DataContext.Locations.AnyAsync(l => l.Id == addressDto.AreaId &&
                                                            l.Type.Equals(LocationType.Area.ToString())))
                 throw new HttpException("Invalid location Id of Area.");
 
             var user = await DataContext.Users.Include(u => u.Address).SingleAsync(u => u.Id == userId);
-            user.Address ??= new Address();
+            user.Address = new Address();
             user.Address = Mapper.Map(addressDto, user.Address);
+            user.Address.LocationId = addressDto.AreaId;
         }
 
         public async Task RemoveAddress(int userId)

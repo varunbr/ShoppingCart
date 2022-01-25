@@ -21,10 +21,11 @@ namespace API.Helpers
 
             CreateMap<AddressDto, Address>();
             CreateMap<Address, AddressDto>()
-                .ForMember(dest => dest.Area, opt => opt.MapFrom(src => src.Location.Name))
-                .ForMember(dest => dest.City, opt => opt.MapFrom(src => src.Location.Parent.Name))
-                .ForMember(dest => dest.State, opt => opt.MapFrom(src => src.Location.Parent.Parent.Name))
-                .ForMember(dest => dest.Country, opt => opt.MapFrom(src => src.Location.Parent.Parent.Parent.Name));
+                .ForMember(dest => dest.AreaId, opt => opt.MapFrom(src => src.LocationId))
+                .ForMember(dest => dest.CityId, opt => opt.MapFrom(src => src.Location.ParentId))
+                .ForMember(dest => dest.StateId, opt => opt.MapFrom(src => src.Location.Parent.ParentId))
+                .ForMember(dest => dest.CountryId, opt => opt.MapFrom(src => src.Location.Parent.Parent.ParentId));
+            CreateMap<Location, LocationDto>();
 
             CreateMap<Product, ProductDto>()
                 .ForMember(dest => dest.PhotoUrl, opt => opt.MapFrom(src => src.ProductViews.FirstOrDefault(p => p.IsMain).Photo.Url));

@@ -5,6 +5,7 @@ namespace API.Entities
     public class Address
     {
         public int Id { get; set; }
+        public string Name { get; set; }
         public string House { get; set; }
         public string Landmark { get; set; }
         public int LocationId { get; set; }

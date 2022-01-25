@@ -5,16 +5,18 @@ namespace API.DTOs
     public class AddressDto
     {
         [Required]
+        public string Name { get; set; }
+        [Required]
         public string House { get; set; }
         [Required]
         public string Landmark { get; set; }
         [Required]
-        public int LocationId { get; set; }
-        [Required]
         public string PostalCode { get; set; }
-        public string Area { get; set; }
-        public string City { get; set; }
-        public string State { get; set; }
-        public string Country { get; set; }
+        [Required]
+        public int AreaId { get; set; }
+        public int CityId { get; set; }
+        public int StateId { get; set; }
+        public int CountryId { get; set; }
+        public LocationListDto Locations { get; set; }
     }
 }

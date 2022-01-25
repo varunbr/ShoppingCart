@@ -1,5 +1,7 @@
 import { Component, OnInit } from '@angular/core';
-import { FormBuilder, FormGroup, Validators } from '@angular/forms';
+import { FormBuilder, FormGroup, NgForm, Validators } from '@angular/forms';
+import { finalize } from 'rxjs';
+import { Address, LocationInfo } from '../modal/address';
 import { AccountService } from '../services/account.service';
 import { ToastrService } from '../services/toastr.service';
 
@@ -11,6 +13,11 @@ import { ToastrService } from '../services/toastr.service';
 export class EditProfileComponent implements OnInit {
   user;
   profileUpdate: FormGroup;
+  address: Address = new Address();
+  states: LocationInfo[];
+  cities: LocationInfo[];
+  areas: LocationInfo[];
+  loading: string;
   constructor(
     private fb: FormBuilder,
     public accountService: AccountService,
@@ -20,11 +27,14 @@ export class EditProfileComponent implements OnInit {
   ngOnInit(): void {
     this.accountService.getProfile().subscribe((response) => {
       this.user = response;
-      this.initilizeForm();
+      this.initilizeProfileForm();
+    });
+    this.accountService.getAddress().subscribe((response) => {
+      this.initilizeAddressForm(response);
     });
   }
 
-  initilizeForm() {
+  initilizeProfileForm() {
     this.profileUpdate = this.fb.group({
       id: [this.user.id],
       name: [this.user.name, Validators.required],
@@ -40,14 +50,70 @@ export class EditProfileComponent implements OnInit {
     });
   }
 
+  initilizeAddressForm(response: Address) {
+    this.address = response;
+    this.areas = response.locations.areas;
+    this.cities = response.locations.cities;
+    this.states = response.locations.states;
+  }
+
+  loadLocations(parentId: number, childType: string) {
+    this.loading = childType;
+    this.accountService
+      .getLocations({
+        parentId: parentId,
+        childType: childType,
+      })
+      .pipe(
+        finalize(() => {
+          this.loading = undefined;
+        })
+      )
+      .subscribe((response) => {
+        switch (childType) {
+          case 'City':
+            this.cities = response;
+            break;
+          case 'Area':
+            this.areas = response;
+            break;
+        }
+      });
+  }
+
+  onSelect(event, childType: string) {
+    let value = event.source.value;
+    switch (childType) {
+      case 'City':
+        if (!event.isUserInput || value === this.address.stateId) return;
+        this.areas = this.cities = [];
+        this.address.areaId = this.address.cityId = undefined;
+        break;
+      case 'Area':
+        if (!event.isUserInput || value === this.address.cityId) return;
+        this.areas = [];
+        this.address.areaId = undefined;
+        break;
+    }
+    this.loading = childType;
+    this.loadLocations(value, childType);
+  }
+
   onSubmit() {
     this.accountService
       .updateProfile(this.profileUpdate.value)
       .subscribe((response) => {
         this.user = response;
-        this.initilizeForm();
+        this.initilizeProfileForm();
         this.toastr.success('Profile updated.');
       });
+  }
+
+  updateAddress(form: NgForm) {
+    this.accountService.updateAddress(this.address).subscribe((response) => {
+      this.initilizeAddressForm(response);
+      form.resetForm(response);
+    });
   }
 
   changePhoto(files: FileList) {

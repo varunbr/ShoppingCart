@@ -1,4 +1,5 @@
-﻿using API.DTOs;
+﻿using System.Collections.Generic;
+using API.DTOs;
 using System.Threading.Tasks;
 using Microsoft.AspNetCore.Http;
 
@@ -14,6 +15,8 @@ namespace API.Data
         Task<AddressDto> GetAddress(int userId);
         Task UpdateAddress(int userId, AddressDto address);
         Task RemoveAddress(int userId);
+        Task<List<LocationDto>> GetChildLocations(string parentName, string childType);
+        Task<List<LocationDto>> GetChildLocations(int parentId, string childType);
         Task<string> UpdateUserPhoto(IFormFile file, int userId);
         Task DeleteUserPhoto(int userId);
     }

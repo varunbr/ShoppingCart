@@ -1,10 +1,13 @@
-﻿using API.Entities;
+﻿using API.DTOs;
+using API.Entities;
 using API.Helpers;
 using API.Services;
 using AutoMapper;
+using AutoMapper.QueryableExtensions;
 using Microsoft.AspNetCore.Http;
 using Microsoft.EntityFrameworkCore;
 using System;
+using System.Collections.Generic;
 using System.Linq;
 using System.Threading.Tasks;
 
@@ -146,6 +149,43 @@ namespace API.Data
         public async Task DeletePhoto(string publicId)
         {
             await PhotoService.DeleteImage(publicId);
+        }
+
+        #endregion
+
+        #region Location
+
+        public async Task<List<LocationDto>> GetChildLocations(string parentName, string childType)
+        {
+            return await DataContext.Locations
+                .Where(l => l.Parent.Name == parentName && l.Type == childType)
+                .ProjectTo<LocationDto>(Mapper.ConfigurationProvider)
+                .AsNoTracking()
+                .ToListAsync();
+        }
+
+        public async Task<List<LocationDto>> GetChildLocations(int parentId, string childType)
+        {
+            if (parentId == 0) return await GetChildLocations("India", childType);
+            return await DataContext.Locations
+                .Where(l => l.ParentId == parentId && l.Type == childType)
+                .ProjectTo<LocationDto>(Mapper.ConfigurationProvider)
+                .AsNoTracking()
+                .ToListAsync();
+        }
+
+        public async Task<LocationListDto> GetLocations(int areaId)
+        {
+            return await DataContext.Locations
+                .Where(l => l.Id == areaId && l.Type == LocationType.Area.ToString())
+                .Select(l => new LocationListDto
+                {
+                    AreaId = areaId,
+                    Areas = l.Parent.Children.Select(a => new LocationDto { Id = a.Id, Name = a.Name }),
+                    Cities = l.Parent.Parent.Children.Select(c => new LocationDto { Id = c.Id, Name = c.Name }),
+                    States = l.Parent.Parent.Parent.Children.Select(s => new LocationDto { Id = s.Id, Name = s.Name })
+                })
+                .FirstOrDefaultAsync();
         }
 
         #endregion

@@ -1,8 +1,6 @@
-import { HttpClient } from '@angular/common/http';
 import { Injectable } from '@angular/core';
 import { map, of } from 'rxjs';
 import { environment } from 'src/environments/environment';
-import { ResponseList } from '../base/modal';
 import { BaseListService } from '../base/service';
 import {
   HomePage,
@@ -19,12 +17,8 @@ import { HttpService } from './http.service';
 export class ProductService extends BaseListService<Product, ProductContext> {
   baseUrl = environment.apiUrl + 'product/';
   private productDetailCache = new Map<string, ProductModel>();
-  private homePage: HomePage;
 
-  constructor(
-    http: HttpService<ResponseList<Product, ProductContext>>,
-    private httpClient: HttpClient
-  ) {
+  constructor(http: HttpService) {
     super(http);
   }
 
@@ -35,7 +29,7 @@ export class ProductService extends BaseListService<Product, ProductContext> {
   private getProductModel(id: number) {
     let response = this.productDetailCache.get(id.toString());
     if (response) return of(response);
-    return this.httpClient.get<ProductModel>(this.baseUrl + id).pipe(
+    return this.http.get<ProductModel>(this.baseUrl + id).pipe(
       map((response) => {
         for (var key in response.products) {
           this.productDetailCache.set(key, response);
@@ -46,13 +40,7 @@ export class ProductService extends BaseListService<Product, ProductContext> {
   }
 
   getHomePage() {
-    if (this.homePage) return of(this.homePage);
-    return this.httpClient.get<HomePage>(this.baseUrl + 'home').pipe(
-      map((response) => {
-        this.homePage = response;
-        return response;
-      })
-    );
+    return this.http.get<HomePage>(this.baseUrl + 'home', { cache: true });
   }
 
   getTargetVariant(
