@@ -13,7 +13,7 @@ import { ProductService } from 'src/app/services/product.service';
   styleUrls: ['./product-detail.component.css'],
 })
 export class ProductDetailComponent implements OnInit {
-  imageUrls: {}[] = [];
+  imageUrls: string[] = [];
   product: ProductDetail;
   variants: ProductVariant[];
   productModel: ProductModel;
@@ -37,11 +37,7 @@ export class ProductDetailComponent implements OnInit {
       this.setVariantSelections(this.product, this.variants);
       let urls = [];
       this.product?.photos.forEach((element) => {
-        urls.push({
-          small: element.url,
-          medium: element.url,
-          big: element.url,
-        });
+        urls.push(element.url);
       });
       this.imageUrls = urls;
     });
