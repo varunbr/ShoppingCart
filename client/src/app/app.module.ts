@@ -8,7 +8,6 @@ import {
 import { FormsModule, ReactiveFormsModule } from '@angular/forms';
 import { HttpClientModule, HTTP_INTERCEPTORS } from '@angular/common/http';
 import { BrowserAnimationsModule } from '@angular/platform-browser/animations';
-import { NgxGalleryModule } from '@kolkov/ngx-gallery';
 import * as Hammer from 'hammerjs';
 
 import { AppRoutingModule } from './app-routing.module';
@@ -77,7 +76,6 @@ export class HammerConfig extends HammerGestureConfig {
     ReactiveFormsModule,
     HttpClientModule,
     HammerModule,
-    NgxGalleryModule,
   ],
   providers: [
     { provide: HTTP_INTERCEPTORS, useClass: ErrorInterceptor, multi: true },

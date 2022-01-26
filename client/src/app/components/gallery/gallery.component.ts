@@ -1,10 +1,4 @@
-import { Component, Input, OnInit } from '@angular/core';
-import {
-  NgxGalleryAnimation,
-  NgxGalleryImage,
-  NgxGalleryImageSize,
-  NgxGalleryOptions,
-} from '@kolkov/ngx-gallery';
+import { Component, ElementRef, Input, OnInit, ViewChild } from '@angular/core';
 
 @Component({
   selector: 'app-gallery',
@@ -12,44 +6,51 @@ import {
   styleUrls: ['./gallery.component.css'],
 })
 export class GalleryComponent implements OnInit {
-  @Input() urls: NgxGalleryImage[];
-  galleryOptions: NgxGalleryOptions[];
+  selected: number;
+  _urls: string[];
+  get urls() {
+    return this._urls;
+  }
+  @Input() set urls(value: string[]) {
+    this._urls = value
+    this.selected = 0;
+  }
+  currentX = 0;
+  start: boolean;
+  end: boolean;
 
   constructor() {}
 
-  ngOnInit(): void {
-    this.setGalleryOptions();
+  ngOnInit(): void {}
+
+  @ViewChild('content', { static: true }) content: ElementRef<HTMLElement>;
+
+  onPan(event) {
+    this.scrollToTarget(this.currentX - event.deltaX);
   }
 
-  setGalleryOptions() {
-    this.galleryOptions = [
-      {
-        width: '100%',
-        height: 'calc(100vh - 190px)',
-        arrowPrevIcon: 'fa fa-chevron-left',
-        arrowNextIcon: 'fa fa-chevron-right',
-        imageAnimation: NgxGalleryAnimation.Fade,
-        imageSwipe: true,
-        imageSize: NgxGalleryImageSize.Contain,
-        thumbnailsColumns: 4,
-        thumbnailsSwipe: true,
-        thumbnailSize: NgxGalleryImageSize.Contain,
-        thumbnailsArrowsAutoHide: true,
-        previewSwipe: true,
-        previewCloseOnClick: true,
-      },
-      //md
-      {
-        breakpoint: 959,
-        height: '400px',
-      },
-      //sm
-      {
-        breakpoint: 599,
-        height: '300px',
-        thumbnails: false,
-        preview: false,
-      },
-    ];
+  onPanEnd() {
+    this.currentX = this.content.nativeElement.scrollLeft;
+  }
+
+  scrollToTarget(target: number, scrollSmooth = false) {
+    this.content.nativeElement.scrollTo({
+      left: target,
+      behavior: scrollSmooth ? 'smooth' : 'auto',
+    });
+  }
+
+  scrollToSelected() {
+    let element = this.content.nativeElement;
+    let boxLength = element.scrollWidth / this.urls.length;
+    let target =
+      boxLength * 0.5 + this.selected * boxLength - element.clientWidth * 0.5;
+    this.scrollToTarget(target, true);
+    this.currentX = target;
+  }
+
+  selectImage(index: number) {
+    this.selected = index;
+    this.scrollToSelected();
   }
 }

@@ -1,3 +1,27 @@
-<mat-card fxflex="row" fxLayoutAlign.lt-sm="center center">
-    <ngx-gallery [options]="galleryOptions" [images]="urls" class="ngx-gallery"></ngx-gallery>
+<mat-card fxLayout="column" style="height: calc(100vh - 190px);">
+    <div fxFlex=75 fxLayout="row" fxLayoutAlign="center center">
+        <div fxFlex=10>
+            <button mat-icon-button [disabled]="selected <= 0" (click)="selectImage(selected - 1)">
+                <mat-icon>navigate_before</mat-icon>
+            </button>
+        </div>
+        <div fxFlex=80 style="height: 100%;">
+            <img src={{urls?.[selected]}} style="object-fit: contain;height: 90%;width: 90%;">
+        </div>
+        <div fxFlex=10>
+            <button mat-icon-button [disabled]="selected >= urls.length - 1" (click)="selectImage(selected + 1)">
+                <mat-icon>navigate_next</mat-icon>
+            </button>
+        </div>
+    </div>
+    <div fxFlex=25>
+        <div fxFlex #content class="g-middle" (pan)="onPan($event)" (panend)="onPanEnd()">
+            <div *ngFor="let url of urls;let i = index" class="g-container-box">
+                <div fxLayout="row" (click)="selectImage(i)" [class.g-active]="i === selected"
+                    fxLayoutAlign="center center" style="height: 100%;width: 100%;">
+                    <img src={{url}} class="g-image-box">
+                </div>
+            </div>
+        </div>
+    </div>
 </mat-card>
