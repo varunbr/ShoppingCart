@@ -1,4 +1,5 @@
 ﻿using System;
+using System.Collections.Generic;
 
 namespace API.Helpers
 {
@@ -13,7 +14,7 @@ namespace API.Helpers
             set => _pageNumber = value <= 0 ? 1 : value;
         }
 
-        private int _pageSize = 10;
+        private int _pageSize = 12;
 
         public int PageSize
         {
@@ -23,7 +24,7 @@ namespace API.Helpers
                 _pageSize = value switch
                 {
                     > MaxSize => MaxSize,
-                    <= 0 => 10,
+                    <= 0 => 12,
                     _ => value
                 };
                 SetTotalPages();
@@ -49,6 +50,23 @@ namespace API.Helpers
         {
             if (_totalCount <= 0) return;
             TotalPages = (int)Math.Ceiling(_totalCount / (decimal)_pageSize);
+        }
+
+        public BaseParams() { }
+
+        public BaseParams(Dictionary<string, string> queryParams)
+        {
+            PageNumber = GetValue(queryParams, nameof(PageNumber));
+            PageSize = GetValue(queryParams, nameof(PageSize));
+            queryParams.TryGetValue(Constants.OrderBy, out var orderBy);
+            OrderBy = orderBy;
+        }
+
+        private int GetValue(Dictionary<string, string> queryParams, string key)
+        {
+            queryParams.TryGetValue(key, out var value);
+            int.TryParse(value, out var intValue);
+            return intValue;
         }
     }
 }

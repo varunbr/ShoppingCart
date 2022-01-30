@@ -41,6 +41,10 @@ export class HttpService {
     return this.http.post<T>(url, body);
   }
 
+  delete<T>(url: string, body) {
+    return this.http.delete<T>(url, { body, responseType: 'json' });
+  }
+
   setCache<T>(response: T, url: string, params: Params, cache = true) {
     if (!cache) return;
     let identifier = this.getIdentifier(url, params);

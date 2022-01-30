@@ -5,7 +5,8 @@
                 <mat-icon>navigate_before</mat-icon>
             </button>
         </div>
-        <div fxFlex=80 style="height: 100%;">
+        <div fxFlex=80 style="height: 100%;" (swipeleft)="selectImage(selected + 1)"
+            (swiperight)="selectImage(selected - 1)">
             <img src={{urls?.[selected]}} style="object-fit: contain;height: 90%;width: 90%;">
         </div>
         <div fxFlex=10>

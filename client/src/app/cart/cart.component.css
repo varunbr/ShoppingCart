@@ -1,0 +1,12 @@
+.cart-image-box {
+  height: 70px;
+  width: 70px;
+  cursor: pointer;
+  background-color: white;
+  border-radius: 15px;
+}
+.cart-image {
+  width: 65px;
+  height: 65px;
+  object-fit: contain;
+}

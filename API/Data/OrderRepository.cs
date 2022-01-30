@@ -212,5 +212,56 @@ namespace API.Data
                 .AsNoTracking()
                 .FirstOrDefaultAsync();
         }
+
+        #region Cart
+
+        public async Task<List<CartStoreDto>> GetCart(int userId)
+        {
+            var items = await DataContext.CartItems
+                .Where(i => i.UserId == userId)
+                .ProjectTo<CartItemDto>(Mapper.ConfigurationProvider)
+                .AsNoTracking()
+                .ToListAsync();
+
+            var group = items.GroupBy(i => i.StoreId);
+            var result = new List<CartStoreDto>();
+            foreach (var item in group)
+            {
+                result.Add(new CartStoreDto
+                {
+                    StoreId = item.First().StoreId,
+                    StoreName = item.First().StoreName,
+                    CartItems = item.ToList()
+                });
+            }
+            return result;
+        }
+
+        public async Task<CartItemDto> GetCart(int userId, int storeItemId)
+        {
+            return await DataContext.CartItems
+                .Where(i => i.UserId == userId && i.StoreItemId == storeItemId)
+                .ProjectTo<CartItemDto>(Mapper.ConfigurationProvider)
+                .AsNoTracking()
+                .FirstOrDefaultAsync();
+        }
+
+        public async Task AddToCart(int userId, int storeItemId)
+        {
+            var exist = await DataContext.CartItems.AnyAsync(i => i.UserId == userId && i.StoreItemId == storeItemId);
+            if (exist) throw new HttpException("Item already in cart.");
+            exist = await DataContext.StoreItems.AnyAsync(i => i.Id == storeItemId);
+            if (!exist) throw new HttpException("Invalid Store Item");
+            var item = new CartItem { StoreItemId = storeItemId, UserId = userId };
+            DataContext.CartItems.Add(item);
+        }
+
+        public async Task RemoveFromCart(int userId, int[] storeItemIds)
+        {
+            var cartItem = await DataContext.CartItems.Where(i => i.UserId == userId && storeItemIds.Contains(i.StoreItemId)).ToListAsync();
+            DataContext.CartItems.RemoveRange(cartItem);
+        }
+
+        #endregion
     }
 }

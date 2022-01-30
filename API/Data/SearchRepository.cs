@@ -221,7 +221,7 @@ namespace API.Data
         {
             var context = new HomeContext
             {
-                Categories = new List<string> { "Mobiles", "Television", "Laptops", "Headphones" }
+                Categories = new List<string> { "Mobiles", "Television", "Laptops", "Refrigerators", "Headphones" }
             };
             return context;
         }

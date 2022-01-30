@@ -3,8 +3,8 @@
         <app-gallery [urls]="imageUrls"></app-gallery>
         <div class="mt-2">
             <mat-card fxLayout="row" fxLayoutGap="5%">
-                <button fxFlex mat-raised-button color="accent">
-                    <mat-icon>shopping_cart</mat-icon> Add To Cart
+                <button fxFlex mat-raised-button color="accent" (click)="onCartClick(product.storeItemId)">
+                    <mat-icon>shopping_cart</mat-icon> {{addedToCart ? 'Remove From Cart':'Add To Cart'}}
                 </button>
                 <button fxFlex mat-raised-button color="warn">
                     <mat-icon>flash_on</mat-icon>Buy Now
@@ -63,6 +63,15 @@
                         <h2>Description</h2>
                         <mat-card-subtitle>
                             {{product?.description}}
+                        </mat-card-subtitle>
+                    </div>
+                    <div>
+                        <h2>Other Information</h2>
+                        <mat-card-subtitle>
+                            <div fxLayout="row">
+                                <div fxFlex=30>Seller</div>
+                                <div fxFlex>{{product?.storeName}}</div>
+                            </div>
                         </mat-card-subtitle>
                     </div>
                 </div>

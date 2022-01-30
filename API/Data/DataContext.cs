@@ -14,6 +14,7 @@ namespace API.Data
 
         public DbSet<Account> Accounts { get; set; }
         public DbSet<Address> Addresses { get; set; }
+        public DbSet<CartItem> CartItems { get; set; }
         public DbSet<Category> Categories { get; set; }
         public DbSet<CategoryTag> CategoryTags { get; set; }
         public DbSet<Location> Locations { get; set; }
@@ -214,6 +215,16 @@ namespace API.Data
                 .WithMany(l => l.TrackAgents)
                 .HasForeignKey(ta => ta.LocationId)
                 .OnDelete(DeleteBehavior.Restrict);
+
+            builder.Entity<CartItem>()
+                .HasOne(c => c.User)
+                .WithMany(u => u.CartItems)
+                .HasForeignKey(c => c.UserId);
+            builder.Entity<CartItem>()
+                .HasOne(c => c.StoreItem)
+                .WithMany(si=>si.CartItems)
+                .HasForeignKey(c => c.StoreItemId)
+                .OnDelete(DeleteBehavior.Cascade);
         }
     }
 }

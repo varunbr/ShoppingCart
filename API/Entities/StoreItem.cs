@@ -13,5 +13,6 @@ namespace API.Entities
         public int Available { get; set; }
         public byte[] RowVersion { get; set; }
         public ICollection<OrderItem> OrderItems { get; set; }
+        public ICollection<CartItem> CartItems { get; set; }
     }
 }

@@ -6,6 +6,7 @@ import { ProductDetailComponent } from './product/product-detail/product-detail.
 import { SearchComponent } from './product/search/search.component';
 import { RegisterComponent } from './authentication/register/register.component';
 import { EditProfileComponent } from './edit-profile/edit-profile.component';
+import { CartComponent } from './cart/cart.component';
 
 const routes: Routes = [
   { path: '', component: HomeComponent },
@@ -14,6 +15,7 @@ const routes: Routes = [
   { path: 'edit-profile', component: EditProfileComponent },
   { path: 'search', component: SearchComponent },
   { path: 'product/:id', component: ProductDetailComponent },
+  { path: 'cart', component: CartComponent },
   { path: '**', component: HomeComponent },
 ];
 

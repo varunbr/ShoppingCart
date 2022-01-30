@@ -8,16 +8,15 @@
     </mat-card-header>
     <mat-card-content fxLayout="row" fxLayoutAlign="space-between center">
         <div fxHide.lt-sm>
-            <button mat-mini-fab color="primary" [disabled]="start" (click)="scroll(false)">
+            <button mat-icon-button [disabled]="start" (click)="scroll(false)">
                 <mat-icon>navigate_before</mat-icon>
             </button>
         </div>
-        <div #content class="middle" fxLayout="row" fxLayoutGap="10px" (pan)="onPan($event)"
-            (panend)="onPanEnd()">
+        <div #content class="middle" fxLayout="row" fxLayoutGap="10px" (pan)="onPan($event)" (panend)="onPanEnd()">
             <ng-content></ng-content>
         </div>
         <div fxHide.lt-sm>
-            <button mat-mini-fab color="primary" [disabled]="end" (click)="scroll()">
+            <button mat-icon-button [disabled]="end" (click)="scroll()">
                 <mat-icon>navigate_next</mat-icon>
             </button>
         </div>
