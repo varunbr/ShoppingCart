@@ -21,7 +21,7 @@
             <span class="brand" routerLink="/">ShoppingCart</span>
           </div>
           <form #searchForm="ngForm" fxShow="true" fxHide.lt-sm (ngSubmit)="search()">
-            <mat-form-field style="width: 20rem" floatLabel="never">
+            <mat-form-field style="width: 40vw" floatLabel="never">
               <input matInput #searchInput="matInput" type="text" placeholder="Search" name="search" autocomplete="off"
                 [(ngModel)]="value" />
               <button matSuffix mat-icon-button>
@@ -29,7 +29,7 @@
               </button>
             </mat-form-field>
           </form>
-          <div fxLayout="row" class="pe-4" fxLayoutGap="2%">
+          <div fxLayout="row" class="pe-4">
             <div fxShow="true" fxHide.lt-md>
               <a href="#" mat-button>Menu Item 1</a>
               <a href="#" mat-button>Menu Item 2</a>
@@ -37,9 +37,14 @@
             <button mat-icon-button (click)="toggleTheme()">
               <mat-icon>{{isDark ? "light_mode":"dark_mode"}}</mat-icon>
             </button>
-            <div *ngIf="!(accountService.user$ | async)">
-              <a routerLink="/login" mat-raised-button color="accent">Login</a>
-            </div>
+            <button mat-icon-button routerLink="/cart">
+              <mat-icon [matBadge]="cartCount" matBadgeSize="small" matBadgeColor="accent" [matBadgeHidden]="cartCount <= 0">
+                shopping_cart</mat-icon>
+            </button>
+            <button class="ms-2" *ngIf="!(accountService.user$ | async)" mat-raised-button color="accent"
+              routerLink="/login">
+              Login
+            </button>
             <button *ngIf="(accountService.user$ | async) as user" mat-icon-button [matMenuTriggerFor]="navMenu">
               <img class="profile" src="{{user.photoUrl || './assets/images/profile.png'}}" alt="Profile">
               <mat-icon>arrow_drop_down</mat-icon>

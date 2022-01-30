@@ -1,6 +1,6 @@
 .g-middle {
   float: left;
-  overflow-x: hidden;
+  overflow: hidden;
   touch-action: pan-y !important;
   white-space: nowrap;
 }

@@ -1,5 +1,5 @@
 <div class="mt-2" *ngIf="homePage" fxLayoutGap="10px" fxLayout="column">
-    <app-scroll-content title="Browse by Category">
+    <app-scroll-content [title]="'Browse by Category'">
         <div *ngFor="let category of homePage.categories">
             <div fxLayout="column" fxLayoutAlign="center center" routerLink="/search" [queryParams]="{q:category.name}"
                 style="cursor: pointer;">

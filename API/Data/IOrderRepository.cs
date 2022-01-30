@@ -1,7 +1,7 @@
-﻿using System.Collections.Generic;
-using System.Threading.Tasks;
-using API.DTOs;
+﻿using API.DTOs;
 using API.Helpers;
+using System.Collections.Generic;
+using System.Threading.Tasks;
 
 namespace API.Data;
 
@@ -11,4 +11,8 @@ public interface IOrderRepository
     Task<int> OrderItems(int userId, List<CheckoutItem> items);
     Task<Response<UserOrderDto, BaseParams>> GetUserOrders(int userId, BaseParams @params);
     Task<UserOrderDto> GetUserOrder(int userId, int orderId);
+    Task<List<CartStoreDto>> GetCart(int userId);
+    Task<CartItemDto> GetCart(int userId, int storeItemId);
+    Task AddToCart(int userId, int storeItemId);
+    Task RemoveFromCart(int userId, int[] storeItemIds);
 }

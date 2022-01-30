@@ -51,6 +51,16 @@ namespace API.Helpers
                 .ForMember(dest => dest.ProductId, act => act.MapFrom(src => src.StoreItem.ProductId));
             CreateMap<Order, UserOrderDto>();
 
+            CreateMap<CartItem, CartItemDto>()
+                .ForMember(dest => dest.Name, act => act.MapFrom(src => src.StoreItem.Product.Name))
+                .ForMember(dest => dest.StoreId, act => act.MapFrom(src => src.StoreItem.StoreId))
+                .ForMember(dest => dest.StoreName, act => act.MapFrom(src => src.StoreItem.Store.Name))
+                .ForMember(dest => dest.ProductId, act => act.MapFrom(src => src.StoreItem.ProductId))
+                .ForMember(dest => dest.Amount, act => act.MapFrom(src => src.StoreItem.Product.Amount))
+                .ForMember(dest => dest.MaxPerOrder, act => act.MapFrom(src => src.StoreItem.Product.MaxPerOrder))
+                .ForMember(dest => dest.Available, act => act.MapFrom(src => src.StoreItem.Available))
+                .ForMember(dest => dest.PhotoUrl, act => act.MapFrom(src => src.StoreItem.Product.ProductViews.FirstOrDefault(p=>p.IsMain).Photo.Url));
+
             #endregion
 
             #region SeedData Entity Mapping

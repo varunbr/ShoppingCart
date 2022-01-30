@@ -8,6 +8,7 @@ import {
 } from '@angular/core';
 import { ActivatedRoute, Router } from '@angular/router';
 import { AccountService } from '../services/account.service';
+import { CartService } from '../services/cart.service';
 
 @Component({
   selector: 'app-nav',
@@ -18,16 +19,25 @@ export class NavComponent implements OnInit {
   value: string;
   @Input() isDark = false;
   @Output() changeTheme = new EventEmitter<boolean>();
+  cartCount: number;
 
   constructor(
     public accountService: AccountService,
     private router: Router,
-    private route: ActivatedRoute
+    private route: ActivatedRoute,
+    private cartService: CartService
   ) {}
 
   ngOnInit(): void {
     this.route.queryParamMap.subscribe((params) => {
       this.value = params.get('q');
+    });
+    this.cartService.cartStore$.subscribe((response) => {
+      let count = 0;
+      for (let item of response) {
+        count += item.cartItems.length;
+      }
+      this.cartCount = count;
     });
   }
 

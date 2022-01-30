@@ -19,5 +19,6 @@ namespace API.Entities
         public ICollection<Order> Orders { get; set; }
         public ICollection<TrackEvent> TrackEvents { get; set; }
         public ICollection<TrackAgent> TrackAgents { get; set; }
+        public ICollection<CartItem> CartItems { get; set; }
     }
 }

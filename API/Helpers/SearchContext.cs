@@ -17,16 +17,12 @@ namespace API.Helpers
         public Dictionary<string, string> Filters { get; }
         public List<Property> Properties { get; set; }
 
-        public SearchContext(Dictionary<string, string> queryParams)
+        public SearchContext(Dictionary<string, string> queryParams) : base(queryParams)
         {
-            PageNumber = GetValue(queryParams, nameof(PageNumber));
-            PageSize = GetValue(queryParams, nameof(PageSize));
             QueryParams = queryParams ?? new Dictionary<string, string>();
             QueryParams.TryGetValue("q", out var searchText);
             SearchText = searchText?.Trim() ?? string.Empty;
             Keywords = SearchText.ToLower().SubWords();
-            QueryParams.TryGetValue(Constants.OrderBy, out var orderBy);
-            OrderBy = orderBy;
             QueryParams.TryGetValue(Constants.Category, out var category);
             Category = category;
             QueryParams.TryGetValue(Constants.Brand, out var brand);
@@ -45,12 +41,6 @@ namespace API.Helpers
             return from != null || to != null ? $"{from}-{to}" : null;
         }
 
-        private int GetValue(Dictionary<string, string> queryParams, string key)
-        {
-            queryParams.TryGetValue(key, out var value);
-            int.TryParse(value, out var intValue);
-            return intValue;
-        }
     }
 
     public class HomeContext

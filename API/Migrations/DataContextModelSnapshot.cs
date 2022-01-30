@@ -73,6 +73,29 @@ namespace API.Migrations
                     b.ToTable("Addresses");
                 });
 
+            modelBuilder.Entity("API.Entities.CartItem", b =>
+                {
+                    b.Property<int>("Id")
+                        .ValueGeneratedOnAdd()
+                        .HasColumnType("int");
+
+                    SqlServerPropertyBuilderExtensions.UseIdentityColumn(b.Property<int>("Id"), 1L, 1);
+
+                    b.Property<int>("StoreItemId")
+                        .HasColumnType("int");
+
+                    b.Property<int>("UserId")
+                        .HasColumnType("int");
+
+                    b.HasKey("Id");
+
+                    b.HasIndex("StoreItemId");
+
+                    b.HasIndex("UserId");
+
+                    b.ToTable("CartItems");
+                });
+
             modelBuilder.Entity("API.Entities.Category", b =>
                 {
                     b.Property<int>("Id")
@@ -845,6 +868,25 @@ namespace API.Migrations
                     b.Navigation("Location");
                 });
 
+            modelBuilder.Entity("API.Entities.CartItem", b =>
+                {
+                    b.HasOne("API.Entities.StoreItem", "StoreItem")
+                        .WithMany("CartItems")
+                        .HasForeignKey("StoreItemId")
+                        .OnDelete(DeleteBehavior.Cascade)
+                        .IsRequired();
+
+                    b.HasOne("API.Entities.User", "User")
+                        .WithMany("CartItems")
+                        .HasForeignKey("UserId")
+                        .OnDelete(DeleteBehavior.Cascade)
+                        .IsRequired();
+
+                    b.Navigation("StoreItem");
+
+                    b.Navigation("User");
+                });
+
             modelBuilder.Entity("API.Entities.Category", b =>
                 {
                     b.HasOne("API.Entities.Category", "Parent")
@@ -1296,6 +1338,8 @@ namespace API.Migrations
 
             modelBuilder.Entity("API.Entities.StoreItem", b =>
                 {
+                    b.Navigation("CartItems");
+
                     b.Navigation("OrderItems");
                 });
 
@@ -1311,6 +1355,8 @@ namespace API.Migrations
 
             modelBuilder.Entity("API.Entities.User", b =>
                 {
+                    b.Navigation("CartItems");
+
                     b.Navigation("Orders");
 
                     b.Navigation("TrackAgents");

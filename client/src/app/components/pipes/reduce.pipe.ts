@@ -4,11 +4,11 @@ import { Pipe, PipeTransform } from '@angular/core';
   name: 'reduce',
 })
 export class ReducePipe implements PipeTransform {
-  transform(value: string): string {
-    if (value.length <= 25) return value;
+  transform(value: string, length: number = 25): string {
+    if (value.length <= length) return value;
     let result = '';
     for (let item of value.split(' ')) {
-      if (result.length + item.length <= 25) {
+      if (result.length + item.length <= length) {
         result = `${result} ${item}`;
       } else {
         return `${result}...`.trim();
