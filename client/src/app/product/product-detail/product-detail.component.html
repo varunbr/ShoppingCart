@@ -3,10 +3,11 @@
         <app-gallery [urls]="imageUrls"></app-gallery>
         <div class="mt-2">
             <mat-card fxLayout="row" fxLayoutGap="5%">
-                <button fxFlex mat-raised-button color="accent" (click)="onCartClick(product.storeItemId)">
+                <button fxFlex mat-raised-button color="accent" (click)="onCartClick(product.storeItemId, product.id)">
                     <mat-icon>shopping_cart</mat-icon> {{addedToCart ? 'Remove From Cart':'Add To Cart'}}
                 </button>
-                <button fxFlex mat-raised-button color="warn">
+                <button fxFlex mat-raised-button color="warn" [disabled]="!product.available" routerLink="/checkout"
+                    [queryParams]="{storeItem:product.storeItemId}">
                     <mat-icon>flash_on</mat-icon>Buy Now
                 </button>
             </mat-card>
@@ -16,6 +17,7 @@
         <mat-card>
             <mat-card-title class="mt-2">{{product?.name}}</mat-card-title>
             <h2>{{product?.amount | currency:'INR'}}</h2>
+            <h2 *ngIf="!product.available" style="color: orangered;">Out of Stock</h2>
             <h2 *ngIf="variants && variants?.length > 0">Variants</h2>
             <div *ngIf="variants && variants?.length > 0" fxLayout="row" fxLayoutGap="10px">
                 <div fxLayout="column" fxLayoutGap="10px" fxLayoutAlign=" center" *ngFor="let variant of variants">
@@ -25,7 +27,7 @@
                             {{value}}
                         </button>
                         <button fxFlex *ngIf="variant.selected !== value" (click)="changeVariant(variant.name,value)"
-                            mat-stroked-button>
+                            mat-raised-button>
                             {{value}}
                         </button>
                     </div>
@@ -67,10 +69,18 @@
                     </div>
                     <div>
                         <h2>Other Information</h2>
-                        <mat-card-subtitle>
+                        <mat-card-subtitle fxLayout="column" fxLayoutGap="2%">
+                            <div fxLayout="row">
+                                <div fxFlex=30>Id</div>
+                                <div fxFlex>{{product.id}}</div>
+                            </div>
+                            <div fxLayout="row">
+                                <div fxFlex=30>StoreItemId</div>
+                                <div fxFlex>{{product.storeItemId}}</div>
+                            </div>
                             <div fxLayout="row">
                                 <div fxFlex=30>Seller</div>
-                                <div fxFlex>{{product?.storeName}}</div>
+                                <div fxFlex>{{product.storeName}}</div>
                             </div>
                         </mat-card-subtitle>
                     </div>

@@ -15,16 +15,19 @@ namespace API.Controllers
             _uow = uow;
         }
 
-        [HttpPost]
-        public async Task<ActionResult> AddToCart([FromBody] int storeItemId)
+        [HttpPost("{storeItemId}/{productId}")]
+        public async Task<ActionResult> AddToCart(int storeItemId, int productId)
         {
+            if (storeItemId == 0 && productId == 0)
+                return BadRequest("Invalid Inputs");
+
             var userId = HttpContext.User.GetUserId();
-            await _uow.OrdersRepository.AddToCart(userId, storeItemId);
+            var item = await _uow.OrdersRepository.AddToCart(userId, storeItemId, productId);
             if (!await _uow.SaveChanges())
             {
                 return BadRequest("Failed to add.");
             }
-            return Ok(await _uow.OrdersRepository.GetCart(userId, storeItemId));
+            return Ok(await _uow.OrdersRepository.GetCart(userId, item.StoreItemId));
         }
 
         [HttpGet]

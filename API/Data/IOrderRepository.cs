@@ -2,6 +2,7 @@
 using API.Helpers;
 using System.Collections.Generic;
 using System.Threading.Tasks;
+using API.Entities;
 
 namespace API.Data;
 
@@ -13,6 +14,6 @@ public interface IOrderRepository
     Task<UserOrderDto> GetUserOrder(int userId, int orderId);
     Task<List<CartStoreDto>> GetCart(int userId);
     Task<CartItemDto> GetCart(int userId, int storeItemId);
-    Task AddToCart(int userId, int storeItemId);
+    Task<CartItem> AddToCart(int userId, int storeItemId, int productId);
     Task RemoveFromCart(int userId, int[] storeItemIds);
 }

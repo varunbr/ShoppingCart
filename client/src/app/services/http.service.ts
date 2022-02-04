@@ -37,7 +37,7 @@ export class HttpService {
       );
   }
 
-  post<T>(url: string, body) {
+  post<T>(url: string, body = {}) {
     return this.http.post<T>(url, body);
   }
 

@@ -29,6 +29,10 @@ img {
   -webkit-user-drag: none;
 }
 
+.error {
+  color: orangered;
+}
+
 /* lt-xl */
 @media only screen and (max-width: 1919px) {
   .title {

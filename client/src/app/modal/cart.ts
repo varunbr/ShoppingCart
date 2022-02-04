@@ -15,6 +15,5 @@ export class CartItem extends BaseModal {
 export class CartStore {
   storeId: number;
   storeName: string;
-  itemIds: number[];
   cartItems: CartItem[];
 }

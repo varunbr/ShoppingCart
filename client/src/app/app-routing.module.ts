@@ -7,6 +7,7 @@ import { SearchComponent } from './product/search/search.component';
 import { RegisterComponent } from './authentication/register/register.component';
 import { EditProfileComponent } from './edit-profile/edit-profile.component';
 import { CartComponent } from './cart/cart.component';
+import { ProductCheckoutComponent } from './order/product-checkout/product-checkout.component';
 
 const routes: Routes = [
   { path: '', component: HomeComponent },
@@ -16,6 +17,7 @@ const routes: Routes = [
   { path: 'search', component: SearchComponent },
   { path: 'product/:id', component: ProductDetailComponent },
   { path: 'cart', component: CartComponent },
+  { path: 'checkout', component: ProductCheckoutComponent },
   { path: '**', component: HomeComponent },
 ];
 
