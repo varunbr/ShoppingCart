@@ -10,26 +10,21 @@
         <mat-card fxFlex="60" fxFlex.lt-md="80" fxFlex.lt-sm="95">
             <div fxLayout="row" fxLayoutAlign="space-between center">
                 <div>Store: {{store.storeName}}</div>
-                <div fxLayout="row" fxLayoutGap="10px">
-                    <button mat-raised-button color="accent">
-                        <mat-icon>shopping_cart_checkout</mat-icon> <span fxHide.lt-sm="true">Checkout</span>
-                    </button>
-                    <button mat-raised-button color="warn" (click)="removeAllFromStore(store.cartItems)">
-                        <mat-icon>delete</mat-icon> <span fxHide.lt-sm="true">Remove</span>
-                    </button>
-                </div>
             </div>
             <mat-card-content class="mt-2">
                 <div *ngFor="let item of store.cartItems">
                     <mat-divider></mat-divider>
                     <div fxLayout="row" fxFlex fxLayoutGap="10px" fxLayoutAlign=" center">
-                        <div class="cart-image-box" fxLayout="row" [routerLink]="'/product/' + item.productId"
-                            fxLayoutAlign="center center">
+                        <div class="cart-image-box" fxLayout="row" fxLayoutAlign="center center">
                             <img class="cart-image" src={{item.photoUrl}}>
                         </div>
                         <div fxLayout="column" fxLayoutAlign="center start">
-                            <p>{{item.name | reduce:30}}</p>
-                            <mat-card-subtitle class="content">{{item.amount | currency:'INR'}}</mat-card-subtitle>
+
+                            <p><a [href]="getProductUrl(item.productId)" target="_blank"
+                                    style="color: inherit;">{{item.name}}</a></p>
+                            <mat-card-subtitle class="content">{{item.amount | currency:'INR'}} <span
+                                    *ngIf="item.available <= 0" style="color: orangered;">&nbsp;&nbsp; Out Of
+                                    Stock</span></mat-card-subtitle>
                         </div>
                         <div fxFlex fxLayout="column">
                             <button [matTooltipShowDelay]="500" matTooltip="Remove"
@@ -38,7 +33,8 @@
                                 <mat-icon>delete</mat-icon>
                             </button>
                             <button [matTooltipShowDelay]="500" matTooltip="Checkout" fxFlexAlign="end" mat-icon-button
-                                color="accent">
+                                color="accent" [disabled]="item.available <= 0" routerLink="/checkout"
+                                [queryParams]="{storeItem:[item.storeItemId]}">
                                 <mat-icon>shopping_cart_checkout</mat-icon>
                             </button>
                         </div>
@@ -46,6 +42,18 @@
                 </div>
                 <mat-divider></mat-divider>
             </mat-card-content>
+            <div fxLayout="row" fxLayoutAlign="space-between center">
+                <h3>Total Price: <span>{{getTotal(store.cartItems) | currency:'INR'}}</span></h3>
+                <div fxLayout="row" fxLayoutGap="10px">
+                    <button mat-button color="accent" [disabled]="!isItemAvailable(store.cartItems)"
+                        (click)="checkoutStoreItems(store.cartItems)">
+                        <mat-icon>shopping_cart_checkout</mat-icon> <span fxHide.lt-sm="true">Checkout</span>
+                    </button>
+                    <button mat-button color="warn" (click)="removeAllFromStore(store.cartItems)">
+                        <mat-icon>delete</mat-icon> <span fxHide.lt-sm="true">Remove</span>
+                    </button>
+                </div>
+            </div>
         </mat-card>
     </div>
 </div>

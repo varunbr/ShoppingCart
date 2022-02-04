@@ -18,7 +18,7 @@ namespace API.Extensions
                 {
                     Name = propertyValue.Property.Name,
                     Value = propertyValue.Property.Type == Type.Integer
-                        ? $"{propertyValue.IntegerValue} {propertyValue.Property.Unit}".Trim()
+                        ? propertyValue.IntegerValue == -1 ? "NA" : $"{propertyValue.IntegerValue} {propertyValue.Property.Unit}".Trim()
                         : propertyValue.StringValue
                 });
             }

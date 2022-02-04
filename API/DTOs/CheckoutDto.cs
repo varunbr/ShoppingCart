@@ -4,6 +4,7 @@ namespace API.DTOs
 {
     public class CheckoutDto
     {
+        public string AddressName { get; set; }
         public double Price { get; set; }
         public double DeliveryCharge { get; set; }
         public double Total { get; set; }
@@ -17,8 +18,11 @@ namespace API.DTOs
     public class CheckoutItem
     {
         public string Name { get; set; }
+        public string PhotoUrl { get; set; }
         public double AmountPerUnit { get; set; }
         public double Total { get; set; }
+        public int ProductId { get; set; }
+        public int MaxPerOrder { get; set; }
         public int StoreItemId { get; set; }
         public int ItemQuantity { get; set; }
         public string ErrorMessage { get; set; }

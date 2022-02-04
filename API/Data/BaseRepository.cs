@@ -83,6 +83,15 @@ namespace API.Data
             return await DataContext.Users.AnyAsync(u => u.AddressId != null);
         }
 
+        public async Task<string> GetUserAddressName(int userId)
+        {
+            if (userId == 0) return null;
+            return await DataContext.Users
+                .Where(u => u.Id == userId)
+                .Select(u => u.Address.Name)
+                .FirstOrDefaultAsync();
+        }
+
         #endregion
 
         #region Product

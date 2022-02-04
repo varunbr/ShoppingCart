@@ -48,9 +48,11 @@ namespace API.Data
                         si.Id,
                         si.StoreId,
                         si.Available,
+                        si.ProductId,
                         si.Product.Name,
                         si.Product.Amount,
-                        si.Product.MaxPerOrder
+                        si.Product.MaxPerOrder,
+                        si.Product.ProductViews.First(p=>p.IsMain).Photo.Url
                     })
                     .FirstOrDefaultAsync();
 
@@ -60,6 +62,9 @@ namespace API.Data
                 item.AmountPerUnit = storeItem.Amount;
                 item.Total = storeItem.Amount * item.ItemQuantity;
                 item.Name = storeItem.Name;
+                item.PhotoUrl = storeItem.Url;
+                item.ProductId = storeItem.ProductId;
+                item.MaxPerOrder = storeItem.MaxPerOrder;
                 item.ErrorMessage = null;
 
                 if (storeItem.StoreId != store.Id)
@@ -70,7 +75,7 @@ namespace API.Data
                 else if (storeItem.Available < item.ItemQuantity)
                     item.ErrorMessage = $"Only {storeItem.Available} unit(s) of {storeItem.Name} are available now!";
                 else if (item.ItemQuantity > storeItem.MaxPerOrder)
-                    item.ErrorMessage = $"Only maximum of {storeItem.MaxPerOrder} unit(s) can be ordered for {storeItem.Name}";
+                    item.ErrorMessage = $"Only maximum of {storeItem.MaxPerOrder} unit(s) can be ordered.";
             }
 
             var checkout = new CheckoutDto
@@ -93,13 +98,14 @@ namespace API.Data
             {
                 checkout.DeliveryCharge = checkout.Price < 500 ? 60 : 0;
                 checkout.IsValid = false;
-                checkout.ErrorMessage = "Delivery address not available.";
+                checkout.ErrorMessage = "Please add delivery address.";
             }
             else
             {
                 checkout.DeliveryCharge = checkout.Price < 500
                     ? await IsInterStateDelivery(userId, store.Id) ? 40 : 60
                     : 0;
+                checkout.AddressName = await GetUserAddressName(userId);
             }
 
             checkout.Total = checkout.Price + checkout.DeliveryCharge;
@@ -246,7 +252,42 @@ namespace API.Data
                 .FirstOrDefaultAsync();
         }
 
-        public async Task AddToCart(int userId, int storeItemId)
+        public async Task<CartItem> AddToCart(int userId, int storeItemId, int productId)
+        {
+            if (storeItemId != 0)
+                return await AddToCart(userId, storeItemId);
+
+            var userLocation = await GetUserLocation(userId);
+            var stateId = userLocation.Parent.ParentId;
+            storeItemId = await DataContext.StoreItems
+                .Where(si => si.ProductId == productId && si.Available > 0)
+                .Where(si => si.Store.Address.Location.Parent.ParentId == stateId)
+                .Select(si => si.Id)
+                .FirstOrDefaultAsync();
+
+            if (storeItemId != 0)
+                return await AddToCart(userId, storeItemId);
+
+            storeItemId = await DataContext.StoreItems
+                .Where(si => si.ProductId == productId && si.Available > 0)
+                .Select(si => si.Id)
+                .FirstOrDefaultAsync();
+
+            if (storeItemId != 0)
+                return await AddToCart(userId, storeItemId);
+
+            storeItemId = await DataContext.StoreItems
+                .Where(si => si.ProductId == productId)
+                .Select(si => si.Id)
+                .FirstOrDefaultAsync();
+
+            if (storeItemId == 0)
+                throw new HttpException("Invalid Product");
+
+            return await AddToCart(userId, storeItemId);
+        }
+
+        private async Task<CartItem> AddToCart(int userId, int storeItemId)
         {
             var exist = await DataContext.CartItems.AnyAsync(i => i.UserId == userId && i.StoreItemId == storeItemId);
             if (exist) throw new HttpException("Item already in cart.");
@@ -254,6 +295,7 @@ namespace API.Data
             if (!exist) throw new HttpException("Invalid Store Item");
             var item = new CartItem { StoreItemId = storeItemId, UserId = userId };
             DataContext.CartItems.Add(item);
+            return item;
         }
 
         public async Task RemoveFromCart(int userId, int[] storeItemIds)
