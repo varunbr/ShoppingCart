@@ -1,4 +1,5 @@
-﻿using API.DTOs;
+﻿using System;
+using API.DTOs;
 using API.Entities;
 using API.Seed;
 using AutoMapper;
@@ -27,6 +28,8 @@ namespace API.Helpers
                 .ForMember(dest => dest.CountryId, opt => opt.MapFrom(src => src.Location.Parent.Parent.ParentId));
             CreateMap<Location, LocationDto>();
 
+            CreateMap<PayOption,PayOptionDto>();
+
             CreateMap<Product, ProductDto>()
                 .ForMember(dest => dest.PhotoUrl, opt => opt.MapFrom(src => src.ProductViews.FirstOrDefault(p => p.IsMain).Photo.Url));
             CreateMap<Product, ProductMiniDto>()
@@ -47,6 +50,7 @@ namespace API.Helpers
                 .ForMember(dest => dest.PhotoUrl, act => act.MapFrom(src => src.Photo.Url));
 
             CreateMap<OrderItem, OrderItemDto>()
+                .ForMember(dest=>dest.PhotoUrl,act=>act.MapFrom(src=>src.StoreItem.Product.ProductViews.First(p=>p.IsMain).Photo.Url))
                 .ForMember(dest => dest.Name, act => act.MapFrom(src => src.StoreItem.Product.Name))
                 .ForMember(dest => dest.ProductId, act => act.MapFrom(src => src.StoreItem.ProductId));
             CreateMap<Order, UserOrderDto>();
@@ -61,6 +65,7 @@ namespace API.Helpers
                 .ForMember(dest => dest.Available, act => act.MapFrom(src => src.StoreItem.Available))
                 .ForMember(dest => dest.PhotoUrl, act => act.MapFrom(src => src.StoreItem.Product.ProductViews.FirstOrDefault(p=>p.IsMain).Photo.Url));
 
+            CreateMap<DateTime, DateTime>().ConvertUsing(d => DateTime.SpecifyKind(d, DateTimeKind.Utc));
             #endregion
 
             #region SeedData Entity Mapping

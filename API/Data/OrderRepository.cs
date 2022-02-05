@@ -18,6 +18,7 @@ namespace API.Data
         {
         }
 
+        #region Checkout
         public async Task<CheckoutDto> CheckOut(int userId, List<CheckoutItem> items)
         {
             if (items == null || !items.Any())
@@ -52,7 +53,7 @@ namespace API.Data
                         si.Product.Name,
                         si.Product.Amount,
                         si.Product.MaxPerOrder,
-                        si.Product.ProductViews.First(p=>p.IsMain).Photo.Url
+                        si.Product.ProductViews.First(p => p.IsMain).Photo.Url
                     })
                     .FirstOrDefaultAsync();
 
@@ -113,9 +114,13 @@ namespace API.Data
             return checkout;
         }
 
-        public async Task<int> OrderItems(int userId, List<CheckoutItem> items)
+        #endregion
+
+        #region Order
+
+        public async Task<int> OrderItems(int userId, OrderRequestDto orderRequest)
         {
-            var order = await CreateOrder(userId, items);
+            var order = await CreateOrder(userId, orderRequest);
 
             await using var transaction = await DataContext.Database.BeginTransactionAsync();
             try
@@ -133,40 +138,52 @@ namespace API.Data
                     item.Status = Status.Ordered;
                 }
 
-                var from = await DataContext.Accounts.Where(a => a.User.Id == userId).Select(a => a.User.AccountId).SingleAsync();
-                var to = await DataContext.Accounts.Where(a => a.Store.Id == order.StoreId).Select(a => a.Store.AccountId).SingleAsync();
+                var from = await DataContext.Accounts.Where(a => a.User.Id == userId).Select(a => a.User.AccountId)
+                    .SingleAsync();
+                var to = await DataContext.Accounts.Where(a => a.Store.Id == order.StoreId)
+                    .Select(a => a.Store.AccountId).SingleAsync();
 
-                var accTransaction = await ProcessTransaction(from, to, order.TotalAmount, $"Transaction for order {order.Id}");
+                var accTransaction =
+                    await ProcessTransaction(from, to, order.TotalAmount, $"Transaction for order #{order.Id}");
 
                 order.Status = Status.Ordered;
                 order.Transaction = accTransaction;
 
-                await DataContext.SaveChangesAsync();
+                var result = await DataContext.SaveChangesAsync();
+                if (result <= 0) throw new HttpException("Failed to save.");
                 await transaction.CommitAsync();
             }
-            catch (Exception ex)
+            catch
             {
                 await transaction.RollbackAsync();
                 order.Status = Status.Failed;
                 foreach (var item in order.OrderItems) item.Status = Status.Failed;
                 await DataContext.SaveChangesAsync();
-                throw new HttpException(ex.Message, ex.InnerException);
+                throw;
             }
 
             return order.Id;
         }
 
-        private async Task<Order> CreateOrder(int userId, List<CheckoutItem> items)
+        private async Task<Order> CreateOrder(int userId, OrderRequestDto orderRequest)
         {
-            var checkout = await CheckOut(userId, items);
+            if (orderRequest.PayOption != Constants.ShoppingCartWallet) 
+                throw new HttpException($"{orderRequest.PayOption} not supported.");
 
-            if (!checkout.IsValid)
+            var isValid = await VerifyOrder(userId, orderRequest);
+            if (!isValid)
             {
-                throw string.IsNullOrEmpty(checkout.ErrorMessage)
-                    ? new HttpException(string.Join("\n", checkout.Items
-                        .Where(i => !string.IsNullOrEmpty(i.ErrorMessage))
-                        .Select(i => i.ErrorMessage)))
-                    : new HttpException(checkout.ErrorMessage);
+                throw new HttpException("Order validation failed");
+            }
+
+            var totalPrice = await GetTotalPrice(orderRequest);
+            var deliveryCharge = totalPrice < 500
+                ? await IsInterStateDelivery(userId, orderRequest.StoreId) ? 40.0 : 60.0
+                : 0;
+
+            if (Math.Abs(totalPrice + deliveryCharge - orderRequest.TotalAmount) > 0.001)
+            {
+                throw new HttpException("Order validation failed");
             }
 
             var order = new Order
@@ -175,19 +192,19 @@ namespace API.Data
                 Type = "Product",
                 Created = DateTime.UtcNow,
                 Status = Status.Created,
-                StoreId = checkout.StoreId,
-                TotalAmount = checkout.Total,
-                DeliveryCharge = checkout.DeliveryCharge,
+                StoreId = orderRequest.StoreId,
+                TotalAmount = orderRequest.TotalAmount,
+                DeliveryCharge = deliveryCharge,
                 OrderItems = new List<OrderItem>()
             };
 
-            foreach (var item in checkout.Items)
+            foreach (var item in orderRequest.Items)
             {
                 order.OrderItems.Add(new OrderItem
                 {
                     Status = Status.Created,
                     Count = item.ItemQuantity,
-                    Price = item.AmountPerUnit,
+                    Price = item.Price,
                     StoreItemId = item.StoreItemId
                 });
             }
@@ -197,6 +214,56 @@ namespace API.Data
             return await DataContext.SaveChangesAsync() <= 0
                 ? throw new HttpException("Failed to create Order!")
                 : order;
+        }
+
+        private async Task<bool> VerifyOrder(int userId, OrderRequestDto orderRequest)
+        {
+            if (orderRequest.Items == null || !orderRequest.Items.Any() || orderRequest.Items.GroupBy(i => i.StoreItemId).Any(g => g.Count() > 1)
+                || orderRequest.Items.Any(i => i.ItemQuantity <= 0))
+                return false;
+
+            var storeId = await DataContext.StoreItems
+                .Where(si => si.Id == orderRequest.Items.First().StoreItemId)
+                .Select(si => si.StoreId)
+                .FirstOrDefaultAsync();
+
+            if (!await UserHasAddress(userId)) return false;
+
+            foreach (var item in orderRequest.Items)
+            {
+                var result = await DataContext.StoreItems
+                    .Where(si => si.Id == item.StoreItemId && si.StoreId == storeId &&
+                                 item.ItemQuantity <= si.Product.MaxPerOrder && item.ItemQuantity <= si.Available)
+                    .AnyAsync();
+                if (!result) return false;
+            }
+
+            orderRequest.StoreId = storeId;
+
+            return true;
+        }
+
+        private async Task<double> GetTotalPrice(OrderRequestDto orderRequest)
+        {
+            double total = 0;
+
+            var ids = orderRequest.Items.Select(i => i.StoreItemId).ToArray();
+
+            var storeItems = await DataContext.StoreItems
+                .Where(si => ids.Contains(si.Id)).Select(si => new
+                {
+                    si.Id,
+                    si.Product.Amount
+                }).ToListAsync();
+
+            foreach (var item in orderRequest.Items)
+            {
+                var amount = storeItems.First(i => i.Id == item.StoreItemId).Amount;
+                item.Price = amount;
+                total += amount * item.ItemQuantity;
+            }
+
+            return total;
         }
 
         public async Task<Response<UserOrderDto, BaseParams>> GetUserOrders(int userId, BaseParams @params)
@@ -218,6 +285,8 @@ namespace API.Data
                 .AsNoTracking()
                 .FirstOrDefaultAsync();
         }
+
+        #endregion
 
         #region Cart
 

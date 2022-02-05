@@ -37,12 +37,18 @@ export class HttpService {
       );
   }
 
-  post<T>(url: string, body = {}) {
-    return this.http.post<T>(url, body);
+  post<T>(url: string, body = {}, { background = false } = {}) {
+    return this.http.post<T>(url, body, {
+      headers: { Background: background.toString() },
+    });
   }
 
-  delete<T>(url: string, body) {
-    return this.http.delete<T>(url, { body, responseType: 'json' });
+  delete<T>(url: string, body = {}, { background = false } = {}) {
+    return this.http.delete<T>(url, {
+      body,
+      responseType: 'json',
+      headers: { Background: background.toString() },
+    });
   }
 
   setCache<T>(response: T, url: string, params: Params, cache = true) {

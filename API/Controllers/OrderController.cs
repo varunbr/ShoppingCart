@@ -21,11 +21,11 @@ namespace API.Controllers
         }
 
         [HttpPost]
-        public async Task<ActionResult> Order(List<CheckoutItem> items)
+        public async Task<ActionResult> Order(OrderRequestDto orderRequest)
         {
             var userId = HttpContext.User.GetUserId();
-            await _uow.OrdersRepository.OrderItems(userId, items);
-            return Ok();
+            var id = await _uow.OrdersRepository.OrderItems(userId, orderRequest);
+            return Ok(id);
         }
 
         [HttpPost("checkout")]

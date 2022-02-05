@@ -38,6 +38,8 @@ import { ReducePipe } from './components/pipes/reduce.pipe';
 import { ScrollContentComponent } from './components/scroll-content/scroll-content.component';
 import { CartComponent } from './cart/cart.component';
 import { ProductCheckoutComponent } from './order/product-checkout/product-checkout.component';
+import { OrderPaymentComponent } from './order/order-payment/order-payment.component';
+import { OrderDetailComponent } from './order/order-detail/order-detail.component';
 
 @Injectable()
 export class HammerConfig extends HammerGestureConfig {
@@ -70,6 +72,8 @@ export class HammerConfig extends HammerGestureConfig {
     ScrollContentComponent,
     CartComponent,
     ProductCheckoutComponent,
+    OrderPaymentComponent,
+    OrderDetailComponent,
   ],
   imports: [
     BrowserModule,

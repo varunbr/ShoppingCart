@@ -21,7 +21,24 @@ namespace API.DTOs
         public int StoreItemId { get; set; }
         public int ProductId { get; set; }
         public string Name { get; set; }
+        public string PhotoUrl { get; set; }
         public double Price { get; set; }
         public int Count { get; set; }
+    }
+
+    public class OrderRequestDto
+    {
+        public string PayOption { get; set; }
+        public double TotalAmount { get; set; }
+        public int StoreId { get; set; }
+        public List<OrderRequestItem> Items { get; set; }
+
+    }
+
+    public class OrderRequestItem
+    {
+        public int StoreItemId { get; set; }
+        public int ItemQuantity { get; set; }
+        public double Price { get; set; }
     }
 }
