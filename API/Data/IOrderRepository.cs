@@ -9,7 +9,7 @@ namespace API.Data;
 public interface IOrderRepository
 {
     Task<CheckoutDto> CheckOut(int userId, List<CheckoutItem> items);
-    Task<int> OrderItems(int userId, List<CheckoutItem> items);
+    Task<int> OrderItems(int userId, OrderRequestDto orderRequest);
     Task<Response<UserOrderDto, BaseParams>> GetUserOrders(int userId, BaseParams @params);
     Task<UserOrderDto> GetUserOrder(int userId, int orderId);
     Task<List<CartStoreDto>> GetCart(int userId);

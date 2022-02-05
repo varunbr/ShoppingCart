@@ -39,6 +39,7 @@ namespace API.Seed
             await SeedRoles();
             await SeedLocation();
             await SeedUsers();
+            await SeedPayOption();
             await SeedStore();
             await SeedCategory();
             await SeedProduct();
@@ -82,6 +83,38 @@ namespace API.Seed
                 await _userManager.CreateAsync(user, "User@2021");
                 await _userManager.AddToRoleAsync(user, Role.User.ToString());
             }
+        }
+
+        async Task SeedPayOption()
+        {
+            if (await _context.PayOptions.AnyAsync()) return;
+
+            var payOptions = new List<PayOption>
+            {
+                new()
+                {
+                    Name = Constants.ShoppingCartWallet,
+                    Available = true,
+                    Type = PayType.Wallet
+                },
+                new()
+                {
+                    Name = PayType.DebitCard,
+                    Type = PayType.DebitCard
+                },
+                new()
+                {
+                    Name = PayType.InternetBanking,
+                    Type = PayType.InternetBanking
+                },
+                new()
+                {
+                    Name = PayType.Upi,
+                    Type = PayType.Upi
+                }
+            };
+            await _context.PayOptions.AddRangeAsync(payOptions);
+            await _context.SaveChangesAsync();
         }
 
         async Task SeedStore()
@@ -252,7 +285,7 @@ namespace API.Seed
                 "Brundavan Cafe", "BMS College of Engineering", "Ashok Nagar Post Office"
             };
 
-            var names = new[] { "Home", "Office", "Work", "College","FarmHouse" };
+            var names = new[] { "Home", "Office", "Work", "College", "FarmHouse" };
 
             return new Address
             {

@@ -1,6 +1,10 @@
 import { Component, OnInit } from '@angular/core';
 import { ActivatedRoute, Router } from '@angular/router';
-import { Checkout, CheckoutItem } from 'src/app/modal/checkout';
+import {
+  Checkout,
+  CheckoutItem,
+  CheckoutRequestItem,
+} from 'src/app/modal/checkout';
 import { OrderService } from 'src/app/services/order.service';
 
 @Component({
@@ -17,6 +21,7 @@ export class ProductCheckoutComponent implements OnInit {
   ) {}
 
   ngOnInit(): void {
+    this.orderService.clearRequest();
     this.route.queryParamMap.subscribe((params) => {
       let items = [];
       for (let id of params.getAll('storeItem')) {
@@ -26,7 +31,7 @@ export class ProductCheckoutComponent implements OnInit {
     });
   }
 
-  checkOut(checkoutItems: { storeItemId: number; itemQuantity: number }[]) {
+  checkOut(checkoutItems: CheckoutRequestItem[]) {
     this.orderService.checkOut(checkoutItems).subscribe((response) => {
       this.checkoutResponse = response;
     });
@@ -66,6 +71,6 @@ export class ProductCheckoutComponent implements OnInit {
   }
 
   order() {
-    console.log(this.checkoutResponse);
+    this.orderService.payForOrder(this.checkoutResponse);
   }
 }

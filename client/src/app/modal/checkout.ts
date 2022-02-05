@@ -20,3 +20,7 @@ export class CheckoutItem {
   itemQuantity: number;
   errorMessage: string;
 }
+export class CheckoutRequestItem {
+  storeItemId: number;
+  itemQuantity: number;
+}

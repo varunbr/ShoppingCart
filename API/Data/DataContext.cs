@@ -20,6 +20,7 @@ namespace API.Data
         public DbSet<Location> Locations { get; set; }
         public DbSet<Order> Orders { get; set; }
         public DbSet<OrderItem> OrderItems { get; set; }
+        public DbSet<PayOption> PayOptions { get; set; }
         public DbSet<Photo> Photos { get; set; }
         public DbSet<Product> Products { get; set; }
         public DbSet<ProductTag> ProductTags { get; set; }

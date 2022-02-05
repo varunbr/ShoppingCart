@@ -88,19 +88,21 @@ export class CartService {
       );
   }
 
-  removeFromCart(storeItemIds: number[]) {
-    return this.http.delete(this.baseUrl, storeItemIds).pipe(
-      tap(() => {
-        let cartStore: CartStore[];
-        this.cartStore$.pipe(take(1)).subscribe((r) => (cartStore = r));
-        for (let item of cartStore) {
-          item.cartItems = item.cartItems.filter(
-            (item) => !storeItemIds.some((j) => j === item.storeItemId)
-          );
-        }
-        cartStore = cartStore.filter((item) => item.cartItems.length > 0);
-        this.setCartStore(cartStore);
-      })
-    );
+  removeFromCart(storeItemIds: number[], background = false) {
+    return this.http
+      .delete(this.baseUrl, storeItemIds, { background: background })
+      .pipe(
+        tap(() => {
+          let cartStore: CartStore[];
+          this.cartStore$.pipe(take(1)).subscribe((r) => (cartStore = r));
+          for (let item of cartStore) {
+            item.cartItems = item.cartItems.filter(
+              (item) => !storeItemIds.some((j) => j === item.storeItemId)
+            );
+          }
+          cartStore = cartStore.filter((item) => item.cartItems.length > 0);
+          this.setCartStore(cartStore);
+        })
+      );
   }
 }

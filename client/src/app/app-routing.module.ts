@@ -8,6 +8,8 @@ import { RegisterComponent } from './authentication/register/register.component'
 import { EditProfileComponent } from './edit-profile/edit-profile.component';
 import { CartComponent } from './cart/cart.component';
 import { ProductCheckoutComponent } from './order/product-checkout/product-checkout.component';
+import { OrderPaymentComponent } from './order/order-payment/order-payment.component';
+import { OrderDetailComponent } from './order/order-detail/order-detail.component';
 
 const routes: Routes = [
   { path: '', component: HomeComponent },
@@ -16,8 +18,10 @@ const routes: Routes = [
   { path: 'edit-profile', component: EditProfileComponent },
   { path: 'search', component: SearchComponent },
   { path: 'product/:id', component: ProductDetailComponent },
+  { path: 'order/:id', component: OrderDetailComponent },
   { path: 'cart', component: CartComponent },
   { path: 'checkout', component: ProductCheckoutComponent },
+  { path: 'payment', component: OrderPaymentComponent },
   { path: '**', component: HomeComponent },
 ];
 

@@ -1,0 +1,45 @@
+<div *ngIf="checkout" fxLayout="row" fxLayoutAlign="center">
+    <mat-card class="my-5" style="border-radius: 10px;" fxFlex="60" fxFlex.lt-md="80" fxFlex.lt-sm="95">
+        <mat-card-title class="text-center">Payment Options</mat-card-title>
+        <mat-card-content>
+            <div fxLayout="row" fxLayoutAlign="center center">
+                <div class="mt-3" fxFlex=65 fxFlex.lt-sm=95 fxFlex.gt-md=50 fxLayout="column" fxLayoutGap="5px">
+                    <div fxLayout="row" fxLayoutAlign="space-between center">
+                        <h3>Price ({{checkout.items.length === 1 ? '1 item':checkout.items.length
+                            + ' items'}}):</h3>
+                        <h3>{{getTotal() | currency:'INR'}}</h3>
+                    </div>
+                    <div *ngIf="checkout.isValid" fxLayout="row" fxLayoutAlign="space-between center">
+                        <h3>Delivery Charges:</h3>
+                        <h3>{{checkout.deliveryCharge | currency:'INR'}}</h3>
+                    </div>
+                    <div *ngIf="checkout.isValid" fxLayout="row" fxLayoutAlign="space-between center">
+                        <h2>Total Amount:</h2>
+                        <h2>{{checkout.total | currency:'INR'}} </h2>
+                    </div>
+                    <div fxLayout="row" fxLayoutAlign="space-between center">
+                        <h2>Payment method:</h2>
+                        <mat-form-field appearance="outline">
+                            <mat-select [(ngModel)]="payMethod" (selectionChange)="onPaySelectionChange()">
+                                <mat-option *ngFor="let payOption of payOptions" [disabled]="!payOption.available"
+                                    [value]="payOption">
+                                    {{payOption.name}}</mat-option>
+                            </mat-select>
+                        </mat-form-field>
+                    </div>
+                    <div *ngIf="payMethod?.type === 'Wallet'" fxLayout="row" fxLayoutAlign="space-between center">
+                        <h3>Wallet Balance:</h3>
+                        <h3>{{payMethod.balance | currency:'INR'}}</h3>
+                    </div>
+                    <div *ngIf="payMethod?.type === 'Wallet' && payMethod.balance < checkout.total" fxLayout="row"
+                        fxLayoutAlign="space-between center">
+                        <p class="error">Insufficient balance to cover this transactions.</p>
+                    </div>
+                    <div fxLayout="row" fxLayoutGap="10px">
+                        <button fxFlex [disabled]="!isValid" mat-raised-button color="warn" (click)="pay()">Pay</button>
+                    </div>
+                </div>
+            </div>
+        </mat-card-content>
+    </mat-card>
+</div>
