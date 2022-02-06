@@ -15,6 +15,7 @@ import { MatDatepickerModule } from '@angular/material/datepicker';
 import { MatSnackBarModule } from '@angular/material/snack-bar';
 import { MatProgressSpinnerModule } from '@angular/material/progress-spinner';
 import { MatTooltipModule } from '@angular/material/tooltip';
+import { MatExpansionModule } from '@angular/material/expansion';
 import { OverlayModule } from '@angular/cdk/overlay';
 import { FlexLayoutModule } from '@angular/flex-layout';
 
@@ -35,6 +36,7 @@ const Material = [
   MatProgressSpinnerModule,
   MatTooltipModule,
   MatBadgeModule,
+  MatExpansionModule,
   OverlayModule,
   FlexLayoutModule,
 ];

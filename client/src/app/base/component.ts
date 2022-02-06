@@ -6,14 +6,14 @@ export abstract class BaseListComponent<
   Modal extends BaseModal,
   Context extends BaseContext
 > {
-  modals: Modal[];
+  items: Modal[];
   context: Context;
 
   constructor(private modalService: BaseListService<Modal, Context>) {}
 
-  loadModals(params: Params) {
+  loadItems(params: Params) {
     this.modalService.getModals(params).subscribe((response) => {
-      this.modals = response.items;
+      this.items = response.items;
       this.context = response.context;
     });
   }

@@ -68,6 +68,7 @@ export class OrderPaymentComponent implements OnInit, OnDestroy {
     request.payOption = this.payMethod.name;
     request.totalAmount = this.checkout.total;
     this.orderService.order(request).subscribe((response) => {
+      this.toastr.success('Order placed successfully.');
       this.router.navigateByUrl('/order/' + response, { replaceUrl: true });
     });
   }

@@ -15,5 +15,5 @@ public interface IOrderRepository
     Task<List<CartStoreDto>> GetCart(int userId);
     Task<CartItemDto> GetCart(int userId, int storeItemId);
     Task<CartItem> AddToCart(int userId, int storeItemId, int productId);
-    Task RemoveFromCart(int userId, int[] storeItemIds);
+    Task<bool> RemoveFromCart(int userId, int[] storeItemIds);
 }

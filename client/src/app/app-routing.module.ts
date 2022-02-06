@@ -10,6 +10,7 @@ import { CartComponent } from './cart/cart.component';
 import { ProductCheckoutComponent } from './order/product-checkout/product-checkout.component';
 import { OrderPaymentComponent } from './order/order-payment/order-payment.component';
 import { OrderDetailComponent } from './order/order-detail/order-detail.component';
+import { OrderListComponent } from './order/order-list/order-list.component';
 
 const routes: Routes = [
   { path: '', component: HomeComponent },
@@ -19,6 +20,7 @@ const routes: Routes = [
   { path: 'search', component: SearchComponent },
   { path: 'product/:id', component: ProductDetailComponent },
   { path: 'order/:id', component: OrderDetailComponent },
+  { path: 'order', component: OrderListComponent },
   { path: 'cart', component: CartComponent },
   { path: 'checkout', component: ProductCheckoutComponent },
   { path: 'payment', component: OrderPaymentComponent },

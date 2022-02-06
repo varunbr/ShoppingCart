@@ -44,7 +44,7 @@ export class SearchComponent
   }
 
   searchProduct(params: Params) {
-    this.loadModals(params);
+    this.loadItems(params);
   }
 
   ngOnDestroy(): void {
