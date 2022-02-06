@@ -1,0 +1,91 @@
+<div fxLayout="row" fxLayoutAlign="center center">
+    <div fxFlex="80" fxFlex.lt-md="100" *ngIf="items" fxLayout="column" fxLayoutGap="10px" fxLayoutAlign="center">
+        <mat-card class="mt-3" *ngIf="this.context" fxLayoutAlign="space-between center">
+            <div>
+                Page number {{this.context.pageNumber}} of {{this.context.totalPages}}
+            </div>
+            <app-pagination [page]="this.context.pageNumber" [totalPages]="this.context.totalPages"
+                (pageChange)="pageChange($event)">
+            </app-pagination>
+        </mat-card>
+        <mat-card *ngIf="context.totalPages !==0 && items && items?.length <= 0" fxLayout="column"
+            fxLayoutAlign="center center" style="height: 50vh;">
+            <img src='./assets/images/NotFound.png' style="width:30vw;max-width: 200px;">
+            <mat-card-title class="mt-4">Sorry, no results found!</mat-card-title>
+            <mat-card-subtitle>Please check the page number & try again</mat-card-subtitle>
+        </mat-card>
+        <mat-card *ngIf="context.totalPages === 0" fxLayout="column" fxLayoutAlign="center center"
+            style="height: 50vh;">
+            <img src='./assets/images/NotFound.png' style="width:30vw;max-width: 200px;">
+            <mat-card-title class="mt-4">No orders available!</mat-card-title>
+        </mat-card>
+        <mat-card *ngFor="let item of items">
+            <div fxLayout="row wrap" fxLayoutGap="15px">
+                <mat-accordion fxFlex="60" fxFlex.lt-md="100">
+                    <h3>Item(s) Ordered:</h3>
+                    <mat-expansion-panel [expanded]="i===0" *ngFor="let item of item.orderItems; let i = index">
+                        <mat-expansion-panel-header>
+                            <mat-panel-title>
+                                #{{i + 1}} - {{item.name | reduce:35}}
+                            </mat-panel-title>
+                        </mat-expansion-panel-header>
+                        <div class="py-3" fxLayout="row" fxLayoutGap="10px" fxLayoutAlign="center center">
+                            <div fxFlex="none" class="cart-image-box" fxLayout="row" fxLayoutAlign="center center">
+                                <img class="cart-image" src={{item.photoUrl}}>
+                            </div>
+                            <div fxFlex fxLayout="column" fxLayoutAlign="center stretch">
+                                <p><a [href]="getProductUrl(item.productId)" target="_blank"
+                                        style="color: inherit;">{{item.name}}</a></p>
+                                <mat-card-subtitle fxLayout="column">
+                                    <div fxLayout="row">
+                                        <div fxFlex=30>Price</div>
+                                        <div fxFlex>{{item.price | currency:'INR'}}</div>
+                                    </div>
+                                    <div fxLayout="row">
+                                        <div fxFlex=30>Unit(s)</div>
+                                        <div fxFlex>{{item.count}}</div>
+                                    </div>
+                                </mat-card-subtitle>
+                            </div>
+                        </div>
+                    </mat-expansion-panel>
+                </mat-accordion>
+                <div class="mt-3" fxFlex fxLayout="row" fxLayoutAlign="center center">
+                    <div fxFlex fxLayout="column" fxFlex.lt-md="70" fxFlex.lt-sm="90">
+                        <h4 fxLayout="row" fxLayoutAlign="space-between center">
+                            <div>Price ({{item.orderItems.length === 1 ? '1 item':item.orderItems.length
+                                + ' items'}}):</div>
+                            <div>{{getTotal(item.orderItems) | currency:'INR'}}</div>
+                        </h4>
+                        <h4 fxLayout="row" fxLayoutAlign="space-between center">
+                            <div>Delivery Charge:</div>
+                            <div>{{item.deliveryCharge | currency:'INR'}}</div>
+                        </h4>
+                        <h3 fxLayout="row" fxLayoutAlign="space-between center">
+                            <div>Total Amount:</div>
+                            <div>{{item.totalAmount | currency:'INR'}}</div>
+                        </h3>
+                        <mat-card-subtitle fxLayout="row" fxLayoutAlign="space-between center">
+                            <div>Date:</div>
+                            <div>{{item.created | date:'dd/MM/yyyy, h:mm a'}}</div>
+                        </mat-card-subtitle>
+                        <mat-card-subtitle fxLayout="row" fxLayoutAlign="space-between center">
+                            <div>Status:</div>
+                            <div>{{item.status}}</div>
+                        </mat-card-subtitle>
+                        <div fxLayout="row" fxLayoutAlign="center">
+                            <button fxFlex="50" mat-raised-button [routerLink]="'/order/' + item.id" color="warn">
+                                View
+                            </button>
+                        </div>
+                    </div>
+                </div>
+            </div>
+        </mat-card>
+        <mat-card *ngIf="this.context">
+            <app-pagination [page]="this.context.pageNumber" [totalPages]="this.context.totalPages"
+                (pageChange)="pageChange($event)">
+            </app-pagination>
+        </mat-card>
+    </div>
+</div>

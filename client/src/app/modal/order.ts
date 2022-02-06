@@ -1,7 +1,7 @@
+import { BaseModal } from '../base/modal';
 import { CheckoutRequestItem } from './checkout';
 
-export class OrderDetail {
-  id: number;
+export class OrderDetail extends BaseModal{
   transactionId: number;
   created: Date;
   delivery: Date;

@@ -40,6 +40,7 @@ import { CartComponent } from './cart/cart.component';
 import { ProductCheckoutComponent } from './order/product-checkout/product-checkout.component';
 import { OrderPaymentComponent } from './order/order-payment/order-payment.component';
 import { OrderDetailComponent } from './order/order-detail/order-detail.component';
+import { OrderListComponent } from './order/order-list/order-list.component';
 
 @Injectable()
 export class HammerConfig extends HammerGestureConfig {
@@ -74,6 +75,7 @@ export class HammerConfig extends HammerGestureConfig {
     ProductCheckoutComponent,
     OrderPaymentComponent,
     OrderDetailComponent,
+    OrderListComponent,
   ],
   imports: [
     BrowserModule,

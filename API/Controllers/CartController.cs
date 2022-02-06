@@ -40,8 +40,8 @@ namespace API.Controllers
         [HttpDelete]
         public async Task<ActionResult> RemoveFromCart([FromBody] int[] storeItemIds)
         {
-            await _uow.OrdersRepository.RemoveFromCart(HttpContext.User.GetUserId(), storeItemIds);
-            if (!await _uow.SaveChanges())
+            var remove = await _uow.OrdersRepository.RemoveFromCart(HttpContext.User.GetUserId(), storeItemIds);
+            if (remove && !await _uow.SaveChanges())
             {
                 return BadRequest("Failed to remove.");
             }

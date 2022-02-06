@@ -33,6 +33,18 @@ img {
   color: orangered;
 }
 
+.cart-image-box {
+  height: 75px;
+  width: 75px;
+  background-color: white;
+  border-radius: 15px;
+}
+.cart-image {
+  width: 65px;
+  height: 65px;
+  object-fit: contain;
+}
+
 /* lt-xl */
 @media only screen and (max-width: 1919px) {
   .title {

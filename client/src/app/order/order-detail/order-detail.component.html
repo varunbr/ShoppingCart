@@ -1,45 +1,24 @@
 <div *ngIf="order" fxLayout="row" fxLayoutAlign="center">
     <mat-card class="my-5" style="border-radius: 10px;" fxFlex="60" fxFlex.lt-lg="70" fxFlex.lt-md="80"
         fxFlex.lt-sm="95">
-        <div fxLayout="row wrap">
-            <div fxFlex="60" fxFlex.lt-md="100">
-                <div *ngFor="let item of order.orderItems">
-                    <div class="py-3" fxLayout="row" fxLayoutGap="10px" fxLayoutAlign="center center">
-                        <div fxFlex="none" class="cart-image-box" fxLayout="row" fxLayoutAlign="center center">
-                            <img class="cart-image" src={{item.photoUrl}}>
-                        </div>
-                        <div fxFlex fxLayout="column" fxLayoutAlign="center stretch">
-                            <p><a [href]="getProductUrl(item.productId)" target="_blank"
-                                    style="color: inherit;">{{item.name}}</a></p>
-                            <mat-card-subtitle fxLayout="column">
-                                <div fxLayout="row">
-                                    <div fxFlex=30>Price</div>
-                                    <div fxFlex>{{item.price | currency:'INR'}}</div>
-                                </div>
-                                <div fxLayout="row">
-                                    <div fxFlex=30>Unit(s)</div>
-                                    <div fxFlex>{{item.count}}</div>
-                                </div>
-                            </mat-card-subtitle>
-                        </div>
-                    </div>
+        <div *ngFor="let item of order.orderItems">
+            <div class="py-3" fxLayout="row" fxLayoutGap="10px" fxLayoutAlign="center center">
+                <div fxFlex="none" class="cart-image-box" fxLayout="row" fxLayoutAlign="center center">
+                    <img class="cart-image" src={{item.photoUrl}}>
                 </div>
-            </div>
-            <div fxFlex fxLayout="row" fxLayoutAlign="center center">
-                <div fxFlex fxLayout="column" fxFlex.lt-md="70" fxFlex.lt-sm="90">
-                    <h3 fxLayout="row" fxLayoutAlign="space-between center">
-                        <div>Price ({{order.orderItems.length === 1 ? '1 item':order.orderItems.length
-                            + ' items'}}):</div>
-                        <div>{{getTotal() | currency:'INR'}}</div>
-                    </h3>
-                    <h3 fxLayout="row" fxLayoutAlign="space-between center">
-                        <div>Delivery Charge:</div>
-                        <div>{{order.deliveryCharge | currency:'INR'}}</div>
-                    </h3>
-                    <h2 fxLayout="row" fxLayoutAlign="space-between center">
-                        <div>Total Amount:</div>
-                        <div>{{order.totalAmount | currency:'INR'}}</div>
-                    </h2>
+                <div fxFlex fxLayout="column" fxLayoutAlign="center stretch">
+                    <p><a [href]="getProductUrl(item.productId)" target="_blank"
+                            style="color: inherit;">{{item.name}}</a></p>
+                    <mat-card-subtitle fxLayout="column">
+                        <div fxLayout="row">
+                            <div fxFlex=30>Price</div>
+                            <div fxFlex>{{item.price | currency:'INR'}}</div>
+                        </div>
+                        <div fxLayout="row">
+                            <div fxFlex=30>Unit(s)</div>
+                            <div fxFlex>{{item.count}}</div>
+                        </div>
+                    </mat-card-subtitle>
                 </div>
             </div>
         </div>
@@ -67,6 +46,19 @@
                     <div *ngIf="order.delivery">{{ order.delivery | date:'dd/MM/yyyy, h:mm a'}}</div>
                     <div *ngIf="!order.delivery">NA</div>
                 </mat-card-subtitle>
+                <h3 fxLayout="row" fxLayoutAlign="space-between center">
+                    <div>Price ({{order.orderItems.length === 1 ? '1 item':order.orderItems.length
+                        + ' items'}}):</div>
+                    <div>{{getTotal() | currency:'INR'}}</div>
+                </h3>
+                <h3 fxLayout="row" fxLayoutAlign="space-between center">
+                    <div>Delivery Charge:</div>
+                    <div>{{order.deliveryCharge | currency:'INR'}}</div>
+                </h3>
+                <h2 fxLayout="row" fxLayoutAlign="space-between center">
+                    <div>Total Amount:</div>
+                    <div>{{order.totalAmount | currency:'INR'}}</div>
+                </h2>
             </div>
         </div>
     </mat-card>

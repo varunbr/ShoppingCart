@@ -367,10 +367,12 @@ namespace API.Data
             return item;
         }
 
-        public async Task RemoveFromCart(int userId, int[] storeItemIds)
+        public async Task<bool> RemoveFromCart(int userId, int[] storeItemIds)
         {
             var cartItem = await DataContext.CartItems.Where(i => i.UserId == userId && storeItemIds.Contains(i.StoreItemId)).ToListAsync();
+            if(cartItem.Count==0) return false;
             DataContext.CartItems.RemoveRange(cartItem);
+            return true;
         }
 
         #endregion

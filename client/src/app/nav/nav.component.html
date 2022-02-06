@@ -38,7 +38,8 @@
               <mat-icon>{{isDark ? "light_mode":"dark_mode"}}</mat-icon>
             </button>
             <button mat-icon-button routerLink="/cart">
-              <mat-icon [matBadge]="cartCount" matBadgeSize="small" matBadgeColor="accent" [matBadgeHidden]="cartCount <= 0">
+              <mat-icon [matBadge]="cartCount" matBadgeSize="small" matBadgeColor="accent"
+                [matBadgeHidden]="cartCount <= 0">
                 shopping_cart</mat-icon>
             </button>
             <button class="ms-2" *ngIf="!(accountService.user$ | async)" mat-raised-button color="accent"
@@ -52,6 +53,7 @@
 
             <mat-menu #navMenu="matMenu">
               <button mat-menu-item routerLink="/edit-profile">Edit Profile</button>
+              <button mat-menu-item routerLink="/order">My Orders</button>
               <button mat-menu-item (click)="logout()">Logout</button>
             </mat-menu>
           </div>
