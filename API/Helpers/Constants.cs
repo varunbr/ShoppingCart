@@ -34,6 +34,9 @@
     public class Status
     {
         public const string Created = "Created";
+        public const string Confirmed = "Confirmed";
+        public const string Dispatched = "Dispatched";
+        public const string Delivered = "Delivered";
         public const string Ordered = "Ordered";
         public const string Failed = "Failed";
         public const string Success = "Success";

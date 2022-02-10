@@ -22,8 +22,13 @@ export class AccountService {
   private userSource = new BehaviorSubject<User>(null);
   user$ = this.userSource.asObservable();
   baseUrl = environment.apiUrl + 'account/';
+  loggedIn: boolean;
 
-  constructor(private http: HttpService) {}
+  constructor(private http: HttpService) {
+    this.user$.subscribe((u) => {
+      this.loggedIn = u !== null;
+    });
+  }
 
   login(model: any) {
     return this.http.post<User>(this.baseUrl + 'login', model).pipe(

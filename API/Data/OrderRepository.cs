@@ -146,7 +146,7 @@ namespace API.Data
                 var accTransaction =
                     await ProcessTransaction(from, to, order.TotalAmount, $"Transaction for order #{order.Id}");
 
-                order.Status = Status.Ordered;
+                order.Status = Status.Confirmed;
                 order.Transaction = accTransaction;
 
                 var result = await DataContext.SaveChangesAsync();

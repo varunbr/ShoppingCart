@@ -79,7 +79,7 @@ namespace API.Controllers
             if (user == null) return BadRequest("Invalid user");
 
             var result = await _signInManager.CheckPasswordSignInAsync(user, loginDto.Password, false);
-            if (!result.Succeeded) return Unauthorized();
+            if (!result.Succeeded) return BadRequest("Invalid username or password.");
 
             var token = await _tokenService.CreateToken(user);
 

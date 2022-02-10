@@ -1,7 +1,9 @@
 import { Component, OnInit, Renderer2 } from '@angular/core';
+import { ActivatedRoute, Params } from '@angular/router';
 import { User } from './modal/user';
 import { AccountService } from './services/account.service';
 import { BusyService } from './services/busy.service';
+import { UtilityService } from './services/utility.service';
 
 @Component({
   selector: 'app-root',
@@ -13,6 +15,8 @@ export class AppComponent implements OnInit {
   isDark = false;
   constructor(
     private accountSerice: AccountService,
+    private route: ActivatedRoute,
+    private utility: UtilityService,
     public busy: BusyService,
     private _renderer: Renderer2
   ) {}
@@ -20,6 +24,9 @@ export class AppComponent implements OnInit {
   ngOnInit() {
     this.getTheme();
     this.setCurrentUser();
+    this.route.queryParams.subscribe((params) => {
+      this.handelLogout(params);
+    });
   }
 
   toggleTheme(isDark): void {
@@ -53,5 +60,16 @@ export class AppComponent implements OnInit {
 
   setTheme(theme: string) {
     localStorage.setItem('theme', theme);
+  }
+
+  handelLogout(params: Params) {
+    if (params.logout) {
+      this.accountSerice.logout();
+      window.location.replace(
+        this.utility.getUrl(location.pathname, {
+          redirectTo: params.redirectTo,
+        })
+      );
+    }
   }
 }

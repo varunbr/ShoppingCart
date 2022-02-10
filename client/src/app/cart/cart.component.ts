@@ -3,6 +3,7 @@ import { Router } from '@angular/router';
 import { environment } from 'src/environments/environment';
 import { CartItem, CartStore } from '../modal/cart';
 import { CartService } from '../services/cart.service';
+import { UtilityService } from '../services/utility.service';
 
 @Component({
   selector: 'app-cart',
@@ -13,7 +14,13 @@ export class CartComponent implements OnInit {
   cartStore: CartStore[];
   cartStoreItems: { storeItemId: number; productId: number }[];
   productUrl = environment.apiUrl + 'product/';
-  constructor(private cartService: CartService, private router: Router) {}
+  constructor(
+    public utility: UtilityService,
+    private cartService: CartService,
+    private router: Router
+  ) {
+    utility.setTitle('Cart');
+  }
 
   ngOnInit(): void {
     this.cartService.cartStore$.subscribe((response) => {
@@ -23,12 +30,6 @@ export class CartComponent implements OnInit {
       this.cartStoreItems = response;
     });
     this.cartService.getCart();
-  }
-
-  getProductUrl(id: number) {
-    return this.router.serializeUrl(
-      this.router.createUrlTree([`/product/${id}`])
-    );
   }
 
   removeFromCart(itemIds: number[]) {

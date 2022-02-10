@@ -1,5 +1,6 @@
 import { Component, OnInit } from '@angular/core';
-import { Router } from '@angular/router';
+import { ActivatedRoute, Router } from '@angular/router';
+import { UtilityService } from 'src/app/services/utility.service';
 import { AccountService } from '../../services/account.service';
 
 @Component({
@@ -9,13 +10,32 @@ import { AccountService } from '../../services/account.service';
 })
 export class LoginComponent implements OnInit {
   modal: any = {};
-  constructor(private accountService: AccountService, private router: Router) {}
+  redirectUrl: string;
+  constructor(
+    private accountService: AccountService,
+    private router: Router,
+    private route: ActivatedRoute,
+    utility: UtilityService
+  ) {
+    utility.setTitle('Login');
+  }
 
-  ngOnInit(): void {}
+  ngOnInit(): void {
+    this.redirectUrl = this.route.snapshot.queryParams.redirectTo;
+    if (this.accountService.loggedIn) {
+      this.redirect();
+    }
+  }
 
   onSubmit() {
     this.accountService.login(this.modal).subscribe(() => {
-      this.router.navigateByUrl('/');
+      location.reload();
+    });
+  }
+
+  redirect() {
+    this.router.navigateByUrl(this.redirectUrl ? this.redirectUrl : '/', {
+      replaceUrl: true,
     });
   }
 }

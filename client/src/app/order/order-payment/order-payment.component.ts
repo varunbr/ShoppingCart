@@ -7,6 +7,7 @@ import { PayOption } from 'src/app/modal/payOption';
 import { OrderService } from 'src/app/services/order.service';
 import { PayService } from 'src/app/services/pay.service';
 import { ToastrService } from 'src/app/services/toastr.service';
+import { UtilityService } from 'src/app/services/utility.service';
 
 @Component({
   selector: 'app-order-payment',
@@ -22,8 +23,10 @@ export class OrderPaymentComponent implements OnInit, OnDestroy {
     private orderService: OrderService,
     private payService: PayService,
     private toastr: ToastrService,
-    private router: Router
+    private router: Router,
+    utility: UtilityService
   ) {
+    utility.setTitle('Payment');
     orderService.checkoutRequest$
       .pipe(take(1))
       .subscribe((response) => (this.checkout = response));

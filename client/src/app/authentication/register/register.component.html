@@ -39,14 +39,14 @@
                         </mat-error>
                     </mat-form-field>
                 </div>
-                <button mat-flat-button [disabled]="!registerForm.valid" color="primary"
-                    type="submit">Register</button>
+                <button mat-flat-button [disabled]="!registerForm.valid" color="primary" type="submit">Register</button>
             </form>
         </mat-card-content>
         <mat-divider inset></mat-divider>
         <mat-card-actions class="mb-2 px-3">
             <p class="mat-typography">Existing User?</p>
-            <button mat-flat-button color="accent" routerLink="/login" type="button">Login</button>
+            <button mat-flat-button color="accent" routerLink="/login" [queryParams]="{redirectTo:redirectUrl}"
+                type="button">Login</button>
         </mat-card-actions>
     </mat-card>
 </div>

@@ -6,16 +6,15 @@ import {
   HttpInterceptor,
 } from '@angular/common/http';
 import { catchError, Observable, throwError } from 'rxjs';
-import { NavigationExtras, Router } from '@angular/router';
+import { ActivatedRoute, NavigationExtras, Router } from '@angular/router';
 import { ToastrService } from '../services/toastr.service';
-import { AccountService } from '../services/account.service';
 
 @Injectable()
 export class ErrorInterceptor implements HttpInterceptor {
   constructor(
     private router: Router,
-    private toastr: ToastrService,
-    private accountService: AccountService
+    private route: ActivatedRoute,
+    private toastr: ToastrService
   ) {}
 
   intercept(
@@ -26,6 +25,9 @@ export class ErrorInterceptor implements HttpInterceptor {
       catchError((error) => {
         console.log(error);
         switch (error.status) {
+          case 0:
+            this.toastr.error('Unable to reach server!');
+            break;
           case 400:
             if (error.error.errors) {
               const modelStateErrors = [];
@@ -63,9 +65,13 @@ export class ErrorInterceptor implements HttpInterceptor {
   }
 
   handleAuthenticationError(error) {
-    this.accountService.logout();
     this.toastr.error('Authentication failed');
-    this.router.navigateByUrl('/login');
+    let params = this.route.snapshot.queryParams;
+    if (!params.redirectTo) {
+      this.router.navigate(['/login'], {
+        queryParams: { redirectTo: this.router.url, logout: true },
+      });
+    }
   }
 
   handleServerError(error) {

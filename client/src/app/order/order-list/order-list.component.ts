@@ -1,9 +1,11 @@
 import { Component, OnInit } from '@angular/core';
+import { Title } from '@angular/platform-browser';
 import { ActivatedRoute, Router } from '@angular/router';
 import { BaseListComponent } from 'src/app/base/component';
 import { BaseContext } from 'src/app/base/modal';
 import { OrderDetail, OrderItem } from 'src/app/modal/order';
 import { OrderService } from 'src/app/services/order.service';
+import { UtilityService } from 'src/app/services/utility.service';
 
 @Component({
   selector: 'app-order-list',
@@ -15,11 +17,13 @@ export class OrderListComponent
   implements OnInit
 {
   constructor(
+    public utility: UtilityService,
     private route: ActivatedRoute,
     private router: Router,
     orderService: OrderService
   ) {
     super(orderService);
+    utility.setTitle('Orders');
     this.route.queryParams.subscribe((params) => {
       this.loadItems(params);
     });
@@ -33,12 +37,6 @@ export class OrderListComponent
       total += item.price * item.count;
     }
     return total;
-  }
-
-  getProductUrl(id: number) {
-    return this.router.serializeUrl(
-      this.router.createUrlTree([`/product/${id}`])
-    );
   }
 
   pageChange(event) {

@@ -7,6 +7,7 @@ import {
   Output,
 } from '@angular/core';
 import { ActivatedRoute, Router } from '@angular/router';
+import { User } from '../modal/user';
 import { AccountService } from '../services/account.service';
 import { CartService } from '../services/cart.service';
 
@@ -20,13 +21,16 @@ export class NavComponent implements OnInit {
   @Input() isDark = false;
   @Output() changeTheme = new EventEmitter<boolean>();
   cartCount: number;
+  user: User;
 
   constructor(
     public accountService: AccountService,
     private router: Router,
     private route: ActivatedRoute,
     private cartService: CartService
-  ) {}
+  ) {
+    this.accountService.user$.subscribe((u) => (this.user = u));
+  }
 
   ngOnInit(): void {
     this.route.queryParamMap.subscribe((params) => {
@@ -47,7 +51,7 @@ export class NavComponent implements OnInit {
   }
 
   logout() {
-    this.accountService.logout();
+    this.router.navigate(['/'], { queryParams: { logout: true } });
   }
 
   search() {
