@@ -1,13 +1,67 @@
 <mat-sidenav-container class="sidenav-container" style="min-height: 100vh;">
-  <mat-sidenav #sidenav [fixedInViewport]="true">
-    <mat-nav-list>
-      <a (click)="sidenav.toggle()" href="#" mat-list-item>Close</a>
-      <a href="#" mat-list-item>Menu Item 1</a>
-      <a href="#" mat-list-item>Menu Item 2</a>
-      <a href="#" mat-list-item>Menu Item 3</a>
-      <a href="#" mat-list-item>Menu Item 4</a>
-      <a href="#" mat-list-item>Menu Item 5</a>
-      <a href="#" mat-list-item>Menu Item 6</a>
+  <mat-sidenav #sidenav [fixedInViewport]="true" class="sidenav">
+    <mat-nav-list fxLayout="column">
+      <button class="me-2" fxFlexAlign="end" mat-icon-button (click)="sidenav.toggle()">
+        <mat-icon>close</mat-icon>
+      </button>
+      <br><br>
+      <div (click)="sidenav.toggle()">
+        <a *ngIf="!user" routerLink="/login" mat-list-item>
+          <mat-icon>login</mat-icon>&nbsp; Login
+        </a>
+        <a routerLink="/edit-profile" mat-list-item>
+          <mat-icon>face</mat-icon>&nbsp; Profile
+        </a>
+        <a routerLink="/order" mat-list-item>
+          <mat-icon>reorder</mat-icon>&nbsp; My Orders
+        </a>
+        <a routerLink="/cart" mat-list-item>
+          <mat-icon>shopping_cart</mat-icon>&nbsp; Cart
+        </a>
+        <a routerLink="/about" mat-list-item>
+          <mat-icon>info</mat-icon>&nbsp; About
+        </a>
+        <a *ngIf="user" (click)="logout()" mat-list-item>
+          <mat-icon>logout</mat-icon>&nbsp; Logout
+        </a>
+        <br>
+        <mat-divider></mat-divider>
+        <br>
+        <a routerLink="/search" [queryParams]="{q:'Mobiles'}" mat-list-item>
+          <mat-icon>phone_android</mat-icon>&nbsp; Mobiles
+        </a>
+        <a routerLink="/search" [queryParams]="{q:'Laptops'}" mat-list-item>
+          <mat-icon>laptop</mat-icon>&nbsp; Laptops
+        </a>
+        <a routerLink="/search" [queryParams]="{q:'Television'}" mat-list-item>
+          <mat-icon>tv</mat-icon>&nbsp; Television
+        </a>
+        <a routerLink="/search" [queryParams]="{q:'Refrigerators'}" mat-list-item>
+          <mat-icon>kitchen</mat-icon>&nbsp; Refrigerators
+        </a>
+        <a routerLink="/search" [queryParams]="{q:'Washing Machine'}" mat-list-item>
+          <mat-icon>local_laundry_service</mat-icon>&nbsp; Washing Machine
+        </a>
+        <a routerLink="/search" [queryParams]="{q:'Memory Cards'}" mat-list-item>
+          <mat-icon>sd_card</mat-icon>&nbsp; Memory Cards
+        </a>
+        <a routerLink="/search" [queryParams]="{q:'Headphones'}" mat-list-item>
+          <mat-icon>headset_mic</mat-icon>&nbsp; Headphones
+        </a>
+        <a routerLink="/search" [queryParams]="{q:'Power Banks'}" mat-list-item>
+          <mat-icon>battery_charging_full</mat-icon>&nbsp; Power Banks
+        </a>
+        <a routerLink="/search" [queryParams]="{q:'Camera'}" mat-list-item>
+          <mat-icon>photo_camera</mat-icon>&nbsp; Camera
+        </a>
+        <a routerLink="/search" [queryParams]="{q:'Speakers'}" mat-list-item>
+          <mat-icon>speaker</mat-icon>&nbsp; Speakers
+        </a>
+        <a routerLink="/search" [queryParams]="{q:'Air Conditioners'}" mat-list-item>
+          <mat-icon>ac_unit</mat-icon>&nbsp; Air Conditioners
+        </a>
+      </div>
+      <br><br>
     </mat-nav-list>
   </mat-sidenav>
   <mat-sidenav-content>
@@ -15,7 +69,7 @@
       <mat-toolbar-row>
         <div fxLayout="row" fxLayoutGap="2%" fxFlexFill fxLayoutAlign="space-between center">
           <div>
-            <button mat-icon-button (click)="sidenav.toggle()" fxShow="true" fxHide.gt-sm>
+            <button mat-icon-button (click)="sidenav.toggle()" fxShow="true">
               <mat-icon>menu</mat-icon>
             </button>
             <span class="brand" routerLink="/">ShoppingCart</span>
@@ -30,30 +84,27 @@
             </mat-form-field>
           </form>
           <div fxLayout="row" class="pe-4">
-            <div fxShow="true" fxHide.lt-md>
-              <a href="#" mat-button>Menu Item 1</a>
-              <a href="#" mat-button>Menu Item 2</a>
-            </div>
+            <button fxHide.lt-md="true" mat-icon-button>
+              <mat-icon>info</mat-icon>
+            </button>
             <button mat-icon-button (click)="toggleTheme()">
               <mat-icon>{{isDark ? "light_mode":"dark_mode"}}</mat-icon>
             </button>
-            <button mat-icon-button routerLink="/cart">
+            <button fxHide.sm="true" mat-icon-button routerLink="/cart">
               <mat-icon [matBadge]="cartCount" matBadgeSize="small" matBadgeColor="accent"
                 [matBadgeHidden]="cartCount <= 0">
                 shopping_cart</mat-icon>
             </button>
-            <button class="ms-2" *ngIf="!(accountService.user$ | async)" mat-raised-button color="accent"
-              routerLink="/login">
+            <button class="ms-2" *ngIf="!user" mat-raised-button color="accent" routerLink="/login">
               Login
             </button>
-            <button *ngIf="(accountService.user$ | async) as user" mat-icon-button [matMenuTriggerFor]="navMenu">
+            <button *ngIf="user" mat-icon-button [matMenuTriggerFor]="navMenu">
               <img class="profile" src="{{user.photoUrl || './assets/images/profile.png'}}" alt="Profile">
               <mat-icon>arrow_drop_down</mat-icon>
             </button>
 
             <mat-menu #navMenu="matMenu">
               <button mat-menu-item routerLink="/edit-profile">Edit Profile</button>
-              <button mat-menu-item routerLink="/order">My Orders</button>
               <button mat-menu-item (click)="logout()">Logout</button>
             </mat-menu>
           </div>

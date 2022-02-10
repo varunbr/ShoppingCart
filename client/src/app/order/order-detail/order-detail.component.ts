@@ -1,7 +1,8 @@
 import { Component, OnInit } from '@angular/core';
-import { ActivatedRoute, Router } from '@angular/router';
+import { ActivatedRoute } from '@angular/router';
 import { OrderDetail } from 'src/app/modal/order';
 import { OrderService } from 'src/app/services/order.service';
+import { UtilityService } from 'src/app/services/utility.service';
 
 @Component({
   selector: 'app-order-detail',
@@ -13,21 +14,16 @@ export class OrderDetailComponent implements OnInit {
 
   constructor(
     private route: ActivatedRoute,
-    private router: Router,
+    public utility: UtilityService,
     private orderService: OrderService
   ) {
+    utility.setTitle('Order');
     this.route.params.subscribe((params) => {
       this.getOrder(params['id']);
     });
   }
 
   ngOnInit(): void {}
-
-  getProductUrl(id: number) {
-    return this.router.serializeUrl(
-      this.router.createUrlTree([`/product/${id}`])
-    );
-  }
 
   getTotal() {
     let total = 0;

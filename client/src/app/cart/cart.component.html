@@ -20,7 +20,7 @@
                         </div>
                         <div fxLayout="column" fxLayoutAlign="center start">
 
-                            <p><a [href]="getProductUrl(item.productId)" target="_blank"
+                            <p><a [href]="utility.getProductUrl(item.productId)" target="_blank"
                                     style="color: inherit;">{{item.name}}</a></p>
                             <mat-card-subtitle class="content">{{item.amount | currency:'INR'}} <span
                                     *ngIf="item.available <= 0" style="color: orangered;">&nbsp;&nbsp; Out Of

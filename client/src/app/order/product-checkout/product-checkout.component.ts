@@ -1,11 +1,12 @@
 import { Component, OnInit } from '@angular/core';
-import { ActivatedRoute, Router } from '@angular/router';
+import { ActivatedRoute } from '@angular/router';
 import {
   Checkout,
   CheckoutItem,
   CheckoutRequestItem,
 } from 'src/app/modal/checkout';
 import { OrderService } from 'src/app/services/order.service';
+import { UtilityService } from 'src/app/services/utility.service';
 
 @Component({
   selector: 'app-product-checkout',
@@ -15,10 +16,12 @@ import { OrderService } from 'src/app/services/order.service';
 export class ProductCheckoutComponent implements OnInit {
   checkoutResponse: Checkout;
   constructor(
-    private router: Router,
+    public utility: UtilityService,
     private route: ActivatedRoute,
     private orderService: OrderService
-  ) {}
+  ) {
+    utility.setTitle('Checkout');
+  }
 
   ngOnInit(): void {
     this.orderService.clearRequest();
@@ -35,12 +38,6 @@ export class ProductCheckoutComponent implements OnInit {
     this.orderService.checkOut(checkoutItems).subscribe((response) => {
       this.checkoutResponse = response;
     });
-  }
-
-  getProductUrl(id: number) {
-    return this.router.serializeUrl(
-      this.router.createUrlTree([`/product/${id}`])
-    );
   }
 
   changeQuantity(item: CheckoutItem, value: number) {

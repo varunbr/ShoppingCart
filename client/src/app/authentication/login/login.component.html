@@ -20,7 +20,8 @@
         <mat-divider inset></mat-divider>
         <mat-card-actions class="mb-2 px-3">
             <p class="mat-typography">New to ShoppingCart? Create an account</p>
-            <button mat-flat-button color="accent" routerLink="/register" type="button">Create</button>
+            <button mat-flat-button color="accent" routerLink="/register" [queryParams]="{redirectTo:redirectUrl}"
+                type="button">Create</button>
         </mat-card-actions>
     </mat-card>
 </div>

@@ -7,8 +7,9 @@ import {
   ValidatorFn,
   Validators,
 } from '@angular/forms';
-import { Router } from '@angular/router';
+import { ActivatedRoute, Router } from '@angular/router';
 import { AccountService } from 'src/app/services/account.service';
+import { UtilityService } from 'src/app/services/utility.service';
 
 @Component({
   selector: 'app-register',
@@ -17,15 +18,24 @@ import { AccountService } from 'src/app/services/account.service';
 })
 export class RegisterComponent implements OnInit {
   registerForm: FormGroup;
+  redirectUrl: string;
   constructor(
     private fb: FormBuilder,
     private accountService: AccountService,
-    private router: Router
+    private router: Router,
+    private route: ActivatedRoute,
+    utility: UtilityService
   ) {
+    utility.setTitle('Create New Account');
     this.initilizeForm();
   }
 
-  ngOnInit(): void {}
+  ngOnInit(): void {
+    this.redirectUrl = this.route.snapshot.queryParams.redirectTo;
+    if (this.accountService.loggedIn) {
+      this.redirect();
+    }
+  }
 
   initilizeForm() {
     this.registerForm = this.fb.group({
@@ -66,9 +76,15 @@ export class RegisterComponent implements OnInit {
     };
   }
 
+  redirect() {
+    this.router.navigateByUrl(this.redirectUrl ? this.redirectUrl : '/', {
+      replaceUrl: true,
+    });
+  }
+
   onSubmit() {
     this.accountService.register(this.registerForm.value).subscribe(() => {
-      this.router.navigateByUrl('/');
+      location.reload();
     });
   }
 }

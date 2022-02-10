@@ -8,6 +8,7 @@ import {
 } from 'src/app/modal/product';
 import { CartService } from 'src/app/services/cart.service';
 import { ProductService } from 'src/app/services/product.service';
+import { UtilityService } from 'src/app/services/utility.service';
 
 @Component({
   selector: 'app-product-detail',
@@ -25,7 +26,8 @@ export class ProductDetailComponent implements OnInit {
     private route: ActivatedRoute,
     private router: Router,
     private productService: ProductService,
-    private cartService: CartService
+    private cartService: CartService,
+    private utility: UtilityService
   ) {}
 
   ngOnInit(): void {
@@ -43,6 +45,7 @@ export class ProductDetailComponent implements OnInit {
       this.productModel = response;
       this.product = response.products[id.toString()];
       this.variants = response.variants;
+      this.utility.setTitle(this.product.name);
       this.setVariantSelections(this.product, this.variants);
       let urls = [];
       this.product?.photos.forEach((element) => {

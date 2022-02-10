@@ -1,7 +1,8 @@
-import { Component, ElementRef, OnInit, ViewChild } from '@angular/core';
-import { Router } from '@angular/router';
+import { Component, OnInit } from '@angular/core';
+import { Title } from '@angular/platform-browser';
 import { HomePage } from '../modal/product';
 import { ProductService } from '../services/product.service';
+import { UtilityService } from '../services/utility.service';
 
 @Component({
   selector: 'app-home',
@@ -10,7 +11,9 @@ import { ProductService } from '../services/product.service';
 })
 export class HomeComponent implements OnInit {
   homePage: HomePage;
-  constructor(private productService: ProductService) {}
+  constructor(private productService: ProductService, utility: UtilityService) {
+    utility.setTitle('Home');
+  }
 
   ngOnInit(): void {
     this.productService.getHomePage().subscribe((response) => {

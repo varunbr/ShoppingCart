@@ -1,6 +1,7 @@
 import { Component, OnDestroy, OnInit } from '@angular/core';
 import { ActivatedRoute, Params, Router } from '@angular/router';
 import { Subscription } from 'rxjs';
+import { UtilityService } from 'src/app/services/utility.service';
 import { BaseListComponent } from '../../base/component';
 import { Product, ProductContext } from '../../modal/product';
 import { MediaService } from '../../services/media.service';
@@ -24,7 +25,8 @@ export class SearchComponent
     private route: ActivatedRoute,
     private router: Router,
     productService: ProductService,
-    private mediaObserver: MediaService
+    private mediaObserver: MediaService,
+    private utility: UtilityService
   ) {
     super(productService);
   }
@@ -32,6 +34,7 @@ export class SearchComponent
   ngOnInit(): void {
     this.route.queryParams.subscribe((params) => {
       this.search = params['q'];
+      this.utility.setTitle(this.search);
       this.queryParams = { ...params };
       this.searchProduct(params);
     });

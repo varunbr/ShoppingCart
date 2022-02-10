@@ -4,6 +4,7 @@ import { finalize } from 'rxjs';
 import { Address, LocationInfo } from '../modal/address';
 import { AccountService } from '../services/account.service';
 import { ToastrService } from '../services/toastr.service';
+import { UtilityService } from '../services/utility.service';
 
 @Component({
   selector: 'app-edit-profile',
@@ -21,8 +22,11 @@ export class EditProfileComponent implements OnInit {
   constructor(
     private fb: FormBuilder,
     public accountService: AccountService,
-    private toastr: ToastrService
-  ) {}
+    private toastr: ToastrService,
+    utility: UtilityService
+  ) {
+    utility.setTitle('Edit profile');
+  }
 
   ngOnInit(): void {
     this.accountService.getProfile().subscribe((response) => {
