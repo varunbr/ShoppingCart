@@ -75,6 +75,7 @@ namespace API.Seed
 
                 if (user.UserName == "admin")
                 {
+                    user.Account.Balance = 2000000;
                     await _userManager.CreateAsync(user, _config["AdminPassword"]);
                     await _userManager.AddToRolesAsync(user, new[] { Role.User.ToString(), Role.Admin.ToString() });
                     continue;

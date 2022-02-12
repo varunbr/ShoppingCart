@@ -34,7 +34,7 @@ export class OrderService extends BaseListService<OrderDetail, BaseContext> {
 
   payForOrder(checkout: Checkout) {
     this.requestSource.next(checkout);
-    this.router.navigateByUrl('/payment', { replaceUrl: true });
+    this.router.navigateByUrl('/order-payment', { replaceUrl: true });
   }
 
   getOrder(id: number) {

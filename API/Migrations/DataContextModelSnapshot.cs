@@ -631,11 +631,11 @@ namespace API.Migrations
                     b.Property<int>("FromId")
                         .HasColumnType("int");
 
-                    b.Property<string>("Status")
-                        .HasColumnType("nvarchar(max)");
-
                     b.Property<int>("ToId")
                         .HasColumnType("int");
+
+                    b.Property<string>("Type")
+                        .HasColumnType("nvarchar(max)");
 
                     b.HasKey("Id");
 

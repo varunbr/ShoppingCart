@@ -12,7 +12,7 @@ using Microsoft.EntityFrameworkCore.Storage.ValueConversion;
 namespace API.Migrations
 {
     [DbContext(typeof(DataContext))]
-    [Migration("20220205023239_InitialSchema")]
+    [Migration("20220211095412_InitialSchema")]
     partial class InitialSchema
     {
         protected override void BuildTargetModel(ModelBuilder modelBuilder)
@@ -633,11 +633,11 @@ namespace API.Migrations
                     b.Property<int>("FromId")
                         .HasColumnType("int");
 
-                    b.Property<string>("Status")
-                        .HasColumnType("nvarchar(max)");
-
                     b.Property<int>("ToId")
                         .HasColumnType("int");
+
+                    b.Property<string>("Type")
+                        .HasColumnType("nvarchar(max)");
 
                     b.HasKey("Id");
 

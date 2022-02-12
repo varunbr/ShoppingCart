@@ -98,7 +98,7 @@ namespace API.Migrations
                     FromId = table.Column<int>(type: "int", nullable: false),
                     ToId = table.Column<int>(type: "int", nullable: false),
                     Amount = table.Column<double>(type: "float", nullable: false),
-                    Status = table.Column<string>(type: "nvarchar(max)", nullable: true),
+                    Type = table.Column<string>(type: "nvarchar(max)", nullable: true),
                     Description = table.Column<string>(type: "nvarchar(max)", nullable: true)
                 },
                 constraints: table =>

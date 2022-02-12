@@ -147,10 +147,11 @@ namespace API.Data
                     await ProcessTransaction(from, to, order.TotalAmount, $"Transaction for order #{order.Id}");
 
                 order.Status = Status.Confirmed;
+                accTransaction.Type = TransactionType.Order;
                 order.Transaction = accTransaction;
 
                 var result = await DataContext.SaveChangesAsync();
-                if (result <= 0) throw new HttpException("Failed to save.");
+                if (result <= 0) throw new HttpException("Failed to order.");
                 await transaction.CommitAsync();
             }
             catch

@@ -1,0 +1,116 @@
+<div class="my-3" fxLayout="column" fxLayoutAlign="center" fxLayoutGap="10px">
+    <div *ngIf="this.context" fxLayout="row" fxLayoutGap="10px" fxLayoutAlign="center center">
+        <h2>Wallet Balance:</h2>
+        <h2 [ngClass]="context.balance < 1000 ? 'error':'success'">{{context.balance | currency:'INR'}}</h2>
+    </div>
+    <div *ngIf="this.context" fxLayout="row" fxLayoutAlign="center">
+        <mat-expansion-panel fxFlex="40" fxFlex.lt-lg="50" fxFlex.lt-md="70" fxFlex.lt-sm="90">
+            <mat-expansion-panel-header>
+                <mat-panel-title>Amount Transfer</mat-panel-title>
+            </mat-expansion-panel-header>
+            <form fxFlexAlign="stretch" #transferForm="ngForm" (ngSubmit)="onSubmit(transferForm)">
+                <div class="px-2" fxLayout="column" fxLayoutAlign="center stretch">
+                    <mat-form-field appearance="outline">
+                        <mat-label>Username</mat-label>
+                        <input matInput appUserExist type="text" [(ngModel)]="modal.userName" name="userName"
+                            required />
+                        <mat-error *ngIf="transferForm.controls['userName']?.errors?.alreadyExist === false || 
+                            transferForm.controls['userName']===user.userName">
+                            Username not available.</mat-error>
+                    </mat-form-field>
+                    <mat-form-field appearance="outline">
+                        <mat-label>Amount</mat-label>
+                        <mat-icon matPrefix>currency_rupee</mat-icon>
+                        <input matInput type="number" autocomplete="off" [(ngModel)]="modal.amount" name="amount"
+                            required />
+                    </mat-form-field>
+                    <mat-form-field appearance="outline">
+                        <mat-label>Description</mat-label>
+                        <input matInput type="text" maxlength="50" placeholder="eg. Cab share" autocomplete="off"
+                            [(ngModel)]="modal.description" name="description" />
+                    </mat-form-field>
+                    <button mat-flat-button color="primary" [disabled]="transferForm.invalid" type="submit">
+                        <mat-icon>send</mat-icon> Send
+                    </button>
+                </div>
+            </form>
+        </mat-expansion-panel>
+    </div>
+    <div *ngIf="items" fxLayout="column" fxLayoutAlign="center">
+        <h2 fxLayoutAlign="center">Transactions:</h2>
+        <mat-accordion class="px-3">
+            <mat-expansion-panel *ngFor="let item of items; let i = index">
+                <mat-expansion-panel-header>
+                    <mat-panel-description>
+                        {{ (context.pageNumber - 1) * context.pageSize + i+1}}.&nbsp;&nbsp;{{item.date |
+                        date:'dd/MM/yyyy, h:mm a'}}
+                    </mat-panel-description>
+                    <mat-panel-description fxHide.lt-sm="true">
+                        <div>
+                            {{item.description}}
+                        </div>
+                    </mat-panel-description>
+                    <mat-panel-description fxLayout="row" fxLayoutAlign="end center">
+                        <div [ngClass]="user.userName === item.from ? 'error':'success'">
+                            {{user.userName === item.from ? '-':'+'}} {{item.amount | currency:'INR'}}
+                        </div>
+                    </mat-panel-description>
+                </mat-expansion-panel-header>
+
+                <div fxLayout="row" fxLayoutAlign="center center">
+                    <div fxFlex="40" fxFlex.lt-lg="50" fxFlex.lt-md="70" fxFlex.lt-sm="95" fxLayout="column"
+                        fxLayoutAlign="center stretch">
+                        <div fxLayout="row" fxLayoutAlign="space-between center">
+                            <h3>Transaction Id:</h3>
+                            <h3>{{item.id}}</h3>
+                        </div>
+                        <div fxLayout="row" fxLayoutAlign="space-between center">
+                            <h3>Date:</h3>
+                            <h3>{{item.date | date:'dd/MM/yyyy, h:mm a'}}</h3>
+                        </div>
+                        <div fxLayout="row" fxLayoutAlign="space-between center">
+                            <h3>Description:</h3>
+                            <h3>{{item.description}}</h3>
+                        </div>
+                        <div fxLayout="row" fxLayoutAlign="space-between center">
+                            <h3>Amount:</h3>
+                            <h3 [ngClass]="user.userName === item.from ? 'error':'success'">{{user.userName ===
+                                item.from ? '-':'+'}} {{item.amount |
+                                currency:'INR'}}</h3>
+                        </div>
+                        <div fxLayout="row" fxLayoutAlign="space-between center">
+                            <h3>Type:</h3>
+                            <h3>{{item.type}}</h3>
+                        </div>
+                        <div *ngIf="item.type === 'Order'" fxLayout="row" fxLayoutAlign="center">
+                            <button fxFlex="50" mat-raised-button [routerLink]="'/order/' + item.orderId" color="warn">
+                                View Order
+                            </button>
+                        </div>
+                        <div *ngIf="item.type === 'Amount Transfer' && item.to !== user.userName && item.to"
+                            fxLayout="row" fxLayoutAlign="space-between center">
+                            <h3>Transferred To:</h3>
+                            <h3>{{item.to}}</h3>
+                        </div>
+                        <div *ngIf="item.type === 'Amount Transfer' && item.from !== user.userName && item.from"
+                            fxLayout="row" fxLayoutAlign="space-between center">
+                            <h3>Transferred From:</h3>
+                            <h3>{{item.from}}</h3>
+                        </div>
+                    </div>
+                </div>
+
+            </mat-expansion-panel>
+        </mat-accordion>
+    </div>
+    <div *ngIf="items && items.length === 0">
+        <h2 fxLayoutAlign="center">No Transactions made.</h2>
+    </div>
+    <div fxLayout="row" fxLayoutAlign="center">
+        <mat-card *ngIf="context" fxLayoutAlign="space-between center">
+            <app-pagination [page]="context.pageNumber" [totalPages]="context.totalPages"
+                (pageChange)="pageChange($event)">
+            </app-pagination>
+        </mat-card>
+    </div>
+</div>

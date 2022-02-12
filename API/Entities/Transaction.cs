@@ -11,7 +11,7 @@ namespace API.Entities
         public int ToId { get; set; }
         public Account ToAccount { get; set; }
         public double Amount { get; set; }
-        public string Status { get; set; }
+        public string Type { get; set; }
         public string Description { get; set; }
         public Order Order { get; set; }
     }

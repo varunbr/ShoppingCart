@@ -2,7 +2,7 @@ export class BaseModal {
   id: number = 0;
 }
 
-export interface BaseContext {
+export class BaseContext {
   pageNumber: string;
   pageSize: string;
   totalPages: string;

@@ -29,6 +29,9 @@ img {
   -webkit-user-drag: none;
 }
 
+.success {
+  color: green;
+}
 .error {
   color: orangered;
 }
