@@ -48,4 +48,9 @@ namespace API.Helpers
         public int ItemsPerCategory { get; set; } = 12;
         public List<string> Categories { get; set; }
     }
+
+    public class TransactionContext : BaseParams
+    {
+        public double Balance { get; set; }
+    }
 }

@@ -12,6 +12,9 @@
         <a routerLink="/edit-profile" mat-list-item>
           <mat-icon>face</mat-icon>&nbsp; Profile
         </a>
+        <a routerLink="/wallet" mat-list-item>
+          <mat-icon>account_balance_wallet</mat-icon>&nbsp; My Wallet
+        </a>
         <a routerLink="/order" mat-list-item>
           <mat-icon>reorder</mat-icon>&nbsp; My Orders
         </a>
@@ -24,9 +27,11 @@
         <a *ngIf="user" (click)="logout()" mat-list-item>
           <mat-icon>logout</mat-icon>&nbsp; Logout
         </a>
-        <br>
-        <mat-divider></mat-divider>
-        <br>
+      </div>
+      <br>
+      <mat-divider></mat-divider>
+      <br>
+      <div (click)="sidenav.toggle()">
         <a routerLink="/search" [queryParams]="{q:'Mobiles'}" mat-list-item>
           <mat-icon>phone_android</mat-icon>&nbsp; Mobiles
         </a>

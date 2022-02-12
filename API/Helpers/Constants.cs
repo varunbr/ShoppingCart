@@ -14,6 +14,12 @@
         public const string Upi = "UPI";
     }
 
+    public class TransactionType
+    {
+        public const string Order = "Order";
+        public const string AmountTransfer = "Amount Transfer";
+    }
+
     public class Constants
     {
         public const string OrderBy = "OrderBy";

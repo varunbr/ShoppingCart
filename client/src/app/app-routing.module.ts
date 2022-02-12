@@ -11,6 +11,7 @@ import { ProductCheckoutComponent } from './order/product-checkout/product-check
 import { OrderPaymentComponent } from './order/order-payment/order-payment.component';
 import { OrderDetailComponent } from './order/order-detail/order-detail.component';
 import { OrderListComponent } from './order/order-list/order-list.component';
+import { WalletComponent } from './wallet/wallet.component';
 
 const routes: Routes = [
   { path: '', component: HomeComponent },
@@ -23,7 +24,8 @@ const routes: Routes = [
   { path: 'order', component: OrderListComponent },
   { path: 'cart', component: CartComponent },
   { path: 'checkout', component: ProductCheckoutComponent },
-  { path: 'payment', component: OrderPaymentComponent },
+  { path: 'order-payment', component: OrderPaymentComponent },
+  { path: 'wallet', component: WalletComponent },
   { path: '**', component: HomeComponent },
 ];
 

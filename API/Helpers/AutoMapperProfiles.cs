@@ -29,6 +29,11 @@ namespace API.Helpers
             CreateMap<Location, LocationDto>();
 
             CreateMap<PayOption,PayOptionDto>();
+            CreateMap<Transaction, TransactionDto>()
+                .ForMember(dest => dest.From, opt => opt.MapFrom(src => src.FromAccount.User.UserName))
+                .ForMember(dest => dest.To, opt => opt.MapFrom(src => src.ToAccount.User.UserName))
+                .ForMember(dest => dest.OrderId, opt => opt.MapFrom(src => src.Order.Id));
+            CreateMap<BaseParams, TransactionContext>();
 
             CreateMap<Product, ProductDto>()
                 .ForMember(dest => dest.PhotoUrl, opt => opt.MapFrom(src => src.ProductViews.FirstOrDefault(p => p.IsMain).Photo.Url));
