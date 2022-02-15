@@ -49,6 +49,8 @@ namespace API.Data
             var receiverId = await GetUserIdByUserName(transfer.UserName);
             if (receiverId == 0)
                 throw new HttpException("Invalid receiver.");
+            if (transfer.Amount <= 0)
+                throw new HttpException("Amount should be greater than Zero");
 
             var from = await DataContext.Users.Where(u => u.Id == userId).Select(u => u.AccountId).FirstAsync();
             var to = await DataContext.Users.Where(u => u.Id == receiverId).Select(u => u.AccountId).FirstAsync();

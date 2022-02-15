@@ -19,7 +19,9 @@ export class AppComponent implements OnInit {
     private utility: UtilityService,
     public busy: BusyService,
     private _renderer: Renderer2
-  ) {}
+  ) {
+    this.addIcons();
+  }
 
   ngOnInit() {
     this.getTheme();
@@ -70,6 +72,23 @@ export class AppComponent implements OnInit {
           redirectTo: params.redirectTo,
         })
       );
+    }
+  }
+
+  addIcons() {
+    var iconList = [
+      {
+        name: 'github',
+        path: './assets/icons/github.svg',
+      },
+      {
+        name: 'linkedin',
+        path: './assets/icons/linkedin.svg',
+      },
+    ];
+
+    for (let item of iconList) {
+      this.utility.addCustomIcon(item.name, item.path);
     }
   }
 }

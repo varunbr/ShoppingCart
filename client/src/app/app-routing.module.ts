@@ -12,14 +12,16 @@ import { OrderPaymentComponent } from './order/order-payment/order-payment.compo
 import { OrderDetailComponent } from './order/order-detail/order-detail.component';
 import { OrderListComponent } from './order/order-list/order-list.component';
 import { WalletComponent } from './wallet/wallet.component';
+import { AboutComponent } from './about/about.component';
 
 const routes: Routes = [
   { path: '', component: HomeComponent },
   { path: 'login', component: LoginComponent },
   { path: 'register', component: RegisterComponent },
-  { path: 'edit-profile', component: EditProfileComponent },
+  { path: 'about', component: AboutComponent },
   { path: 'search', component: SearchComponent },
   { path: 'product/:id', component: ProductDetailComponent },
+  { path: 'edit-profile', component: EditProfileComponent },
   { path: 'order/:id', component: OrderDetailComponent },
   { path: 'order', component: OrderListComponent },
   { path: 'cart', component: CartComponent },

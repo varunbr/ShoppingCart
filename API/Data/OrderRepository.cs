@@ -144,7 +144,7 @@ namespace API.Data
                     .Select(a => a.Store.AccountId).SingleAsync();
 
                 var accTransaction =
-                    await ProcessTransaction(from, to, order.TotalAmount, $"Transaction for order #{order.Id}");
+                    await ProcessTransaction(from, to, order.TotalAmount, $"Transaction on order #{order.Id}");
 
                 order.Status = Status.Confirmed;
                 accTransaction.Type = TransactionType.Order;
