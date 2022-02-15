@@ -4,6 +4,7 @@ using API.Extensions;
 using API.Helpers;
 using Microsoft.AspNetCore.Authorization;
 using Microsoft.AspNetCore.Mvc;
+using System;
 using System.Threading.Tasks;
 
 namespace API.Controllers
@@ -35,9 +36,13 @@ namespace API.Controllers
         public async Task<ActionResult> TransferAmount(TransferDto transfer)
         {
             var userId = HttpContext.User.GetUserId();
+            if (HttpContext.User.GetUserName().Equals(transfer.UserName, StringComparison.OrdinalIgnoreCase))
+            {
+                return BadRequest("You cannot send to yourself.");
+            }
             if (string.IsNullOrWhiteSpace(transfer.Description))
             {
-                transfer.Description = $"Transaction from {HttpContext.User.GetUserName()} to {transfer.UserName}";
+                transfer.Description = $"{HttpContext.User.GetUserName()} to {transfer.UserName}";
             }
             await _uow.PayRepository.TransferAmount(userId, transfer);
             return await GetTransactions(new BaseParams());

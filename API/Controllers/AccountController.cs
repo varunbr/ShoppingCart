@@ -49,7 +49,7 @@ namespace API.Controllers
             var user = _mapper.Map<User>(registerDto);
             user.LastActive = DateTime.UtcNow;
             user.Photo = new Photo();
-            user.Account = new Account { Balance = 1000 };
+            user.Account = new Account { Balance = 100000 };
 
             var result = await _userManager.CreateAsync(user, registerDto.Password);
             if (!result.Succeeded) return BadRequest(result.Errors.ToStringError());

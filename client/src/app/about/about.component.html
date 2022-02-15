@@ -1,0 +1,320 @@
+<div class="my-3" fxLayout="column" fxLayoutAlign="center" fxLayoutGap="20px">
+    <div fxLayoutAlign="center center">
+        <mat-card class="card" fxFlex="35" fxFlex.lt-lg="45" fxFlex.lt-md="60" fxFlex.lt-sm="90">
+            <div class="text-center">
+                <img src="./assets/images/my-profile.jpg" alt="Varun Kumar BR" class="rounded-circle profile">
+                <div class="mt-3">
+                    <h2 class="text-primary">Varun Kumar BR</h2>
+                    <mat-card-subtitle>Full Stack Developer</mat-card-subtitle>
+                </div>
+                <div fxLayout="column" fxLayoutAlign="center" fxLayoutGap="20px">
+                    <div fxLayout="row" fxLayoutAlign="space-between center">
+                        <div fxLayoutAlign="center center">
+                            <mat-icon>email</mat-icon>&nbsp;Email
+                        </div>
+                        <div>
+                            <a href="mailto:varunbr6@gmail.com">varunbr6@gmail.com</a>
+                        </div>
+                    </div>
+                    <div fxLayout="row" fxLayoutAlign="space-between center">
+                        <div fxLayoutAlign="center center">
+                            <mat-icon>phone</mat-icon>&nbsp;Phone
+                        </div>
+                        <div>
+                            <a href="tel:+919844288854">+91 9844288854</a>
+                        </div>
+                    </div>
+                    <div fxLayout="row" fxLayoutAlign="space-between center">
+                        <div fxLayoutAlign="center center">
+                            <mat-icon>public</mat-icon>&nbsp;Website
+                        </div>
+                        <div>
+                            <a target="_blank" href="https://varunbr.github.io/">https://varunbr.github.io</a>
+                        </div>
+                    </div>
+                    <div fxLayout="row" fxLayoutAlign="space-between center">
+                        <div fxLayoutAlign="center center">
+                            <mat-icon svgIcon="github"></mat-icon>&nbsp;Sorce Code
+                        </div>
+                        <div>
+                            <a target="_blank" href="https://github.com/varunbr/ShoppingCart">ShoppingCart</a>
+                        </div>
+                    </div>
+                    <div fxLayout="row" fxLayoutAlign="space-between center">
+                        <div fxLayoutAlign="center center">
+                            <mat-icon svgIcon="linkedin"></mat-icon>&nbsp;LinkedIn
+                        </div>
+                        <div>
+                            <a target="_blank" href="https://www.linkedin.com/in/brvarun/">brvarun</a>
+                        </div>
+                    </div>
+                    <div fxLayout="row" fxLayoutAlign="space-between center">
+                        <div fxLayoutAlign="center center">
+                            <mat-icon>place</mat-icon>&nbsp;Location
+                        </div>
+                        <div>
+                            <a target="_blank" href="https://goo.gl/maps/iCqryrwtc4Uucij76">Bengaluru</a>
+                        </div>
+                    </div>
+                </div>
+            </div>
+        </mat-card>
+    </div>
+    <div fxLayoutAlign="center center">
+        <mat-card class="card" fxFlex="70" fxFlex.lt-md="80" fxFlex.lt-sm="95">
+            <mat-card-title fxLayoutAlign="center">User Features</mat-card-title>
+            <mat-card-content>
+                <h3 class="mt-4 text-center">ShoppingCart is an e-commerce web app where users can view, order any
+                    available product.</h3>
+                <mat-accordion>
+                    <mat-expansion-panel [expanded]="step === 0" (opened)="step = 0" hideToggle>
+                        <mat-expansion-panel-header>
+                            <mat-panel-title>1. Home</mat-panel-title>
+                            <mat-panel-description fxHide.lt-md="true">
+                                Home page lets user to quickly navigate to popular products.
+                            </mat-panel-description>
+                            <mat-icon color="accent">home</mat-icon>
+                        </mat-expansion-panel-header>
+                        <h3 fxHide.gt-sm="true">Home page lets user to quickly navigate to popular products.</h3>
+                        <ul>
+                            <li>The first row on the home page lets users quickly select product categories.</li>
+                            <li>The next rows include products of Mobiles, Televisions, Laptops, Refrigerators and
+                                Washing Machines Categories.</li>
+                            <li>Each of these categories lists popular products of that category.</li>
+                            <li>This page will be cached in-memory for later usage.</li>
+                        </ul>
+                        <mat-action-row>
+                            <button mat-button color="accent" (click)="step = step + 1">Next</button>
+                        </mat-action-row>
+                    </mat-expansion-panel>
+                    <mat-expansion-panel [expanded]="step === 1" (opened)="step = 1" hideToggle>
+                        <mat-expansion-panel-header>
+                            <mat-panel-title>2. Product Search and Filter</mat-panel-title>
+                            <mat-panel-description fxHide.lt-md="true">
+                                Search for product and apply filters.
+                            </mat-panel-description>
+                            <mat-icon color="accent">search</mat-icon>
+                        </mat-expansion-panel-header>
+                        <h3 fxHide.gt-sm="true">Search for product and apply filters.</h3>
+                        <ul>
+                            <li>The search box in the navbar will allow users to search from any page.</li>
+                            <li>The category will be selected automatically based on the search keyword. If not detected
+                                automatically, products from all the categories will be searched.</li>
+                            <li>Users can also select categories from the filter section.</li>
+                            <li>If the category is selected, filters specific to that category will be shown
+                                dynamically.
+                            </li>
+                            <li>Users can select the range for integer values like RAM, Storage, Price, etc., select
+                                multiple values like Brand, Color, etc.</li>
+                        </ul>
+                        <mat-action-row>
+                            <button mat-button color="warn" (click)="step = step - 1">Previous</button>
+                            <button mat-button color="accent" (click)="step = step + 1">Next</button>
+                        </mat-action-row>
+                    </mat-expansion-panel>
+                    <mat-expansion-panel [expanded]="step === 2" (opened)="step = 2" hideToggle>
+                        <mat-expansion-panel-header>
+                            <mat-panel-title>3. Product Information</mat-panel-title>
+                            <mat-panel-description fxHide.lt-md="true">
+                                Product features, specifications, variants and photos.
+                            </mat-panel-description>
+                            <mat-icon color="accent">category</mat-icon>
+                        </mat-expansion-panel-header>
+                        <h3 fxHide.gt-sm="true">Product features, specifications, variants and photos.</h3>
+                        <ul>
+                            <li>Users can view photos of products in a gallery.</li>
+                            <li>Users can view Features, Descriptions and Specifications specific to each product.</li>
+                            <li>Users can quickly choose different variants of products like Color, Storage, etc.</li>
+                            <li>Users can proceed to buy or add to the cart for future purchases. </li>
+                        </ul>
+                        <mat-action-row>
+                            <button mat-button color="warn" (click)="step = step - 1">Previous</button>
+                            <button mat-button color="accent" (click)="step = step + 1">Next</button>
+                        </mat-action-row>
+                    </mat-expansion-panel>
+                    <mat-expansion-panel [expanded]="step === 3" (opened)="step = 3" hideToggle>
+                        <mat-expansion-panel-header>
+                            <mat-panel-title>4. Cart</mat-panel-title>
+                            <mat-panel-description fxHide.lt-md="true">
+                                Add products to cart for future purchases.
+                            </mat-panel-description>
+                            <mat-icon color="accent">shopping_cart</mat-icon>
+                        </mat-expansion-panel-header>
+                        <h3 fxHide.gt-sm="true">Add products to cart for future purchases.</h3>
+                        <ul>
+                            <li>Products added to carts are grouped by purchase store which can be purchased together
+                                and reduce the delivery price.</li>
+                            <li>Users can remove any or all products from the cart.</li>
+                            <li>Users can checkout single or all grouped items for purchase.</li>
+                        </ul>
+                        <mat-action-row>
+                            <button mat-button color="warn" (click)="step = step - 1">Previous</button>
+                            <button mat-button color="accent" (click)="step = step + 1">Next</button>
+                        </mat-action-row>
+                    </mat-expansion-panel>
+                    <mat-expansion-panel [expanded]="step === 4" (opened)="step = 4" hideToggle>
+                        <mat-expansion-panel-header>
+                            <mat-panel-title>5. Order</mat-panel-title>
+                            <mat-panel-description fxHide.lt-md="true">
+                                Order products using ShoppingCart Wallet.
+                            </mat-panel-description>
+                            <mat-icon color="accent">shopping_bag</mat-icon>
+                        </mat-expansion-panel-header>
+                        <h3 fxHide.gt-sm="true">Order products using ShoppingCart Wallet.</h3>
+                        <ul>
+                            <li>Users can order single or multiple items of same-store together.</li>
+                            <li>Users can view order details which include Item info, Number of units, Order status,
+                                Total Price Delivery charges and Total Amount paid.</li>
+                            <li>Users can view the paginated order list in the descending order of date.</li>
+                            <li>Delivery charge will be ₹60 for interstate and ₹40 for intrastate.</li>
+                            <li>Delivery charge will be applied only if Total Price is less than ₹500.</li>
+                        </ul>
+                        <mat-action-row>
+                            <button mat-button color="warn" (click)="step = step - 1">Previous</button>
+                            <button mat-button color="accent" (click)="step = step + 1">Next</button>
+                        </mat-action-row>
+                    </mat-expansion-panel>
+                    <mat-expansion-panel [expanded]="step === 5" (opened)="step = 5" hideToggle>
+                        <mat-expansion-panel-header>
+                            <mat-panel-title>6. Wallet, Transactions and Transfer</mat-panel-title>
+                            <mat-panel-description fxHide.lt-md="true">
+                                Transfer amount and View Wallet balance and Transactions.
+                            </mat-panel-description>
+                            <mat-icon color="accent">account_balance_wallet</mat-icon>
+                        </mat-expansion-panel-header>
+                        <h3 fxHide.gt-sm="true">Transfer amount and View Wallet balance and Transactions.</h3>
+                        <ul>
+                            <li>All the registered users will have an initial wallet balance of ₹1,00,000.</li>
+                            <li>Users can view the paginated transaction list in the descending order of date.</li>
+                            <li>Users can view transaction date, description, amount, type of transaction, etc.</li>
+                            <li>Users can transfer amount to other users using their username.</li>
+                        </ul>
+                        <mat-action-row>
+                            <button mat-button color="warn" (click)="step = step - 1">Previous</button>
+                            <button mat-button color="accent" (click)="step = step + 1">Next</button>
+                        </mat-action-row>
+                    </mat-expansion-panel>
+                    <mat-expansion-panel [expanded]="step === 6" (opened)="step = 6" hideToggle>
+                        <mat-expansion-panel-header>
+                            <mat-panel-title>7. User Authentication</mat-panel-title>
+                            <mat-panel-description fxHide.lt-md="true">
+                                Login or Register for authentication.
+                            </mat-panel-description>
+                            <mat-icon color="accent">account_circle</mat-icon>
+                        </mat-expansion-panel-header>
+                        <h3 fxHide.gt-sm="true">Login or Register for authentication.</h3>
+                        <ul>
+                            <li>Users need to authenticate to perform a few actions like add to cart, order, edit
+                                profile, etc.</li>
+                            <li>Users can log in using a username and password or register as new users to authenticate.
+                            </li>
+                            <li>Authentication will expire in 24 hours after login.</li>
+                        </ul>
+                        <mat-action-row>
+                            <button mat-button color="warn" (click)="step = step - 1">Previous</button>
+                            <button mat-button color="accent" (click)="step = step + 1">Next</button>
+                        </mat-action-row>
+                    </mat-expansion-panel>
+                    <mat-expansion-panel [expanded]="step === 7" (opened)="step = 7" hideToggle>
+                        <mat-expansion-panel-header>
+                            <mat-panel-title>8. Theme</mat-panel-title>
+                            <mat-panel-description fxHide.lt-md="true">
+                                Switch between Light and Dark theme.
+                            </mat-panel-description>
+                            <mat-icon color="accent">dark_mode</mat-icon>
+                        </mat-expansion-panel-header>
+                        <h3 fxHide.gt-sm="true">Switch between Light and Dark theme.</h3>
+                        <ul>
+                            <li>Users can swtich between Light and Dark theme using theme button in navbar.</li>
+                        </ul>
+                        <mat-action-row>
+                            <button mat-button color="warn" (click)="step = step - 1">Previous</button>
+                            <button mat-button color="accent" (click)="step = step + 1">End</button>
+                        </mat-action-row>
+                    </mat-expansion-panel>
+                </mat-accordion>
+            </mat-card-content>
+        </mat-card>
+    </div>
+    <div fxLayoutAlign="center center">
+        <mat-card class="card" fxFlex="70" fxFlex.lt-md="80" fxFlex.lt-sm="95">
+            <mat-card-title fxLayoutAlign="center">Technology</mat-card-title>
+            <mat-card-content>
+                <h2 class="mt-4">Built With</h2>
+                <div class="mb-3 text-center">
+                    <a matTooltip="ASP.NET Core - Backend" target="_blank"
+                        href="https://dotnet.microsoft.com/apps/aspnet/">
+                        <img src="./assets/images/dot-net-core.png" alt="ASP.NET" width="80" height="80">
+                    </a>
+                    <a matTooltip="Angular - Frontend" target="_blank" href="https://angular.io/">
+                        <img src="./assets/images/angular.png" alt="Angular" width="80" height="80">
+                    </a>
+                    <a matTooltip="Angular Material - UI Framework" target="_blank" href="https://material.angular.io/">
+                        <img src="./assets/images/angular-material.svg" alt="Angular Material" width="auto" height="80">
+                    </a>
+                </div>
+                <div fxLayout="column" fxLayoutGap="10px">
+                    <div fxLayout="row" style="font-size: large;">
+                        <div fxFlex="20">#</div>
+                        <div fxFlex="40">Framework</div>
+                        <div fxFlex="40">Version</div>
+                    </div>
+                    <div>
+                        <mat-divider></mat-divider>
+                        <mat-divider></mat-divider>
+                        <mat-divider></mat-divider>
+                        <mat-divider></mat-divider>
+                    </div>
+                    <div fxLayout="row">
+                        <div fxFlex="20">1.</div>
+                        <div fxFlex="40">ASP.NET Core</div>
+                        <div fxFlex="40">6.0</div>
+                    </div>
+                    <div>
+                        <mat-divider></mat-divider>
+                    </div>
+                    <div fxLayout="row">
+                        <div fxFlex="20">2.</div>
+                        <div fxFlex="40">Entity Framework</div>
+                        <div fxFlex="40">6.0</div>
+                    </div>
+                    <div>
+                        <mat-divider></mat-divider>
+                    </div>
+                    <div fxLayout="row">
+                        <div fxFlex="20">3.</div>
+                        <div fxFlex="40">Angular</div>
+                        <div fxFlex="40">13.1</div>
+                    </div>
+                    <div>
+                        <mat-divider></mat-divider>
+                    </div>
+                    <div fxLayout="row">
+                        <div fxFlex="20">4.</div>
+                        <div fxFlex="40">Angular Material</div>
+                        <div fxFlex="40">13.1</div>
+                    </div>
+                    <div>
+                        <mat-divider></mat-divider>
+                    </div>
+                </div>
+                <h2 class="mt-4">Acknowledgements</h2>
+                <div class="text-muted" fxLayout="column">
+                    <li><a class="text-muted" target="_blank" href="https://cloudinary.com">Cloudinary - Image
+                            Repository</a></li>
+                    <li><a class="text-muted" target="_blank" href="https://www.heroku.com/">Heroku - Cloud Application
+                            Platform</a>
+                    </li>
+                    <li><a class="text-muted" target="_blank" href="https://www.flipkart.com/">Flipkart - Data & Image
+                            Urls</a></li>
+                    <li><a class="text-muted" target="_blank" href="https://www.amazon.in/">Amazon - Data & Image
+                            Urls</a></li>
+                    <li><a class="text-muted" target="_blank" href="https://github.com/angular/flex-layout">Angular
+                            Flex-Layout</a></li>
+                    <li><a class="text-muted" target="_blank" href="https://github.com/AutoMapper/AutoMapper">AutoMapper
+                            - Dependency Injection</a></li>
+                </div>
+            </mat-card-content>
+        </mat-card>
+    </div>
+</div>

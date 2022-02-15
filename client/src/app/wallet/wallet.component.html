@@ -4,7 +4,7 @@
         <h2 [ngClass]="context.balance < 1000 ? 'error':'success'">{{context.balance | currency:'INR'}}</h2>
     </div>
     <div *ngIf="this.context" fxLayout="row" fxLayoutAlign="center">
-        <mat-expansion-panel fxFlex="40" fxFlex.lt-lg="50" fxFlex.lt-md="70" fxFlex.lt-sm="90">
+        <mat-expansion-panel expanded="true" fxFlex="40" fxFlex.lt-lg="50" fxFlex.lt-md="70" fxFlex.lt-sm="90">
             <mat-expansion-panel-header>
                 <mat-panel-title>Amount Transfer</mat-panel-title>
             </mat-expansion-panel-header>
@@ -29,7 +29,7 @@
                         <input matInput type="text" maxlength="50" placeholder="eg. Cab share" autocomplete="off"
                             [(ngModel)]="modal.description" name="description" />
                     </mat-form-field>
-                    <button mat-flat-button color="primary" [disabled]="transferForm.invalid" type="submit">
+                    <button mat-flat-button color="primary" [disabled]="!transferForm.valid" type="submit">
                         <mat-icon>send</mat-icon> Send
                     </button>
                 </div>
