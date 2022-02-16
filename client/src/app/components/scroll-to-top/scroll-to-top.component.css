@@ -1,0 +1,8 @@
+.scroll-to-top {
+  position: fixed;
+  top: calc(100vh - 120px);
+  left: 90%;
+  margin-right: -50%;
+  transform: translate(-50%, -50%);
+  z-index: 99;
+}

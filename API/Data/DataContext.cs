@@ -124,6 +124,9 @@ namespace API.Data
                 .HasMany(p => p.ProductTags)
                 .WithOne(t => t.Product)
                 .HasForeignKey(t => t.ProductId);
+            builder.Entity<Product>()
+                .Property(p => p.RowVersion)
+                .IsRowVersion();
 
             builder.Entity<ProductView>()
                 .HasKey(k => new { k.ProductId, k.PhotoId });
@@ -223,7 +226,7 @@ namespace API.Data
                 .HasForeignKey(c => c.UserId);
             builder.Entity<CartItem>()
                 .HasOne(c => c.StoreItem)
-                .WithMany(si=>si.CartItems)
+                .WithMany(si => si.CartItems)
                 .HasForeignKey(c => c.StoreItemId)
                 .OnDelete(DeleteBehavior.Cascade);
         }

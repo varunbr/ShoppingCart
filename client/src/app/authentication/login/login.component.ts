@@ -33,6 +33,14 @@ export class LoginComponent implements OnInit {
     });
   }
 
+  loginAsTester() {
+    this.accountService
+      .login({ username: 'test_user', password: 'notpassword' })
+      .subscribe(() => {
+        location.reload();
+      });
+  }
+
   redirect() {
     this.router.navigateByUrl(this.redirectUrl ? this.redirectUrl : '/', {
       replaceUrl: true,

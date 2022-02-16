@@ -109,6 +109,18 @@ namespace API.Data
                 .AnyAsync();
         }
 
+        public async Task UpdateProductAvailability(List<int> productIds)
+        {
+            foreach (var productId in productIds)
+            {
+                var product = await DataContext.Products.Where(p => p.Id == productId).FirstAsync();
+                if (await DataContext.StoreItems.Where(si => si.ProductId == productId && si.Available > 0)
+                        .AnyAsync()) continue;
+                product.Available = false;
+                await SaveChanges();
+            }
+        }
+
         #endregion
 
         #region Account
