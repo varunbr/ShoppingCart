@@ -43,6 +43,7 @@ import { OrderDetailComponent } from './order/order-detail/order-detail.componen
 import { OrderListComponent } from './order/order-list/order-list.component';
 import { WalletComponent } from './wallet/wallet.component';
 import { AboutComponent } from './about/about.component';
+import { ScrollToTopComponent } from './components/scroll-to-top/scroll-to-top.component';
 
 @Injectable()
 export class HammerConfig extends HammerGestureConfig {
@@ -80,6 +81,7 @@ export class HammerConfig extends HammerGestureConfig {
     OrderListComponent,
     WalletComponent,
     AboutComponent,
+    ScrollToTopComponent,
   ],
   imports: [
     BrowserModule,

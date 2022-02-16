@@ -129,12 +129,15 @@ namespace API.Data
 
                 var storeItems = await DataContext.StoreItems.Where(i => itemIds.Contains(i.Id)).ToListAsync();
 
+                var productUpdate = new List<int>();
+
                 foreach (var item in order.OrderItems)
                 {
                     var storeItem = storeItems.First(i => i.Id == item.StoreItemId);
                     if (storeItem.Available < item.Count)
                         throw new HttpException("Item(s) not available.");
                     storeItem.Available -= item.Count;
+                    if (storeItem.Available == 0) productUpdate.Add(storeItem.ProductId);
                     item.Status = Status.Ordered;
                 }
 
@@ -153,6 +156,7 @@ namespace API.Data
                 var result = await DataContext.SaveChangesAsync();
                 if (result <= 0) throw new HttpException("Failed to order.");
                 await transaction.CommitAsync();
+                await UpdateProductAvailability(productUpdate);
             }
             catch
             {

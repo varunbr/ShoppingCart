@@ -217,15 +217,17 @@
                     </mat-expansion-panel>
                     <mat-expansion-panel [expanded]="step === 7" (opened)="step = 7" hideToggle>
                         <mat-expansion-panel-header>
-                            <mat-panel-title>8. Theme</mat-panel-title>
+                            <mat-panel-title>8. Themes and Responsive UI</mat-panel-title>
                             <mat-panel-description fxHide.lt-md="true">
-                                Switch between Light and Dark theme.
+                                Switch between Light and Dark theme and Responsive UI.
                             </mat-panel-description>
                             <mat-icon color="accent">dark_mode</mat-icon>
                         </mat-expansion-panel-header>
                         <h3 fxHide.gt-sm="true">Switch between Light and Dark theme.</h3>
                         <ul>
                             <li>Users can swtich between Light and Dark theme using theme button in navbar.</li>
+                            <li>Users can use this responsive Web app across any Mobile, Tablet, Laptop, or Desktop.
+                            </li>
                         </ul>
                         <mat-action-row>
                             <button mat-button color="warn" (click)="step = step - 1">Previous</button>

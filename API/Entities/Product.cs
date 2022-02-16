@@ -16,6 +16,7 @@ namespace API.Entities
         public int SoldQuantity { get; set; }
         public int CategoryId { get; set; }
         public bool Available { get; set; }
+        public byte[] RowVersion { get; set; }
         public DateTime Created { get; set; }
         public Category Category { get; set; }
         public ICollection<ProductView> ProductViews { get; set; }

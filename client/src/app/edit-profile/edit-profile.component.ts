@@ -117,6 +117,7 @@ export class EditProfileComponent implements OnInit {
     this.accountService.updateAddress(this.address).subscribe((response) => {
       this.initilizeAddressForm(response);
       form.resetForm(response);
+      this.toastr.success('Address updated.');
     });
   }
 

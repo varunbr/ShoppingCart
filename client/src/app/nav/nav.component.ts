@@ -65,39 +65,4 @@ export class NavComponent implements OnInit {
   isValid() {
     return this.value && this.value.trim();
   }
-
-  toScroll: boolean;
-  topPosToStartShowing = 500;
-  current = 0;
-  scrollTimeOut = setTimeout(() => {}, 0);
-  @HostListener('window:scroll')
-  checkScroll() {
-    const scrollPosition =
-      window.pageYOffset ||
-      document.documentElement.scrollTop ||
-      document.body.scrollTop ||
-      0;
-
-    if (
-      scrollPosition >= this.topPosToStartShowing &&
-      Math.abs(this.current - scrollPosition) > 300
-    ) {
-      this.toScroll = true;
-      clearTimeout(this.scrollTimeOut);
-      this.scrollTimeOut = setTimeout(() => {
-        this.toScroll = false;
-        this.current = scrollPosition;
-      }, 2500);
-    } else if (scrollPosition < this.topPosToStartShowing) {
-      this.toScroll = false;
-    }
-  }
-
-  goToTop() {
-    window.scroll({
-      top: 0,
-      left: 0,
-      behavior: 'smooth',
-    });
-  }
 }

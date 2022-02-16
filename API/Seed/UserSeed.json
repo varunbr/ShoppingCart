@@ -12,6 +12,18 @@
         }
     },
     {
+        "Name": "Test User",
+        "UserName": "test_user",
+        "Gender": "Male",
+        "DateOfBirth": "1996-04-17",
+        "Email": "testuser@mail.com",
+        "PhoneNumber": "+919876543210",
+        "LastActive": "2021-06-01",
+        "Photo": {
+            "Url": "https://res.cloudinary.com/animated-broccoli/image/upload/v1642909818/ShoppingCart/avuk4toem4by8jno7ekr.jpg"
+        }
+    },
+    {
         "Name": "Roronoa Zoro",
         "UserName": "Zoro",
         "Gender": "Male",
