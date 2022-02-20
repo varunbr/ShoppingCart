@@ -1,8 +1,8 @@
-﻿using System;
-using API.DTOs;
+﻿using API.DTOs;
 using API.Entities;
 using API.Seed;
 using AutoMapper;
+using System;
 using System.Linq;
 using Property = API.Entities.Property;
 
@@ -28,7 +28,7 @@ namespace API.Helpers
                 .ForMember(dest => dest.CountryId, opt => opt.MapFrom(src => src.Location.Parent.Parent.ParentId));
             CreateMap<Location, LocationDto>();
 
-            CreateMap<PayOption,PayOptionDto>();
+            CreateMap<PayOption, PayOptionDto>();
             CreateMap<Transaction, TransactionDto>()
                 .ForMember(dest => dest.From, opt => opt.MapFrom(src => src.FromAccount.User.UserName))
                 .ForMember(dest => dest.To, opt => opt.MapFrom(src => src.ToAccount.User.UserName))
@@ -36,16 +36,15 @@ namespace API.Helpers
             CreateMap<BaseParams, TransactionContext>();
 
             CreateMap<Product, ProductDto>()
-                .ForMember(dest => dest.PhotoUrl, opt => opt.MapFrom(src => src.ProductViews.FirstOrDefault(p => p.IsMain).Photo.Url));
+                .ForMember(dest => dest.PhotoUrl, opt => opt.MapFrom(src => src.ProductViews.FirstOrDefault(p => p.IsMain).Url));
             CreateMap<Product, ProductMiniDto>()
-                .ForMember(dest => dest.PhotoUrl, opt => opt.MapFrom(src => src.ProductViews.FirstOrDefault(p => p.IsMain).Photo.Url));
+                .ForMember(dest => dest.PhotoUrl, opt => opt.MapFrom(src => src.ProductViews.FirstOrDefault(p => p.IsMain).Url));
 
             CreateMap<Property, PropertyDto>();
             CreateMap<SearchContext, SearchContextDto>()
                 .ForMember(dest => dest.Price, opt => opt.MapFrom(src => src.GetPrice(src.PriceFrom, src.PriceTo)));
 
-            CreateMap<ProductView, PhotoDto>()
-                .ForMember(dest => dest.Url, act => act.MapFrom(src => src.Photo.Url));
+            CreateMap<ProductView, PhotoDto>();
             CreateMap<Product, ProductDetailDto>()
                 .ForMember(dest => dest.Category, act => act.MapFrom(src => src.Category.Name))
                 .ForMember(dest => dest.Properties, act => act.Ignore())
@@ -55,10 +54,29 @@ namespace API.Helpers
                 .ForMember(dest => dest.PhotoUrl, act => act.MapFrom(src => src.Photo.Url));
 
             CreateMap<OrderItem, OrderItemDto>()
-                .ForMember(dest=>dest.PhotoUrl,act=>act.MapFrom(src=>src.StoreItem.Product.ProductViews.First(p=>p.IsMain).Photo.Url))
+                .ForMember(dest => dest.PhotoUrl, act => act.MapFrom(src => src.StoreItem.Product.ProductViews.First(p => p.IsMain).Url))
                 .ForMember(dest => dest.Name, act => act.MapFrom(src => src.StoreItem.Product.Name))
                 .ForMember(dest => dest.ProductId, act => act.MapFrom(src => src.StoreItem.ProductId));
-            CreateMap<Order, UserOrderDto>();
+
+            CreateMap<Order, BaseOrderDto>()
+                .ForMember(dest => dest.LocationName, act => act.MapFrom(src => src.DestinationLocation.Name));
+            CreateMap<Order, UserOrderDto>()
+                .IncludeBase<Order, BaseOrderDto>();
+            CreateMap<Order, StoreOrderDto>()
+                .IncludeBase<Order, BaseOrderDto>();
+            CreateMap<Order, TrackOrderDto>()
+                .IncludeBase<Order, BaseOrderDto>();
+            CreateMap<Order, TrackOrderDetailDto>()
+                .IncludeBase<Order, BaseOrderDto>();
+
+            CreateMap<TrackEvent, BaseTrackEventDto>()
+                .ForMember(dest => dest.LocationName, act => act.MapFrom(src => src.SiteLocation.Name))
+                .ForMember(dest => dest.LocationType, act => act.MapFrom(src => src.SiteLocation.Type));
+            CreateMap<TrackEvent, TrackEventDto>()
+                .ForMember(dest => dest.AgentName, act => act.MapFrom(src => src.Agent.Name))
+                .ForMember(dest => dest.AgentUserName, act => act.MapFrom(src => src.Agent.UserName))
+                .ForMember(dest => dest.AgentPhotoUrl, act => act.MapFrom(src => src.Agent.Photo.Url))
+                .IncludeBase<TrackEvent, BaseTrackEventDto>();
 
             CreateMap<CartItem, CartItemDto>()
                 .ForMember(dest => dest.Name, act => act.MapFrom(src => src.StoreItem.Product.Name))
@@ -68,7 +86,7 @@ namespace API.Helpers
                 .ForMember(dest => dest.Amount, act => act.MapFrom(src => src.StoreItem.Product.Amount))
                 .ForMember(dest => dest.MaxPerOrder, act => act.MapFrom(src => src.StoreItem.Product.MaxPerOrder))
                 .ForMember(dest => dest.Available, act => act.MapFrom(src => src.StoreItem.Available))
-                .ForMember(dest => dest.PhotoUrl, act => act.MapFrom(src => src.StoreItem.Product.ProductViews.FirstOrDefault(p=>p.IsMain).Photo.Url));
+                .ForMember(dest => dest.PhotoUrl, act => act.MapFrom(src => src.StoreItem.Product.ProductViews.FirstOrDefault(p => p.IsMain).Url));
 
             CreateMap<DateTime, DateTime>().ConvertUsing(d => DateTime.SpecifyKind(d, DateTimeKind.Utc));
             #endregion

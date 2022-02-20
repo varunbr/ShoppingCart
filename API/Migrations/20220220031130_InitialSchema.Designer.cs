@@ -12,7 +12,7 @@ using Microsoft.EntityFrameworkCore.Storage.ValueConversion;
 namespace API.Migrations
 {
     [DbContext(typeof(DataContext))]
-    [Migration("20220215132413_InitialSchema")]
+    [Migration("20220220031130_InitialSchema")]
     partial class InitialSchema
     {
         protected override void BuildTargetModel(ModelBuilder modelBuilder)
@@ -53,6 +53,9 @@ namespace API.Migrations
 
                     SqlServerPropertyBuilderExtensions.UseIdentityColumn(b.Property<int>("Id"), 1L, 1);
 
+                    b.Property<string>("AddressName")
+                        .HasColumnType("nvarchar(max)");
+
                     b.Property<string>("House")
                         .HasColumnType("nvarchar(max)");
 
@@ -61,6 +64,9 @@ namespace API.Migrations
 
                     b.Property<int>("LocationId")
                         .HasColumnType("int");
+
+                    b.Property<string>("Mobile")
+                        .HasColumnType("nvarchar(max)");
 
                     b.Property<string>("Name")
                         .HasColumnType("nvarchar(max)");
@@ -191,6 +197,21 @@ namespace API.Migrations
                     b.Property<double>("DeliveryCharge")
                         .HasColumnType("float");
 
+                    b.Property<int>("DestinationLocationId")
+                        .HasColumnType("int");
+
+                    b.Property<string>("House")
+                        .HasColumnType("nvarchar(max)");
+
+                    b.Property<string>("Landmark")
+                        .HasColumnType("nvarchar(max)");
+
+                    b.Property<string>("PostalCode")
+                        .HasColumnType("nvarchar(max)");
+
+                    b.Property<int>("SourceLocationId")
+                        .HasColumnType("int");
+
                     b.Property<string>("Status")
                         .HasColumnType("nvarchar(max)");
 
@@ -206,10 +227,17 @@ namespace API.Migrations
                     b.Property<string>("Type")
                         .HasColumnType("nvarchar(max)");
 
+                    b.Property<DateTime>("Update")
+                        .HasColumnType("datetime2");
+
                     b.Property<int>("UserId")
                         .HasColumnType("int");
 
                     b.HasKey("Id");
+
+                    b.HasIndex("DestinationLocationId");
+
+                    b.HasIndex("SourceLocationId");
 
                     b.HasIndex("StoreId");
 
@@ -374,19 +402,27 @@ namespace API.Migrations
 
             modelBuilder.Entity("API.Entities.ProductView", b =>
                 {
-                    b.Property<int>("ProductId")
+                    b.Property<int>("Id")
+                        .ValueGeneratedOnAdd()
                         .HasColumnType("int");
 
-                    b.Property<int>("PhotoId")
-                        .HasColumnType("int");
+                    SqlServerPropertyBuilderExtensions.UseIdentityColumn(b.Property<int>("Id"), 1L, 1);
 
                     b.Property<bool>("IsMain")
                         .HasColumnType("bit");
 
-                    b.HasKey("ProductId", "PhotoId");
+                    b.Property<int>("ProductId")
+                        .HasColumnType("int");
 
-                    b.HasIndex("PhotoId")
-                        .IsUnique();
+                    b.Property<string>("PublicId")
+                        .HasColumnType("nvarchar(max)");
+
+                    b.Property<string>("Url")
+                        .HasColumnType("nvarchar(max)");
+
+                    b.HasKey("Id");
+
+                    b.HasIndex("ProductId");
 
                     b.ToTable("ProductViews");
                 });
@@ -464,7 +500,7 @@ namespace API.Migrations
                     b.Property<int>("AccountId")
                         .HasColumnType("int");
 
-                    b.Property<int?>("AddressId")
+                    b.Property<int>("AddressId")
                         .HasColumnType("int");
 
                     b.Property<string>("Name")
@@ -479,14 +515,39 @@ namespace API.Migrations
                         .IsUnique();
 
                     b.HasIndex("AddressId")
-                        .IsUnique()
-                        .HasFilter("[AddressId] IS NOT NULL");
+                        .IsUnique();
 
                     b.HasIndex("PhotoId")
                         .IsUnique()
                         .HasFilter("[PhotoId] IS NOT NULL");
 
                     b.ToTable("Stores");
+                });
+
+            modelBuilder.Entity("API.Entities.StoreAgent", b =>
+                {
+                    b.Property<int>("Id")
+                        .ValueGeneratedOnAdd()
+                        .HasColumnType("int");
+
+                    SqlServerPropertyBuilderExtensions.UseIdentityColumn(b.Property<int>("Id"), 1L, 1);
+
+                    b.Property<string>("Role")
+                        .HasColumnType("nvarchar(max)");
+
+                    b.Property<int>("StoreId")
+                        .HasColumnType("int");
+
+                    b.Property<int>("UserId")
+                        .HasColumnType("int");
+
+                    b.HasKey("Id");
+
+                    b.HasIndex("StoreId");
+
+                    b.HasIndex("UserId");
+
+                    b.ToTable("StoresAgents");
                 });
 
             modelBuilder.Entity("API.Entities.StoreItem", b =>
@@ -523,44 +584,6 @@ namespace API.Migrations
                     b.ToTable("StoreItems");
                 });
 
-            modelBuilder.Entity("API.Entities.Track", b =>
-                {
-                    b.Property<int>("Id")
-                        .ValueGeneratedOnAdd()
-                        .HasColumnType("int");
-
-                    SqlServerPropertyBuilderExtensions.UseIdentityColumn(b.Property<int>("Id"), 1L, 1);
-
-                    b.Property<int>("FromAddressId")
-                        .HasColumnType("int");
-
-                    b.Property<string>("House")
-                        .HasColumnType("nvarchar(max)");
-
-                    b.Property<string>("Landmark")
-                        .HasColumnType("nvarchar(max)");
-
-                    b.Property<int>("LocationId")
-                        .HasColumnType("int");
-
-                    b.Property<int>("OrderId")
-                        .HasColumnType("int");
-
-                    b.Property<string>("PostalCode")
-                        .HasColumnType("nvarchar(max)");
-
-                    b.HasKey("Id");
-
-                    b.HasIndex("FromAddressId");
-
-                    b.HasIndex("LocationId");
-
-                    b.HasIndex("OrderId")
-                        .IsUnique();
-
-                    b.ToTable("Tracks");
-                });
-
             modelBuilder.Entity("API.Entities.TrackAgent", b =>
                 {
                     b.Property<int>("Id")
@@ -595,25 +618,31 @@ namespace API.Migrations
 
                     SqlServerPropertyBuilderExtensions.UseIdentityColumn(b.Property<int>("Id"), 1L, 1);
 
+                    b.Property<int?>("AgentId")
+                        .HasColumnType("int");
+
+                    b.Property<DateTime>("Date")
+                        .HasColumnType("datetime2");
+
+                    b.Property<bool>("Done")
+                        .HasColumnType("bit");
+
                     b.Property<int>("LocationId")
+                        .HasColumnType("int");
+
+                    b.Property<int>("OrderId")
                         .HasColumnType("int");
 
                     b.Property<string>("Status")
                         .HasColumnType("nvarchar(max)");
 
-                    b.Property<int>("TrackId")
-                        .HasColumnType("int");
-
-                    b.Property<int>("UserId")
-                        .HasColumnType("int");
-
                     b.HasKey("Id");
+
+                    b.HasIndex("AgentId");
 
                     b.HasIndex("LocationId");
 
-                    b.HasIndex("TrackId");
-
-                    b.HasIndex("UserId");
+                    b.HasIndex("OrderId");
 
                     b.ToTable("TrackEvents");
                 });
@@ -955,6 +984,18 @@ namespace API.Migrations
 
             modelBuilder.Entity("API.Entities.Order", b =>
                 {
+                    b.HasOne("API.Entities.Location", "DestinationLocation")
+                        .WithMany("DestinationOrders")
+                        .HasForeignKey("DestinationLocationId")
+                        .OnDelete(DeleteBehavior.Restrict)
+                        .IsRequired();
+
+                    b.HasOne("API.Entities.Location", "SourceLocation")
+                        .WithMany("SourceOrders")
+                        .HasForeignKey("SourceLocationId")
+                        .OnDelete(DeleteBehavior.Restrict)
+                        .IsRequired();
+
                     b.HasOne("API.Entities.Store", "Store")
                         .WithMany("Orders")
                         .HasForeignKey("StoreId")
@@ -970,6 +1011,10 @@ namespace API.Migrations
                         .HasForeignKey("UserId")
                         .OnDelete(DeleteBehavior.Cascade)
                         .IsRequired();
+
+                    b.Navigation("DestinationLocation");
+
+                    b.Navigation("SourceLocation");
 
                     b.Navigation("Store");
 
@@ -1021,19 +1066,11 @@ namespace API.Migrations
 
             modelBuilder.Entity("API.Entities.ProductView", b =>
                 {
-                    b.HasOne("API.Entities.Photo", "Photo")
-                        .WithOne("ProductView")
-                        .HasForeignKey("API.Entities.ProductView", "PhotoId")
-                        .OnDelete(DeleteBehavior.Cascade)
-                        .IsRequired();
-
                     b.HasOne("API.Entities.Product", "Product")
                         .WithMany("ProductViews")
                         .HasForeignKey("ProductId")
                         .OnDelete(DeleteBehavior.Cascade)
                         .IsRequired();
-
-                    b.Navigation("Photo");
 
                     b.Navigation("Product");
                 });
@@ -1079,7 +1116,8 @@ namespace API.Migrations
                     b.HasOne("API.Entities.Address", "Address")
                         .WithOne("Store")
                         .HasForeignKey("API.Entities.Store", "AddressId")
-                        .OnDelete(DeleteBehavior.Restrict);
+                        .OnDelete(DeleteBehavior.Restrict)
+                        .IsRequired();
 
                     b.HasOne("API.Entities.Photo", "Photo")
                         .WithOne("Store")
@@ -1091,6 +1129,25 @@ namespace API.Migrations
                     b.Navigation("Address");
 
                     b.Navigation("Photo");
+                });
+
+            modelBuilder.Entity("API.Entities.StoreAgent", b =>
+                {
+                    b.HasOne("API.Entities.Store", "Store")
+                        .WithMany("StoreAgents")
+                        .HasForeignKey("StoreId")
+                        .OnDelete(DeleteBehavior.Cascade)
+                        .IsRequired();
+
+                    b.HasOne("API.Entities.User", "User")
+                        .WithMany("StoreAgents")
+                        .HasForeignKey("UserId")
+                        .OnDelete(DeleteBehavior.Cascade)
+                        .IsRequired();
+
+                    b.Navigation("Store");
+
+                    b.Navigation("User");
                 });
 
             modelBuilder.Entity("API.Entities.StoreItem", b =>
@@ -1110,33 +1167,6 @@ namespace API.Migrations
                     b.Navigation("Product");
 
                     b.Navigation("Store");
-                });
-
-            modelBuilder.Entity("API.Entities.Track", b =>
-                {
-                    b.HasOne("API.Entities.Address", "FromAddress")
-                        .WithMany("TracksFrom")
-                        .HasForeignKey("FromAddressId")
-                        .OnDelete(DeleteBehavior.Restrict)
-                        .IsRequired();
-
-                    b.HasOne("API.Entities.Location", "Location")
-                        .WithMany("Tracks")
-                        .HasForeignKey("LocationId")
-                        .OnDelete(DeleteBehavior.Restrict)
-                        .IsRequired();
-
-                    b.HasOne("API.Entities.Order", "Order")
-                        .WithOne("Track")
-                        .HasForeignKey("API.Entities.Track", "OrderId")
-                        .OnDelete(DeleteBehavior.Cascade)
-                        .IsRequired();
-
-                    b.Navigation("FromAddress");
-
-                    b.Navigation("Location");
-
-                    b.Navigation("Order");
                 });
 
             modelBuilder.Entity("API.Entities.TrackAgent", b =>
@@ -1160,29 +1190,28 @@ namespace API.Migrations
 
             modelBuilder.Entity("API.Entities.TrackEvent", b =>
                 {
+                    b.HasOne("API.Entities.User", "Agent")
+                        .WithMany("TrackEvents")
+                        .HasForeignKey("AgentId")
+                        .OnDelete(DeleteBehavior.Restrict);
+
                     b.HasOne("API.Entities.Location", "SiteLocation")
                         .WithMany("TrackEvents")
                         .HasForeignKey("LocationId")
                         .OnDelete(DeleteBehavior.Restrict)
                         .IsRequired();
 
-                    b.HasOne("API.Entities.Track", "Track")
-                        .WithMany("Events")
-                        .HasForeignKey("TrackId")
-                        .OnDelete(DeleteBehavior.Cascade)
-                        .IsRequired();
-
-                    b.HasOne("API.Entities.User", "Agent")
+                    b.HasOne("API.Entities.Order", "Order")
                         .WithMany("TrackEvents")
-                        .HasForeignKey("UserId")
-                        .OnDelete(DeleteBehavior.Restrict)
+                        .HasForeignKey("OrderId")
+                        .OnDelete(DeleteBehavior.Cascade)
                         .IsRequired();
 
                     b.Navigation("Agent");
 
-                    b.Navigation("SiteLocation");
+                    b.Navigation("Order");
 
-                    b.Navigation("Track");
+                    b.Navigation("SiteLocation");
                 });
 
             modelBuilder.Entity("API.Entities.Transaction", b =>
@@ -1295,8 +1324,6 @@ namespace API.Migrations
                 {
                     b.Navigation("Store");
 
-                    b.Navigation("TracksFrom");
-
                     b.Navigation("User");
                 });
 
@@ -1317,25 +1344,25 @@ namespace API.Migrations
 
                     b.Navigation("Children");
 
+                    b.Navigation("DestinationOrders");
+
+                    b.Navigation("SourceOrders");
+
                     b.Navigation("TrackAgents");
 
                     b.Navigation("TrackEvents");
-
-                    b.Navigation("Tracks");
                 });
 
             modelBuilder.Entity("API.Entities.Order", b =>
                 {
                     b.Navigation("OrderItems");
 
-                    b.Navigation("Track");
+                    b.Navigation("TrackEvents");
                 });
 
             modelBuilder.Entity("API.Entities.Photo", b =>
                 {
                     b.Navigation("Category");
-
-                    b.Navigation("ProductView");
 
                     b.Navigation("Store");
 
@@ -1363,6 +1390,8 @@ namespace API.Migrations
                     b.Navigation("Items");
 
                     b.Navigation("Orders");
+
+                    b.Navigation("StoreAgents");
                 });
 
             modelBuilder.Entity("API.Entities.StoreItem", b =>
@@ -1370,11 +1399,6 @@ namespace API.Migrations
                     b.Navigation("CartItems");
 
                     b.Navigation("OrderItems");
-                });
-
-            modelBuilder.Entity("API.Entities.Track", b =>
-                {
-                    b.Navigation("Events");
                 });
 
             modelBuilder.Entity("API.Entities.Transaction", b =>
@@ -1387,6 +1411,8 @@ namespace API.Migrations
                     b.Navigation("CartItems");
 
                     b.Navigation("Orders");
+
+                    b.Navigation("StoreAgents");
 
                     b.Navigation("TrackAgents");
 

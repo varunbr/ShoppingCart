@@ -24,12 +24,13 @@ export class OrderListComponent
   ) {
     super(orderService);
     utility.setTitle('Orders');
+  }
+
+  ngOnInit(): void {
     this.route.queryParams.subscribe((params) => {
       this.loadItems(params);
     });
   }
-
-  ngOnInit(): void {}
 
   getTotal(items: OrderItem[]) {
     let total = 0;

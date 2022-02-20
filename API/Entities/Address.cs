@@ -1,11 +1,11 @@
-﻿using System.Collections.Generic;
-
-namespace API.Entities
+﻿namespace API.Entities
 {
     public class Address
     {
         public int Id { get; set; }
+        public string AddressName { get; set; }
         public string Name { get; set; }
+        public string Mobile { get; set; }
         public string House { get; set; }
         public string Landmark { get; set; }
         public int LocationId { get; set; }
@@ -13,6 +13,5 @@ namespace API.Entities
         public string PostalCode { get; set; }
         public User User { get; set; }
         public Store Store { get; set; }
-        public ICollection<Track> TracksFrom { get; set; }
     }
 }

@@ -1,5 +1,5 @@
 export class Address {
-  name: string;
+  addressName: string;
   house: string;
   landmark: string;
   postalCode: string;

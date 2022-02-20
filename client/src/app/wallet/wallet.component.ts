@@ -26,13 +26,14 @@ export class WalletComponent
   ) {
     super(payService);
     utility.setTitle('Wallet');
-    this.loadItems({});
     this.accountService.user$.subscribe((u) => {
       this.user = u;
     });
   }
 
-  ngOnInit(): void {}
+  ngOnInit(): void {
+    this.loadItems({});
+  }
 
   onSubmit(form: NgForm) {
     this.payService.transferAmount(this.modal).subscribe((response) => {

@@ -1,4 +1,6 @@
-﻿using Microsoft.AspNetCore.Identity;
+﻿using API.Helpers;
+using Microsoft.AspNetCore.Identity;
+using System;
 using System.Collections.Generic;
 using System.Linq;
 
@@ -83,6 +85,27 @@ namespace API.Extensions
         public static string ToStringError(this IEnumerable<IdentityError> errors)
         {
             return string.Join("\n", errors.Select(e => e.Description));
+        }
+
+        public static bool TryParseLocation(this string value, out string name, out string type)
+        {
+            name = type = null;
+            try
+            {
+                if (string.IsNullOrEmpty(value)) return false;
+
+                var values = value.Split('-');
+
+                if (values.Length != 2 || !Enum.GetNames<LocationType>().Contains(values[1])) return false;
+
+                name = values[0];
+                type = values[1];
+            }
+            catch
+            {
+                return false;
+            }
+            return true;
         }
     }
 }

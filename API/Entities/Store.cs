@@ -10,9 +10,10 @@ namespace API.Entities
         public Photo Photo { get; set; }
         public int AccountId { get; set; }
         public Account Account { get; set; }
-        public int? AddressId { get; set; }
+        public int AddressId { get; set; }
         public Address Address { get; set; }
         public ICollection<StoreItem> Items { get; set; }
         public ICollection<Order> Orders { get; set; }
+        public ICollection<StoreAgent> StoreAgents { get; set; }
     }
 }

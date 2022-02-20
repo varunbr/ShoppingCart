@@ -9,6 +9,8 @@ namespace API.Data
         IProductRepository ProductRepository { get; }
         IOrderRepository OrdersRepository { get; }
         IPayRepository PayRepository { get; }
+        IStoreRepository StoreRepository { get; }
+        ITrackRepository TrackRepository { get; }
         Task<bool> SaveChanges();
         bool HasChanges();
     }

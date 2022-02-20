@@ -18,12 +18,13 @@ export class OrderDetailComponent implements OnInit {
     private orderService: OrderService
   ) {
     utility.setTitle('Order');
+  }
+
+  ngOnInit(): void {
     this.route.params.subscribe((params) => {
       this.getOrder(params['id']);
     });
   }
-
-  ngOnInit(): void {}
 
   getTotal() {
     let total = 0;

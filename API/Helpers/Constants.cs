@@ -22,6 +22,8 @@
 
     public class Constants
     {
+        public const string TestUser = "test_user";
+        public const string Admin = "admin";
         public const string OrderBy = "OrderBy";
         public const string Price = "Price";
         public const string Brand = "Brand";
@@ -34,6 +36,7 @@
         public const string HighToLow = "HighToLow";
         public const string LowToHigh = "LowToHigh";
         public const string Latest = "Latest";
+        public const string Oldest = "Oldest";
         public const string Default = "Default";
     }
 
@@ -41,7 +44,15 @@
     {
         public const string Created = "Created";
         public const string Confirmed = "Confirmed";
+        public const string Waiting = "Waiting";
+        public const string Arrived = "Arrived";
+        public const string Departed = "Departed";
+        public const string OutForDelivery = "OutForDelivery";
+        public const string AwaitingArrival = "AwaitingArrival";
+        public const string AwaitingDeparture = "AwaitingDeparture";
+        public const string AwaitingDelivery = "AwaitingDelivery";
         public const string Dispatched = "Dispatched";
+        public const string Shipped = "Shipped";
         public const string Delivered = "Delivered";
         public const string Ordered = "Ordered";
         public const string Failed = "Failed";

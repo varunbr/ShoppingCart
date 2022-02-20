@@ -83,12 +83,17 @@ namespace API.Data
             return await DataContext.Users.AnyAsync(u => u.AddressId != null);
         }
 
+        public async Task<Address> GetUserAddress(int userId)
+        {
+            return await DataContext.Addresses.Where(a => a.User.Id == userId).FirstOrDefaultAsync();
+        }
+
         public async Task<string> GetUserAddressName(int userId)
         {
             if (userId == 0) return null;
             return await DataContext.Users
                 .Where(u => u.Id == userId)
-                .Select(u => u.Address.Name)
+                .Select(u => u.Address.AddressName)
                 .FirstOrDefaultAsync();
         }
 
@@ -207,6 +212,75 @@ namespace API.Data
                     States = l.Parent.Parent.Parent.Children.Select(s => new LocationDto { Id = s.Id, Name = s.Name })
                 })
                 .FirstOrDefaultAsync();
+        }
+
+        #endregion
+
+        #region Store
+
+        protected async Task ValidateStoreAgent(int userId, int storeId)
+        {
+            var isStoreAgent = await DataContext.StoresAgents
+                .Where(sa => sa.UserId == userId && sa.StoreId == storeId)
+                .AnyAsync();
+
+            if (!isStoreAgent) throw new HttpException("You are not agent for this Store", StatusCodes.Status403Forbidden);
+        }
+
+        protected async Task ValidateStoreAgentByOrder(int userId, int orderId)
+        {
+            var isStoreAgent = await DataContext.Orders
+                .Where(o => o.Id == orderId && o.Store.StoreAgents.Any(a => a.UserId == userId))
+                .AnyAsync();
+
+            if (!isStoreAgent) throw new HttpException("You are not agent for this Store", StatusCodes.Status403Forbidden);
+        }
+
+        #endregion
+
+        #region Track
+
+        protected async Task ValidateTrackAgent(int userId, int locationId)
+        {
+            var isAgent = await DataContext.TrackAgents
+                .Where(a => a.UserId == userId && a.LocationId == locationId)
+                .AnyAsync();
+
+            if (!isAgent) throw new HttpException("You are not agent of this location", StatusCodes.Status403Forbidden);
+        }
+
+        public async Task<int> GetNextLocation(int sourceLocation, int destinationLocation)
+        {
+            if (sourceLocation == destinationLocation) return 0;
+            var source = await DataContext.Locations
+                .Where(l => l.Id == sourceLocation)
+                .Include(l => l.Parent.Parent.Parent)
+                .FirstAsync();
+            var destination = await DataContext.Locations
+                .Where(l => l.Id == destinationLocation)
+                .Include(l => l.Parent.Parent.Parent)
+                .FirstAsync();
+
+            var locations = new List<int>();
+            var location = destination;
+            while (location != null)
+            {
+                locations.Add(location.Id);
+                location = location.Parent;
+            }
+
+            var index = locations.IndexOf(source.Id);
+            if (index > 0) //Towards destination
+                return locations[index - 1];
+
+            if (source.Parent != null)
+            {
+                index = locations.IndexOf(source.Parent.Id);
+                if (index > 0) //Sibling
+                    return locations[index - 1];
+                return source.Parent.Id; //Parent
+            }
+            return -1;
         }
 
         #endregion

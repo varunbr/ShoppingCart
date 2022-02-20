@@ -69,4 +69,16 @@ namespace API.Helpers
             return intValue;
         }
     }
+
+    public class OrderParams : BaseParams
+    {
+        public string Status { get; set; }
+        public string StoreName { get; set; }
+    }
+
+    public class TrackParams : BaseParams
+    {
+        public string Status { get; set; }
+        public List<string> Location { get; set; }
+    }
 }

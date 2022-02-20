@@ -5,7 +5,11 @@ namespace API.DTOs
     public class AddressDto
     {
         [Required]
+        public string AddressName { get; set; }
+        [Required]
         public string Name { get; set; }
+        [Required]
+        public string Mobile { get; set; }
         [Required]
         public string House { get; set; }
         [Required]

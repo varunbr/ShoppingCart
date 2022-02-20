@@ -28,8 +28,8 @@ namespace API.Data
         public DbSet<Property> Properties { get; set; }
         public DbSet<PropertyValue> PropertyValues { get; set; }
         public DbSet<Store> Stores { get; set; }
+        public DbSet<StoreAgent> StoresAgents { get; set; }
         public DbSet<StoreItem> StoreItems { get; set; }
-        public DbSet<Track> Tracks { get; set; }
         public DbSet<TrackAgent> TrackAgents { get; set; }
         public DbSet<TrackEvent> TrackEvents { get; set; }
         public DbSet<Transaction> Transactions { get; set; }
@@ -82,6 +82,15 @@ namespace API.Data
                 .WithOne(o => o.Store)
                 .HasForeignKey(o => o.StoreId);
 
+            builder.Entity<StoreAgent>()
+                .HasOne(sa => sa.User)
+                .WithMany(u => u.StoreAgents)
+                .HasForeignKey(sa => sa.UserId);
+            builder.Entity<StoreAgent>()
+                .HasOne(sa => sa.Store)
+                .WithMany(s => s.StoreAgents)
+                .HasForeignKey(sa => sa.StoreId);
+
             builder.Entity<Account>()
                 .HasMany(a => a.Deposit)
                 .WithOne(t => t.ToAccount)
@@ -129,13 +138,8 @@ namespace API.Data
                 .IsRowVersion();
 
             builder.Entity<ProductView>()
-                .HasKey(k => new { k.ProductId, k.PhotoId });
-            builder.Entity<ProductView>()
                 .HasOne(pv => pv.Product)
                 .WithMany(p => p.ProductViews);
-            builder.Entity<ProductView>()
-                .HasOne(pv => pv.Photo)
-                .WithOne(p => p.ProductView);
 
             builder.Entity<Category>()
                 .HasMany(c => c.Children)
@@ -179,24 +183,20 @@ namespace API.Data
                 .WithOne(t => t.Order)
                 .HasForeignKey<Order>(o => o.TransactionId);
 
-            builder.Entity<Track>()
-                .HasOne(t => t.Order)
-                .WithOne(o => o.Track)
-                .HasForeignKey<Track>(t => t.OrderId);
-            builder.Entity<Track>()
-                .HasOne(t => t.FromAddress)
-                .WithMany(a => a.TracksFrom)
-                .HasForeignKey(t => t.FromAddressId)
+            builder.Entity<Order>()
+                .HasOne(o => o.DestinationLocation)
+                .WithMany(l => l.DestinationOrders)
+                .HasForeignKey(o => o.DestinationLocationId)
                 .OnDelete(DeleteBehavior.Restrict);
-            builder.Entity<Track>()
-                .HasOne(t => t.Location)
-                .WithMany(l => l.Tracks)
-                .HasForeignKey(t => t.LocationId)
+            builder.Entity<Order>()
+                .HasOne(o => o.SourceLocation)
+                .WithMany(l => l.SourceOrders)
+                .HasForeignKey(o => o.SourceLocationId)
                 .OnDelete(DeleteBehavior.Restrict);
-            builder.Entity<Track>()
-                .HasMany(t => t.Events)
-                .WithOne(te => te.Track)
-                .HasForeignKey(te => te.TrackId);
+            builder.Entity<Order>()
+                .HasMany(o => o.TrackEvents)
+                .WithOne(te => te.Order)
+                .HasForeignKey(te => te.OrderId);
 
             builder.Entity<TrackEvent>()
                 .HasOne(te => te.SiteLocation)
@@ -206,7 +206,7 @@ namespace API.Data
             builder.Entity<TrackEvent>()
                 .HasOne(te => te.Agent)
                 .WithMany(u => u.TrackEvents)
-                .HasForeignKey(te => te.UserId)
+                .HasForeignKey(te => te.AgentId)
                 .OnDelete(DeleteBehavior.Restrict);
 
             builder.Entity<TrackAgent>()
