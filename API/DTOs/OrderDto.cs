@@ -3,16 +3,58 @@ using System.Collections.Generic;
 
 namespace API.DTOs
 {
-    public class UserOrderDto
+    public class BaseOrderDto
     {
         public int Id { get; set; }
         public DateTime Created { get; set; }
+        public string Status { get; set; }
         public DateTime Delivery { get; set; }
         public double TotalAmount { get; set; }
         public double DeliveryCharge { get; set; }
-        public string Status { get; set; }
+        public string House { get; set; }
+        public string Landmark { get; set; }
+        public string PostalCode { get; set; }
+        public string LocationName { get; set; }
+    }
+
+    public class UserOrderDto : BaseOrderDto
+    {
         public int? TransactionId { get; set; }
         public ICollection<OrderItemDto> OrderItems { get; set; }
+        public ICollection<BaseTrackEventDto> TrackEvents { get; set; }
+    }
+
+    public class StoreOrderDto : BaseOrderDto
+    {
+        public int? TransactionId { get; set; }
+    }
+
+    public class TrackOrderDto : BaseOrderDto
+    {
+        public ICollection<BaseTrackEventDto> TrackEvents { get; set; }
+    }
+
+    public class TrackOrderDetailDto : BaseOrderDto
+    {
+        public ICollection<TrackEventDto> TrackEvents { get; set; }
+    }
+
+    public class BaseTrackEventDto
+    {
+        public int Id { get; set; }
+        public DateTime Date { get; set; }
+        public string Status { get; set; }
+        public string LocationName { get; set; }
+        public string LocationType { get; set; }
+        public bool Done { get; set; }
+    }
+
+    public class TrackEventDto : BaseTrackEventDto
+    {
+        public int LocationId { get; set; }
+        public string AgentName { get; set; }
+        public string AgentUserName { get; set; }
+        public string AgentPhotoUrl { get; set; }
     }
 
     public class OrderItemDto

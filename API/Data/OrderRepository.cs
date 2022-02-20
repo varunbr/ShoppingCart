@@ -4,6 +4,7 @@ using API.Helpers;
 using API.Services;
 using AutoMapper;
 using AutoMapper.QueryableExtensions;
+using Microsoft.AspNetCore.Http;
 using Microsoft.EntityFrameworkCore;
 using System;
 using System.Collections.Generic;
@@ -53,7 +54,7 @@ namespace API.Data
                         si.Product.Name,
                         si.Product.Amount,
                         si.Product.MaxPerOrder,
-                        si.Product.ProductViews.First(p => p.IsMain).Photo.Url
+                        si.Product.ProductViews.First(p => p.IsMain).Url
                     })
                     .FirstOrDefaultAsync();
 
@@ -121,6 +122,8 @@ namespace API.Data
         public async Task<int> OrderItems(int userId, OrderRequestDto orderRequest)
         {
             var order = await CreateOrder(userId, orderRequest);
+            if (order == null)
+                throw new HttpException("Order validation failed");
 
             await using var transaction = await DataContext.Database.BeginTransactionAsync();
             try
@@ -153,8 +156,7 @@ namespace API.Data
                 accTransaction.Type = TransactionType.Order;
                 order.Transaction = accTransaction;
 
-                var result = await DataContext.SaveChangesAsync();
-                if (result <= 0) throw new HttpException("Failed to order.");
+                if (!await SaveChanges()) throw new HttpException("Failed to order.");
                 await transaction.CommitAsync();
                 await UpdateProductAvailability(productUpdate);
             }
@@ -163,7 +165,7 @@ namespace API.Data
                 await transaction.RollbackAsync();
                 order.Status = Status.Failed;
                 foreach (var item in order.OrderItems) item.Status = Status.Failed;
-                await DataContext.SaveChangesAsync();
+                await SaveChanges();
                 throw;
             }
 
@@ -172,34 +174,55 @@ namespace API.Data
 
         private async Task<Order> CreateOrder(int userId, OrderRequestDto orderRequest)
         {
-            if (orderRequest.PayOption != Constants.ShoppingCartWallet) 
-                throw new HttpException($"{orderRequest.PayOption} not supported.");
+            if (orderRequest.PayOption != Constants.ShoppingCartWallet) return null;
 
-            var isValid = await VerifyOrder(userId, orderRequest);
-            if (!isValid)
+            if (orderRequest.Items == null || !orderRequest.Items.Any() ||
+                orderRequest.Items.GroupBy(i => i.StoreItemId).Any(g => g.Count() > 1)
+                || orderRequest.Items.Any(i => i.ItemQuantity <= 0))
+                return null;
+
+            var userAddress = await GetUserAddress(userId);
+            if (userAddress == null) return null;
+
+            var storeInfo = await DataContext.StoreItems
+                .Where(si => si.Id == orderRequest.Items.First().StoreItemId)
+                .Select(si => new { si.StoreId, si.Store.Address.LocationId })
+                .FirstOrDefaultAsync();
+            if (storeInfo == null) return null;
+
+            foreach (var item in orderRequest.Items)
             {
-                throw new HttpException("Order validation failed");
+                var result = await DataContext.StoreItems
+                    .Where(si => si.Id == item.StoreItemId && si.StoreId == storeInfo.StoreId &&
+                                 item.ItemQuantity <= si.Product.MaxPerOrder && item.ItemQuantity <= si.Available)
+                    .AnyAsync();
+                if (!result) return null;
             }
+
+            orderRequest.StoreId = storeInfo.StoreId;
 
             var totalPrice = await GetTotalPrice(orderRequest);
             var deliveryCharge = totalPrice < 500
                 ? await IsInterStateDelivery(userId, orderRequest.StoreId) ? 40.0 : 60.0
                 : 0;
 
-            if (Math.Abs(totalPrice + deliveryCharge - orderRequest.TotalAmount) > 0.001)
-            {
-                throw new HttpException("Order validation failed");
-            }
+            if (Math.Abs(totalPrice + deliveryCharge - orderRequest.TotalAmount) > 0.001) return null;
 
             var order = new Order
             {
                 UserId = userId,
                 Type = "Product",
                 Created = DateTime.UtcNow,
+                Update = DateTime.UtcNow,
                 Status = Status.Created,
                 StoreId = orderRequest.StoreId,
                 TotalAmount = orderRequest.TotalAmount,
                 DeliveryCharge = deliveryCharge,
+                SourceLocationId = storeInfo.LocationId,
+                House = userAddress.House,
+                Landmark = userAddress.Landmark,
+                PostalCode = userAddress.PostalCode,
+                DestinationLocationId = userAddress.LocationId,
                 OrderItems = new List<OrderItem>()
             };
 
@@ -216,36 +239,7 @@ namespace API.Data
 
             await DataContext.Orders.AddAsync(order);
 
-            return await DataContext.SaveChangesAsync() <= 0
-                ? throw new HttpException("Failed to create Order!")
-                : order;
-        }
-
-        private async Task<bool> VerifyOrder(int userId, OrderRequestDto orderRequest)
-        {
-            if (orderRequest.Items == null || !orderRequest.Items.Any() || orderRequest.Items.GroupBy(i => i.StoreItemId).Any(g => g.Count() > 1)
-                || orderRequest.Items.Any(i => i.ItemQuantity <= 0))
-                return false;
-
-            var storeId = await DataContext.StoreItems
-                .Where(si => si.Id == orderRequest.Items.First().StoreItemId)
-                .Select(si => si.StoreId)
-                .FirstOrDefaultAsync();
-
-            if (!await UserHasAddress(userId)) return false;
-
-            foreach (var item in orderRequest.Items)
-            {
-                var result = await DataContext.StoreItems
-                    .Where(si => si.Id == item.StoreItemId && si.StoreId == storeId &&
-                                 item.ItemQuantity <= si.Product.MaxPerOrder && item.ItemQuantity <= si.Available)
-                    .AnyAsync();
-                if (!result) return false;
-            }
-
-            orderRequest.StoreId = storeId;
-
-            return true;
+            return await SaveChanges() ? order : null;
         }
 
         private async Task<double> GetTotalPrice(OrderRequestDto orderRequest)
@@ -289,6 +283,33 @@ namespace API.Data
                 .ProjectTo<UserOrderDto>(Mapper.ConfigurationProvider)
                 .AsNoTracking()
                 .FirstOrDefaultAsync();
+        }
+
+        public async Task<UserOrderDto> AcceptOrder(int userId, int orderId)
+        {
+            var order = await DataContext.Orders
+                .Where(o => o.Id == orderId && o.UserId == userId)
+                .Include(o => o.TrackEvents)
+                .FirstOrDefaultAsync();
+            if (order == null)
+                throw new HttpException("Invalid order request");
+
+            if (order.Status != Status.OutForDelivery)
+                throw new HttpException("You cannot accept this order");
+
+            var trackEvent = order.TrackEvents.FirstOrDefault(e => !e.Done);
+
+            if (trackEvent == null)
+                throw new HttpException("Failed to accept order", StatusCodes.Status500InternalServerError);
+
+            order.Status = trackEvent.Status = Status.Delivered;
+            order.Update = order.Delivery = trackEvent.Date = DateTime.UtcNow;
+            trackEvent.Done = true;
+
+            if (!await SaveChanges())
+                throw new HttpException("Failed to accept order", StatusCodes.Status500InternalServerError);
+
+            return await GetUserOrder(userId, orderId);
         }
 
         #endregion
@@ -375,7 +396,7 @@ namespace API.Data
         public async Task<bool> RemoveFromCart(int userId, int[] storeItemIds)
         {
             var cartItem = await DataContext.CartItems.Where(i => i.UserId == userId && storeItemIds.Contains(i.StoreItemId)).ToListAsync();
-            if(cartItem.Count==0) return false;
+            if (cartItem.Count == 0) return false;
             DataContext.CartItems.RemoveRange(cartItem);
             return true;
         }

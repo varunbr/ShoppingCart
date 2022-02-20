@@ -56,5 +56,12 @@ namespace API.Controllers
                 return NotFound("Order not found.");
             return Ok(order);
         }
+
+        [HttpPost("accept/{orderId}")]
+        public async Task<ActionResult> AcceptOrder(int orderId)
+        {
+            var userId = HttpContext.User.GetUserId();
+            return Ok(await _uow.OrdersRepository.AcceptOrder(userId, orderId));
+        }
     }
 }

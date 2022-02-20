@@ -145,7 +145,9 @@ namespace API.Migrations
                 {
                     Id = table.Column<int>(type: "int", nullable: false)
                         .Annotation("SqlServer:Identity", "1, 1"),
+                    AddressName = table.Column<string>(type: "nvarchar(max)", nullable: true),
                     Name = table.Column<string>(type: "nvarchar(max)", nullable: true),
+                    Mobile = table.Column<string>(type: "nvarchar(max)", nullable: true),
                     House = table.Column<string>(type: "nvarchar(max)", nullable: true),
                     Landmark = table.Column<string>(type: "nvarchar(max)", nullable: true),
                     LocationId = table.Column<int>(type: "int", nullable: false),
@@ -248,7 +250,7 @@ namespace API.Migrations
                     Name = table.Column<string>(type: "nvarchar(max)", nullable: true),
                     PhotoId = table.Column<int>(type: "int", nullable: true),
                     AccountId = table.Column<int>(type: "int", nullable: false),
-                    AddressId = table.Column<int>(type: "int", nullable: true)
+                    AddressId = table.Column<int>(type: "int", nullable: false)
                 },
                 constraints: table =>
                 {
@@ -469,11 +471,17 @@ namespace API.Migrations
                     Type = table.Column<string>(type: "nvarchar(max)", nullable: true),
                     UserId = table.Column<int>(type: "int", nullable: false),
                     Created = table.Column<DateTime>(type: "datetime2", nullable: false),
+                    Update = table.Column<DateTime>(type: "datetime2", nullable: false),
                     Delivery = table.Column<DateTime>(type: "datetime2", nullable: false),
                     TotalAmount = table.Column<double>(type: "float", nullable: false),
                     DeliveryCharge = table.Column<double>(type: "float", nullable: false),
                     Status = table.Column<string>(type: "nvarchar(max)", nullable: true),
                     StoreId = table.Column<int>(type: "int", nullable: false),
+                    SourceLocationId = table.Column<int>(type: "int", nullable: false),
+                    House = table.Column<string>(type: "nvarchar(max)", nullable: true),
+                    Landmark = table.Column<string>(type: "nvarchar(max)", nullable: true),
+                    DestinationLocationId = table.Column<int>(type: "int", nullable: false),
+                    PostalCode = table.Column<string>(type: "nvarchar(max)", nullable: true),
                     TransactionId = table.Column<int>(type: "int", nullable: true)
                 },
                 constraints: table =>
@@ -486,6 +494,18 @@ namespace API.Migrations
                         principalColumn: "Id",
                         onDelete: ReferentialAction.Cascade);
                     table.ForeignKey(
+                        name: "FK_Orders_Locations_DestinationLocationId",
+                        column: x => x.DestinationLocationId,
+                        principalTable: "Locations",
+                        principalColumn: "Id",
+                        onDelete: ReferentialAction.Restrict);
+                    table.ForeignKey(
+                        name: "FK_Orders_Locations_SourceLocationId",
+                        column: x => x.SourceLocationId,
+                        principalTable: "Locations",
+                        principalColumn: "Id",
+                        onDelete: ReferentialAction.Restrict);
+                    table.ForeignKey(
                         name: "FK_Orders_Stores_StoreId",
                         column: x => x.StoreId,
                         principalTable: "Stores",
@@ -496,6 +516,33 @@ namespace API.Migrations
                         column: x => x.TransactionId,
                         principalTable: "Transactions",
                         principalColumn: "Id");
+                });
+
+            migrationBuilder.CreateTable(
+                name: "StoresAgents",
+                columns: table => new
+                {
+                    Id = table.Column<int>(type: "int", nullable: false)
+                        .Annotation("SqlServer:Identity", "1, 1"),
+                    StoreId = table.Column<int>(type: "int", nullable: false),
+                    UserId = table.Column<int>(type: "int", nullable: false),
+                    Role = table.Column<string>(type: "nvarchar(max)", nullable: true)
+                },
+                constraints: table =>
+                {
+                    table.PrimaryKey("PK_StoresAgents", x => x.Id);
+                    table.ForeignKey(
+                        name: "FK_StoresAgents_AspNetUsers_UserId",
+                        column: x => x.UserId,
+                        principalTable: "AspNetUsers",
+                        principalColumn: "Id",
+                        onDelete: ReferentialAction.Cascade);
+                    table.ForeignKey(
+                        name: "FK_StoresAgents_Stores_StoreId",
+                        column: x => x.StoreId,
+                        principalTable: "Stores",
+                        principalColumn: "Id",
+                        onDelete: ReferentialAction.Cascade);
                 });
 
             migrationBuilder.CreateTable(
@@ -523,19 +570,16 @@ namespace API.Migrations
                 name: "ProductViews",
                 columns: table => new
                 {
+                    Id = table.Column<int>(type: "int", nullable: false)
+                        .Annotation("SqlServer:Identity", "1, 1"),
                     ProductId = table.Column<int>(type: "int", nullable: false),
-                    PhotoId = table.Column<int>(type: "int", nullable: false),
+                    PublicId = table.Column<string>(type: "nvarchar(max)", nullable: true),
+                    Url = table.Column<string>(type: "nvarchar(max)", nullable: true),
                     IsMain = table.Column<bool>(type: "bit", nullable: false)
                 },
                 constraints: table =>
                 {
-                    table.PrimaryKey("PK_ProductViews", x => new { x.ProductId, x.PhotoId });
-                    table.ForeignKey(
-                        name: "FK_ProductViews_Photos_PhotoId",
-                        column: x => x.PhotoId,
-                        principalTable: "Photos",
-                        principalColumn: "Id",
-                        onDelete: ReferentialAction.Cascade);
+                    table.PrimaryKey("PK_ProductViews", x => x.Id);
                     table.ForeignKey(
                         name: "FK_ProductViews_Products_ProductId",
                         column: x => x.ProductId,
@@ -602,35 +646,35 @@ namespace API.Migrations
                 });
 
             migrationBuilder.CreateTable(
-                name: "Tracks",
+                name: "TrackEvents",
                 columns: table => new
                 {
                     Id = table.Column<int>(type: "int", nullable: false)
                         .Annotation("SqlServer:Identity", "1, 1"),
+                    Date = table.Column<DateTime>(type: "datetime2", nullable: false),
                     OrderId = table.Column<int>(type: "int", nullable: false),
-                    FromAddressId = table.Column<int>(type: "int", nullable: false),
-                    House = table.Column<string>(type: "nvarchar(max)", nullable: true),
-                    Landmark = table.Column<string>(type: "nvarchar(max)", nullable: true),
                     LocationId = table.Column<int>(type: "int", nullable: false),
-                    PostalCode = table.Column<string>(type: "nvarchar(max)", nullable: true)
+                    AgentId = table.Column<int>(type: "int", nullable: true),
+                    Status = table.Column<string>(type: "nvarchar(max)", nullable: true),
+                    Done = table.Column<bool>(type: "bit", nullable: false)
                 },
                 constraints: table =>
                 {
-                    table.PrimaryKey("PK_Tracks", x => x.Id);
+                    table.PrimaryKey("PK_TrackEvents", x => x.Id);
                     table.ForeignKey(
-                        name: "FK_Tracks_Addresses_FromAddressId",
-                        column: x => x.FromAddressId,
-                        principalTable: "Addresses",
+                        name: "FK_TrackEvents_AspNetUsers_AgentId",
+                        column: x => x.AgentId,
+                        principalTable: "AspNetUsers",
                         principalColumn: "Id",
                         onDelete: ReferentialAction.Restrict);
                     table.ForeignKey(
-                        name: "FK_Tracks_Locations_LocationId",
+                        name: "FK_TrackEvents_Locations_LocationId",
                         column: x => x.LocationId,
                         principalTable: "Locations",
                         principalColumn: "Id",
                         onDelete: ReferentialAction.Restrict);
                     table.ForeignKey(
-                        name: "FK_Tracks_Orders_OrderId",
+                        name: "FK_TrackEvents_Orders_OrderId",
                         column: x => x.OrderId,
                         principalTable: "Orders",
                         principalColumn: "Id",
@@ -688,40 +732,6 @@ namespace API.Migrations
                         name: "FK_OrderItems_StoreItems_StoreItemId",
                         column: x => x.StoreItemId,
                         principalTable: "StoreItems",
-                        principalColumn: "Id",
-                        onDelete: ReferentialAction.Cascade);
-                });
-
-            migrationBuilder.CreateTable(
-                name: "TrackEvents",
-                columns: table => new
-                {
-                    Id = table.Column<int>(type: "int", nullable: false)
-                        .Annotation("SqlServer:Identity", "1, 1"),
-                    TrackId = table.Column<int>(type: "int", nullable: false),
-                    LocationId = table.Column<int>(type: "int", nullable: false),
-                    UserId = table.Column<int>(type: "int", nullable: false),
-                    Status = table.Column<string>(type: "nvarchar(max)", nullable: true)
-                },
-                constraints: table =>
-                {
-                    table.PrimaryKey("PK_TrackEvents", x => x.Id);
-                    table.ForeignKey(
-                        name: "FK_TrackEvents_AspNetUsers_UserId",
-                        column: x => x.UserId,
-                        principalTable: "AspNetUsers",
-                        principalColumn: "Id",
-                        onDelete: ReferentialAction.Restrict);
-                    table.ForeignKey(
-                        name: "FK_TrackEvents_Locations_LocationId",
-                        column: x => x.LocationId,
-                        principalTable: "Locations",
-                        principalColumn: "Id",
-                        onDelete: ReferentialAction.Restrict);
-                    table.ForeignKey(
-                        name: "FK_TrackEvents_Tracks_TrackId",
-                        column: x => x.TrackId,
-                        principalTable: "Tracks",
                         principalColumn: "Id",
                         onDelete: ReferentialAction.Cascade);
                 });
@@ -833,6 +843,16 @@ namespace API.Migrations
                 column: "StoreItemId");
 
             migrationBuilder.CreateIndex(
+                name: "IX_Orders_DestinationLocationId",
+                table: "Orders",
+                column: "DestinationLocationId");
+
+            migrationBuilder.CreateIndex(
+                name: "IX_Orders_SourceLocationId",
+                table: "Orders",
+                column: "SourceLocationId");
+
+            migrationBuilder.CreateIndex(
                 name: "IX_Orders_StoreId",
                 table: "Orders",
                 column: "StoreId");
@@ -860,10 +880,9 @@ namespace API.Migrations
                 column: "ProductId");
 
             migrationBuilder.CreateIndex(
-                name: "IX_ProductViews_PhotoId",
+                name: "IX_ProductViews_ProductId",
                 table: "ProductViews",
-                column: "PhotoId",
-                unique: true);
+                column: "ProductId");
 
             migrationBuilder.CreateIndex(
                 name: "IX_Properties_CategoryId",
@@ -900,8 +919,7 @@ namespace API.Migrations
                 name: "IX_Stores_AddressId",
                 table: "Stores",
                 column: "AddressId",
-                unique: true,
-                filter: "[AddressId] IS NOT NULL");
+                unique: true);
 
             migrationBuilder.CreateIndex(
                 name: "IX_Stores_PhotoId",
@@ -909,6 +927,16 @@ namespace API.Migrations
                 column: "PhotoId",
                 unique: true,
                 filter: "[PhotoId] IS NOT NULL");
+
+            migrationBuilder.CreateIndex(
+                name: "IX_StoresAgents_StoreId",
+                table: "StoresAgents",
+                column: "StoreId");
+
+            migrationBuilder.CreateIndex(
+                name: "IX_StoresAgents_UserId",
+                table: "StoresAgents",
+                column: "UserId");
 
             migrationBuilder.CreateIndex(
                 name: "IX_TrackAgents_LocationId",
@@ -921,35 +949,19 @@ namespace API.Migrations
                 column: "UserId");
 
             migrationBuilder.CreateIndex(
+                name: "IX_TrackEvents_AgentId",
+                table: "TrackEvents",
+                column: "AgentId");
+
+            migrationBuilder.CreateIndex(
                 name: "IX_TrackEvents_LocationId",
                 table: "TrackEvents",
                 column: "LocationId");
 
             migrationBuilder.CreateIndex(
-                name: "IX_TrackEvents_TrackId",
+                name: "IX_TrackEvents_OrderId",
                 table: "TrackEvents",
-                column: "TrackId");
-
-            migrationBuilder.CreateIndex(
-                name: "IX_TrackEvents_UserId",
-                table: "TrackEvents",
-                column: "UserId");
-
-            migrationBuilder.CreateIndex(
-                name: "IX_Tracks_FromAddressId",
-                table: "Tracks",
-                column: "FromAddressId");
-
-            migrationBuilder.CreateIndex(
-                name: "IX_Tracks_LocationId",
-                table: "Tracks",
-                column: "LocationId");
-
-            migrationBuilder.CreateIndex(
-                name: "IX_Tracks_OrderId",
-                table: "Tracks",
-                column: "OrderId",
-                unique: true);
+                column: "OrderId");
 
             migrationBuilder.CreateIndex(
                 name: "IX_Transactions_FromId",
@@ -1001,6 +1013,9 @@ namespace API.Migrations
                 name: "PropertyValues");
 
             migrationBuilder.DropTable(
+                name: "StoresAgents");
+
+            migrationBuilder.DropTable(
                 name: "TrackAgents");
 
             migrationBuilder.DropTable(
@@ -1016,16 +1031,10 @@ namespace API.Migrations
                 name: "Properties");
 
             migrationBuilder.DropTable(
-                name: "Tracks");
-
-            migrationBuilder.DropTable(
-                name: "Products");
-
-            migrationBuilder.DropTable(
                 name: "Orders");
 
             migrationBuilder.DropTable(
-                name: "Categories");
+                name: "Products");
 
             migrationBuilder.DropTable(
                 name: "AspNetUsers");
@@ -1037,13 +1046,16 @@ namespace API.Migrations
                 name: "Transactions");
 
             migrationBuilder.DropTable(
+                name: "Categories");
+
+            migrationBuilder.DropTable(
                 name: "Addresses");
 
             migrationBuilder.DropTable(
-                name: "Photos");
+                name: "Accounts");
 
             migrationBuilder.DropTable(
-                name: "Accounts");
+                name: "Photos");
 
             migrationBuilder.DropTable(
                 name: "Locations");

@@ -61,14 +61,13 @@ namespace API.Data
                 var accTransaction = await ProcessTransaction(from, to, transfer.Amount, transfer.Description);
                 accTransaction.Type = TransactionType.AmountTransfer;
                 await DataContext.Transactions.AddAsync(accTransaction);
-                var result = await DataContext.SaveChangesAsync();
-                if (result <= 0) throw new HttpException("Failed to transfer.");
+                if (!await SaveChanges()) throw new HttpException("Failed to transfer.");
                 await transaction.CommitAsync();
             }
             catch
             {
                 await transaction.RollbackAsync();
-                await DataContext.SaveChangesAsync();
+                await SaveChanges();
                 throw;
             }
         }

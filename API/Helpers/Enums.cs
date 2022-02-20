@@ -2,13 +2,13 @@
 {
     public enum Role
     {
-        User,
-        SuperAdmin,
         Admin,
-        StoreMember,
-        StoreAdmin,
+        Moderator,
         TrackAgent,
-        TrackAgentAdmin
+        TrackAgentAdmin,
+        StoreAdmin,
+        StoreModerator,
+        User
     }
 
     public enum Gender

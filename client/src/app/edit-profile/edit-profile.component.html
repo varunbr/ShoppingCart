@@ -77,8 +77,18 @@
                 <div fxLayout="row wrap" fxLayoutAlign="space-around center">
                     <mat-form-field fxFlex="45" fxFlex.lt-sm="90" appearance="outline">
                         <mat-label>Name</mat-label>
-                        <input required matInput type="text" name="name" placeholder="eg. Office"
+                        <input required matInput type="text" name="name" placeholder="eg. Ram Krishna"
                             [(ngModel)]="address.name" />
+                    </mat-form-field>
+                    <mat-form-field fxFlex="45" fxFlex.lt-sm="90" appearance="outline">
+                        <mat-label>Mobile</mat-label>
+                        <input required matInput type="text" name="mobile" placeholder="eg. 987654321"
+                            [(ngModel)]="address.mobile" />
+                    </mat-form-field>
+                    <mat-form-field fxFlex="45" fxFlex.lt-sm="90" appearance="outline">
+                        <mat-label>Address Name</mat-label>
+                        <input required matInput type="text" name="addressName" placeholder="eg. Office"
+                            [(ngModel)]="address.addressName" />
                     </mat-form-field>
                     <mat-form-field fxFlex="45" fxFlex.lt-sm="90" appearance="outline">
                         <mat-label>House No. & Street</mat-label>

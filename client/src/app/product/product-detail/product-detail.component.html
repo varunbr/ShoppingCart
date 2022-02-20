@@ -15,7 +15,7 @@
     </div>
     <div class="m-2" fxFlex>
         <mat-card>
-            <mat-card-title class="mt-2">{{product?.name}}</mat-card-title>
+            <h1 class="mt-2">{{product?.name}}</h1>
             <h2>{{product?.amount | currency:'INR'}}</h2>
             <h2 *ngIf="!product.available" style="color: orangered;">Out of Stock</h2>
             <h2 *ngIf="variants && variants?.length > 0">Variants</h2>

@@ -79,7 +79,7 @@ namespace API.Controllers
             if (user == null) return BadRequest("Invalid user");
 
             var result = await _signInManager.CheckPasswordSignInAsync(user, loginDto.Password, false);
-            if (!result.Succeeded && loginDto.UserName != "test_user") return BadRequest("Invalid username or password.");
+            if (!result.Succeeded && loginDto.UserName != Constants.TestUser) return BadRequest("Invalid username or password.");
 
             var token = await _tokenService.CreateToken(user);
 
@@ -139,7 +139,7 @@ namespace API.Controllers
             if (await _userManager.Users.AnyAsync(u => u.Id != profileDto.Id &&
                                                        u.NormalizedEmail == profileDto.Email.ToUpper()))
                 return BadRequest("Email is already registered.");
-            if (HttpContext.User.GetUserName() == "test_user" && profileDto.UserName.ToLower() != "test_user")
+            if (HttpContext.User.GetUserName() == Constants.TestUser && profileDto.UserName.ToLower() != Constants.TestUser)
                 return BadRequest("Test User cannot change username.");
 
             var user = await _userManager.Users.SingleAsync(u => u.Id == profileDto.Id);

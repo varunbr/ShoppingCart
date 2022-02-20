@@ -39,6 +39,7 @@ namespace API.Seed
             await SeedRoles();
             await SeedLocation();
             await SeedUsers();
+            await SeedTrackAgents();
             await SeedPayOption();
             await SeedStore();
             await SeedCategory();
@@ -72,17 +73,25 @@ namespace API.Seed
                     Balance = 100000
                 };
                 user.Address = await GetRandomAddress();
+                user.Address.Name = user.Name;
+                user.Address.Mobile = user.PhoneNumber;
 
-                if (user.UserName == "admin")
+                switch (user.UserName)
                 {
-                    user.Account.Balance = 2000000;
-                    await _userManager.CreateAsync(user, _config["AdminPassword"]);
-                    await _userManager.AddToRolesAsync(user, new[] { Role.User.ToString(), Role.Admin.ToString() });
-                    continue;
+                    case Constants.Admin:
+                        user.Account.Balance = 2000000;
+                        await _userManager.CreateAsync(user, _config["AdminPassword"]);
+                        await _userManager.AddToRolesAsync(user, Enum.GetNames<Role>());
+                        break;
+                    case Constants.TestUser:
+                        await _userManager.CreateAsync(user, _config["AdminPassword"]);
+                        await _userManager.AddToRolesAsync(user, new[] { Role.User.ToString(), Role.TrackAgentAdmin.ToString() });
+                        break;
+                    default:
+                        await _userManager.CreateAsync(user, "User@2021");
+                        await _userManager.AddToRoleAsync(user, Role.User.ToString());
+                        break;
                 }
-
-                await _userManager.CreateAsync(user, "User@2021");
-                await _userManager.AddToRoleAsync(user, Role.User.ToString());
             }
         }
 
@@ -122,17 +131,28 @@ namespace API.Seed
         {
             if (await _context.Stores.AnyAsync()) return;
 
-            var stores = new[] { "SuperComNet", "StoreEcom", "CORSECA", "PETILANTE Online",
-                "RetailNet", "Akshnav Online", "OmniTechRetail", "IWQNBecommerce","RetailHomes","HomeKart" };
+            var stores = new[] { "SuperComNet", "StoreEcom", "CORSECA", "PETILANTEOnline",
+                "RetailNet", "AkshnavOnline", "OmniTechRetail", "IWQNBecommerce","RetailHomes","HomeKart" };
+
+            var testUser = await _context.Users.Where(u => u.UserName == Constants.TestUser).FirstAsync();
 
             foreach (var name in stores)
             {
                 var store = new Store
                 {
                     Name = name,
-                    Account = new Account { Balance = 10000 },
-                    Address = await GetRandomAddress()
+                    Account = new Account(),
+                    Address = await GetRandomAddress(),
+                    StoreAgents = new List<StoreAgent>
+                    {
+                        new()
+                        {
+                            Role = Role.StoreAdmin.ToString(),
+                            User = testUser
+                        }
+                    }
                 };
+                store.Address.Name = store.Name;
                 await _context.Stores.AddAsync(store);
                 await _context.SaveChangesAsync();
             }
@@ -147,6 +167,26 @@ namespace API.Seed
             var location = _mapper.Map<Location>(country);
 
             await _context.Locations.AddRangeAsync(location);
+            await _context.SaveChangesAsync();
+        }
+
+        async Task SeedTrackAgents()
+        {
+            var testUser = await _context.Users.Where(u => u.UserName == Constants.TestUser).FirstAsync();
+            var locations = await _context.Locations.ToListAsync();
+            var agents = new List<TrackAgent>();
+
+            foreach (var item in locations)
+            {
+                agents.Add(new TrackAgent
+                {
+                    Location = item,
+                    User = testUser,
+                    Role = Role.TrackAgentAdmin.ToString()
+                });
+            }
+
+            await _context.TrackAgents.AddRangeAsync(agents);
             await _context.SaveChangesAsync();
         }
 
@@ -212,10 +252,7 @@ namespace API.Seed
                         var productView = new ProductView
                         {
                             IsMain = i == 0,
-                            Photo = new Photo
-                            {
-                                Url = productSeed.Urls[i]
-                            }
+                            Url = productSeed.Urls[i]
                         };
                         product.ProductViews.Add(productView);
                     }
@@ -291,7 +328,7 @@ namespace API.Seed
             return new Address
             {
                 Location = location,
-                Name = names[Random.Next(0, names.Length)],
+                AddressName = names[Random.Next(0, names.Length)],
                 House = $"#{Random.Next(1, 100)}, {Random.Next(3, 26)}th Cross, {Random.Next(3, 15)}th Main",
                 Landmark = landmarks[Random.Next(0, landmarks.Length)],
                 PostalCode = Random.Next(500000, 599999).ToString()
