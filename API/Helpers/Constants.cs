@@ -50,6 +50,7 @@
         public const string OutForDelivery = "OutForDelivery";
         public const string AwaitingArrival = "AwaitingArrival";
         public const string AwaitingDeparture = "AwaitingDeparture";
+        public const string AwaitingDeliveryStart = "AwaitingDeliveryStart";
         public const string AwaitingDelivery = "AwaitingDelivery";
         public const string Dispatched = "Dispatched";
         public const string Shipped = "Shipped";

@@ -480,6 +480,8 @@ namespace API.Migrations
                     SourceLocationId = table.Column<int>(type: "int", nullable: false),
                     House = table.Column<string>(type: "nvarchar(max)", nullable: true),
                     Landmark = table.Column<string>(type: "nvarchar(max)", nullable: true),
+                    Name = table.Column<string>(type: "nvarchar(max)", nullable: true),
+                    Mobile = table.Column<string>(type: "nvarchar(max)", nullable: true),
                     DestinationLocationId = table.Column<int>(type: "int", nullable: false),
                     PostalCode = table.Column<string>(type: "nvarchar(max)", nullable: true),
                     TransactionId = table.Column<int>(type: "int", nullable: true)

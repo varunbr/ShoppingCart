@@ -1,9 +1,3 @@
 .cursor {
   cursor: pointer;
 }
-.full-screen {
-  min-height: calc(100vh - 60px);
-}
-.full-screen-md {
-  min-height: calc(100vh - 120px);
-}

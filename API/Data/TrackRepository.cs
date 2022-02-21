@@ -25,19 +25,19 @@ namespace API.Data
             var locations = DataContext.TrackAgents
                 .Where(a => a.UserId == userId);
 
-            if (trackParams.Location != null)
+            if (!string.IsNullOrEmpty(trackParams.Location))
             {
-                var addedLocation = new List<string>();
+                var addedLocations = new List<string>();
                 var inner = PredicateBuilder.False<TrackAgent>();
-                foreach (var location in trackParams.Location)
+                foreach (var location in trackParams.Location.Split(','))
                 {
                     if (location.TryParseLocation(out var name, out var type))
                     {
-                        addedLocation.Add(location);
-                        inner = inner.Or(a => a.Location.Name == name && a.Location.Type == type);
+                        addedLocations.Add(location);
+                        inner = inner.Or(a => a.Location.Name.Contains(name) && a.Location.Type == type);
                     }
                 }
-                trackParams.Location = addedLocation;
+                trackParams.Location = string.Join(',', addedLocations);
                 locations = locations.Where(inner);
             }
 
@@ -47,14 +47,21 @@ namespace API.Data
                 .Where(e => locationIds.Contains(e.LocationId) && !e.Done);
 
             if (!string.IsNullOrEmpty(trackParams.Status))
-                events = events.Where(e => e.Status == trackParams.Status);
+            {
+                var inner = PredicateBuilder.False<TrackEvent>();
+                foreach (var status in trackParams.Status.Split(','))
+                {
+                    inner = inner.Or(a => a.Status == status);
+                }
+                events = events.Where(inner);
+            }
 
             trackParams.TotalCount = await events.CountAsync();
 
             events = trackParams.OrderBy switch
             {
-                OrderBy.Latest => events.OrderByDescending(e => e.Date),
-                _ => events.OrderBy(e => e.Date)
+                OrderBy.Oldest => events.OrderBy(e => e.Date),
+                _ => events.OrderByDescending(e => e.Date)
             };
 
             var orderIds = await events.AddPagination(trackParams.PageNumber, trackParams.PageSize)
@@ -65,6 +72,8 @@ namespace API.Data
                 .Where(o => orderIds.Contains(o.Id))
                 .ProjectTo<TrackOrderDto>(Mapper.ConfigurationProvider)
                 .ToListAsync();
+
+            orders.ForEach(o => o.CurrentEvent = o.TrackEvents.LastOrDefault());
 
             var result = orders.OrderBy(p => orderIds.IndexOf(p.Id)).ToList();
 
@@ -77,10 +86,11 @@ namespace API.Data
                 .ProjectTo<TrackOrderDetailDto>(Mapper.ConfigurationProvider)
                 .FirstOrDefaultAsync();
             if (order == null) throw new HttpException("Order not found");
+            order.CurrentEvent = order.TrackEvents.LastOrDefault(o => !o.Done);
             return order;
         }
 
-        public async Task<TrackOrderDetailDto> ReceiveOrder(int userId, int orderId)
+        public async Task<TrackOrderDetailDto> ReceiveOrder(int userId, int orderId, int locationId)
         {
             var order = await DataContext.Orders
                 .Where(o => o.Id == orderId)
@@ -94,6 +104,9 @@ namespace API.Data
 
             if (trackEvent == null)
                 throw new HttpException("Failed to receive order", StatusCodes.Status500InternalServerError);
+
+            if (trackEvent.LocationId != locationId)
+                throw new HttpException("Invalid Location input.");
 
             await ValidateTrackAgent(userId, trackEvent.LocationId);
 
@@ -109,7 +122,7 @@ namespace API.Data
             order.TrackEvents.Add(new TrackEvent
             {
                 Date = DateTime.UtcNow,
-                Status = trackEvent.LocationId == order.DestinationLocationId ? Status.AwaitingDelivery : Status.AwaitingDeparture,
+                Status = trackEvent.LocationId == order.DestinationLocationId ? Status.AwaitingDeliveryStart : Status.AwaitingDeparture,
                 LocationId = trackEvent.LocationId
             });
 
@@ -119,7 +132,7 @@ namespace API.Data
             return await GetOrder(orderId);
         }
 
-        public async Task<TrackOrderDetailDto> DispatchOrder(int userId, int orderId)
+        public async Task<TrackOrderDetailDto> DispatchOrder(int userId, int orderId, int locationId)
         {
             var order = await DataContext.Orders
                 .Where(o => o.Id == orderId)
@@ -133,6 +146,9 @@ namespace API.Data
 
             if (trackEvent == null)
                 throw new HttpException("Failed to dispatch order", StatusCodes.Status500InternalServerError);
+
+            if (trackEvent.LocationId != locationId)
+                throw new HttpException("Invalid Location input.");
 
             await ValidateTrackAgent(userId, trackEvent.LocationId);
 
@@ -164,7 +180,7 @@ namespace API.Data
             return await GetOrder(orderId);
         }
 
-        public async Task<TrackOrderDetailDto> DispatchOrderForDelivery(int userId, int orderId)
+        public async Task<TrackOrderDetailDto> DispatchOrderForDelivery(int userId, int orderId, int locationId)
         {
             var order = await DataContext.Orders
                 .Where(o => o.Id == orderId)
@@ -179,9 +195,12 @@ namespace API.Data
             if (trackEvent == null)
                 throw new HttpException("Failed to dispatch order", StatusCodes.Status500InternalServerError);
 
+            if (trackEvent.LocationId != locationId)
+                throw new HttpException("Invalid Location input.");
+
             await ValidateTrackAgent(userId, trackEvent.LocationId);
 
-            if (trackEvent.Status != Status.AwaitingDelivery)
+            if (trackEvent.Status != Status.AwaitingDeliveryStart)
                 throw new HttpException($"Order is {trackEvent.Status}");
 
             trackEvent.Done = true;

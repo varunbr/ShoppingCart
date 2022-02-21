@@ -71,7 +71,7 @@
                         </mat-card-subtitle>
                         <mat-card-subtitle fxLayout="row" fxLayoutAlign="space-between center">
                             <div>Status:</div>
-                            <div>{{item.status}}</div>
+                            <div>{{item.status | spaceBetween}}</div>
                         </mat-card-subtitle>
                         <div fxLayout="row" fxLayoutAlign="center">
                             <button fxFlex="50" mat-raised-button [routerLink]="'/order/' + item.id" color="warn">

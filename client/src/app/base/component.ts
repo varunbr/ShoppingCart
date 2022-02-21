@@ -11,8 +11,8 @@ export abstract class BaseListComponent<
 
   constructor(private modalService: BaseListService<Modal, Context>) {}
 
-  loadItems(params: Params) {
-    this.modalService.getModals(params).subscribe((response) => {
+  loadItems(params: Params, cache = true) {
+    this.modalService.getModals(params, cache).subscribe((response) => {
       this.items = response.items;
       this.context = response.context;
     });

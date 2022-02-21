@@ -44,6 +44,13 @@ import { OrderListComponent } from './order/order-list/order-list.component';
 import { WalletComponent } from './wallet/wallet.component';
 import { AboutComponent } from './about/about.component';
 import { ScrollToTopComponent } from './components/scroll-to-top/scroll-to-top.component';
+import { TrackListComponent } from './track/track-list/track-list.component';
+import { FilterListComponent } from './components/filter-list/filter-list.component';
+import { SpaceBetweenPipe } from './components/pipes/space-between.pipe';
+import { SingleSelectComponent } from './components/single-select/single-select.component';
+import { SelectLocationComponent } from './components/select-location/select-location.component';
+import { StoreOrderListComponent } from './store/store-order-list/store-order-list.component';
+import { AddItemsComponent } from './components/add-items/add-items.component';
 
 @Injectable()
 export class HammerConfig extends HammerGestureConfig {
@@ -82,6 +89,13 @@ export class HammerConfig extends HammerGestureConfig {
     WalletComponent,
     AboutComponent,
     ScrollToTopComponent,
+    TrackListComponent,
+    FilterListComponent,
+    SpaceBetweenPipe,
+    SingleSelectComponent,
+    SelectLocationComponent,
+    StoreOrderListComponent,
+    AddItemsComponent,
   ],
   imports: [
     BrowserModule,

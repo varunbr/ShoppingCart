@@ -26,15 +26,25 @@ namespace API.Data
 
             var orders = DataContext.Orders.Where(o => storeIds.Contains(o.StoreId)).AsQueryable();
 
-            if (!string.IsNullOrEmpty(orderParams.StoreName))
-                orders = orders.Where(o => o.Store.Name == orderParams.StoreName);
-            if (!string.IsNullOrEmpty(orderParams.Status))
+            if (!string.IsNullOrWhiteSpace(orderParams.StoreName))
+            {
+                var inner = PredicateBuilder.False<Order>();
+                foreach (var store in orderParams.StoreName.Split(","))
+                {
+                    inner = inner.Or(o => o.Store.Name.Contains(store));
+                }
+                orders = orders.Where(inner);
+            }
+
+            if (string.IsNullOrEmpty(orderParams.Status))
+                orders = orders.Where(o => o.Status == Status.Confirmed);
+            else if (orderParams.Status != "All")
                 orders = orders.Where(o => o.Status == orderParams.Status);
 
             orders = orderParams.OrderBy switch
             {
-                OrderBy.Latest => orders.OrderByDescending(o => o.Created),
-                _ => orders.OrderBy(o => o.Created)
+                OrderBy.Oldest => orders.OrderBy(o => o.Created),
+                _ => orders.OrderByDescending(o => o.Created)
             };
 
             var ordersDto = orders

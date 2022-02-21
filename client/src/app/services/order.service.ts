@@ -57,4 +57,8 @@ export class OrderService extends BaseListService<OrderDetail, BaseContext> {
       })
     );
   }
+
+  acceptOrder(orderId: number) {
+    return this.http.post<OrderDetail>(this.baseUrl + 'accept/' + orderId);
+  }
 }

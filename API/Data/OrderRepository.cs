@@ -221,6 +221,8 @@ namespace API.Data
                 SourceLocationId = storeInfo.LocationId,
                 House = userAddress.House,
                 Landmark = userAddress.Landmark,
+                Name = userAddress.Name,
+                Mobile = userAddress.Mobile,
                 PostalCode = userAddress.PostalCode,
                 DestinationLocationId = userAddress.LocationId,
                 OrderItems = new List<OrderItem>()
@@ -276,13 +278,18 @@ namespace API.Data
             return await Response<UserOrderDto, BaseParams>.CreateAsync(orders, @params);
         }
 
-        public async Task<UserOrderDto> GetUserOrder(int userId, int orderId)
+        public async Task<UserOrderDetailDto> GetUserOrder(int userId, int orderId)
         {
-            return await DataContext.Orders
+            var order = await DataContext.Orders
                 .Where(o => o.UserId == userId && o.Id == orderId)
-                .ProjectTo<UserOrderDto>(Mapper.ConfigurationProvider)
+                .ProjectTo<UserOrderDetailDto>(Mapper.ConfigurationProvider)
                 .AsNoTracking()
                 .FirstOrDefaultAsync();
+
+            if (order != null)
+                order.CurrentEvent = order.TrackEvents.LastOrDefault();
+
+            return order;
         }
 
         public async Task<UserOrderDto> AcceptOrder(int userId, int orderId)

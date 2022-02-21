@@ -1,4 +1,5 @@
 ﻿using API.Data;
+using API.DTOs;
 using API.Extensions;
 using API.Helpers;
 using Microsoft.AspNetCore.Authorization;
@@ -17,7 +18,7 @@ namespace API.Controllers
             _uow = uow;
         }
 
-        [HttpGet("order")]
+        [HttpGet]
         public async Task<ActionResult> GetOrders([FromQuery] TrackParams trackParams)
         {
             var userId = HttpContext.User.GetUserId();
@@ -25,31 +26,31 @@ namespace API.Controllers
             return Ok(result);
         }
 
-        [HttpGet("order/{orderId}")]
+        [HttpGet("{orderId}")]
         public async Task<ActionResult> GetOrder(int orderId)
         {
             return Ok(await _uow.TrackRepository.GetOrder(orderId));
         }
 
-        [HttpPost("receive/{orderId}")]
-        public async Task<ActionResult> ReceiveOrder(int orderId)
+        [HttpPost("receive")]
+        public async Task<ActionResult> ReceiveOrder(TrackRequestDto requestDto)
         {
             var userId = HttpContext.User.GetUserId();
-            return Ok(await _uow.TrackRepository.ReceiveOrder(userId, orderId));
+            return Ok(await _uow.TrackRepository.ReceiveOrder(userId, requestDto.OrderId, requestDto.LocationId));
         }
 
-        [HttpPost("dispatch/{orderId}")]
-        public async Task<ActionResult> DispatchOrder(int orderId)
+        [HttpPost("dispatch")]
+        public async Task<ActionResult> DispatchOrder(TrackRequestDto requestDto)
         {
             var userId = HttpContext.User.GetUserId();
-            return Ok(await _uow.TrackRepository.DispatchOrder(userId, orderId));
+            return Ok(await _uow.TrackRepository.DispatchOrder(userId, requestDto.OrderId, requestDto.LocationId));
         }
 
-        [HttpPost("deliver/{orderId}")]
-        public async Task<ActionResult> DeliverOrder(int orderId)
+        [HttpPost("deliver")]
+        public async Task<ActionResult> DeliverOrder(TrackRequestDto requestDto)
         {
             var userId = HttpContext.User.GetUserId();
-            return Ok(await _uow.TrackRepository.DispatchOrderForDelivery(userId, orderId));
+            return Ok(await _uow.TrackRepository.DispatchOrderForDelivery(userId, requestDto.OrderId, requestDto.LocationId));
         }
     }
 }

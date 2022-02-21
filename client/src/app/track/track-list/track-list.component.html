@@ -1,0 +1,134 @@
+<app-filter-list [context]="context"
+    [title]="context ? 'Page number ' + context.pageNumber + ' of ' + context.totalPages : ''">
+    <div filter>
+        <div fxLayout="row" fxLayoutAlign="space-between center">
+            <button mat-flat-button color="accent" (click)="clear()">
+                <mat-icon>clear_all</mat-icon>
+                Clear
+            </button>
+            <button mat-flat-button color="accent" (click)="apply()">
+                <mat-icon>search</mat-icon>
+                Apply
+            </button>
+        </div>
+        <br>
+        <div *ngIf="context">
+            <app-single-select name="Order By" [values]="orderByValues" [(value)]="context.orderBy">
+            </app-single-select>
+            <app-multi-select name="Status" values="AwaitingArrival,AwaitingDeparture,AwaitingDelivery,OutForDelivery"
+                [(value)]="context.status">
+            </app-multi-select>
+            <app-select-location [(value)]="context.location"></app-select-location>
+        </div>
+    </div>
+    <div result>
+        <div *ngIf="items">
+            <mat-card *ngIf="context.totalPages === 0" fxLayout="column" fxLayoutAlign="center center"
+                style="height: 50vh;">
+                <img src='./assets/images/NotFound.png' style="width:30vw;max-width: 200px;">
+                <mat-card-title class="mt-4">No orders available!</mat-card-title>
+            </mat-card>
+            <mat-accordion>
+                <mat-expansion-panel [expanded]="step === i" (opened)="step = i"
+                    *ngFor="let item of items; let i = index">
+                    <mat-expansion-panel-header>
+                        <mat-panel-title>
+                            #{{item.id}} - {{item.currentEvent?.locationName}} ({{item.currentEvent?.locationType}})
+                            ({{item.currentEvent?.locationId}})
+                        </mat-panel-title>
+                        <mat-panel-description>
+                            {{item?.currentEvent.status | spaceBetween}}
+                        </mat-panel-description>
+                        <mat-panel-description fxHide.lt-sm="true">
+                            {{item.update | date:'dd/MM/yyyy, h:mm a'}}
+                        </mat-panel-description>
+                    </mat-expansion-panel-header>
+                    <div fxLayout="row wrap" fxLayoutGap="15px">
+                        <div fxFlex fxLayout="column" fxLayoutAlign="center ">
+                            <h4 fxLayout="row" fxLayoutAlign="space-between center">
+                                <div>Order Id:</div>
+                                <div>{{item.id}}</div>
+                            </h4>
+                            <h4 fxLayout="row" fxLayoutAlign="space-between center">
+                                <div>Location:</div>
+                                <div>{{item?.currentEvent.locationName}} ({{item?.currentEvent.locationType}})
+                                    ({{item?.currentEvent.locationId}})</div>
+                            </h4>
+                            <h4 fxLayout="row" fxLayoutAlign="space-between center">
+                                <div>Tracking Status:</div>
+                                <div>{{item?.currentEvent.status | spaceBetween}}</div>
+                            </h4>
+                            <h4 fxLayout="row" fxLayoutAlign="space-between center">
+                                <div>Last Update:</div>
+                                <div>{{item.update | date:'dd/MM/yyyy, h:mm a'}}</div>
+                            </h4>
+                            <h3 fxLayout="row" fxLayoutAlign="space-between center">
+                                <div>Order Status:</div>
+                                <div>{{item.status | spaceBetween}}</div>
+                            </h3>
+                            <div fxLayout="row" fxLayoutAlign="space-around center">
+                                <button mat-raised-button color="warn">View Order</button>
+                                <button mat-raised-button color="accent"
+                                    *ngIf="item?.currentEvent.status === 'AwaitingArrival'"
+                                    (click)="receiveOrder(i)">Receive
+                                    Order</button>
+                                <button mat-raised-button color="accent"
+                                    *ngIf="item?.currentEvent.status === 'AwaitingDeparture'"
+                                    (click)="departOrder(i)">Depart
+                                    Order</button>
+                                <button mat-raised-button color="accent"
+                                    *ngIf="item?.currentEvent.status === 'AwaitingDeliveryStart'"
+                                    (click)="startDelivery(i)">Start
+                                    Delivery</button>
+                            </div>
+                        </div>
+                        <mat-accordion fxFlex="60" fxFlex.lt-md="100">
+                            <h2 class="mt-3">Tracking Events:</h2>
+                            <mat-expansion-panel [expanded]="j + 1 === item.trackEvents.length"
+                                *ngFor="let event of item.trackEvents; let j = index">
+                                <mat-expansion-panel-header>
+                                    <mat-panel-title>
+                                        #{{event.id}} - {{event.locationName}} ({{event.locationType}})
+                                        ({{event.locationId}})
+                                    </mat-panel-title>
+                                    <mat-panel-description>
+                                        {{event.status | spaceBetween}}
+                                    </mat-panel-description>
+                                </mat-expansion-panel-header>
+                                <div class="" fxFlex fxLayout="column" fxLayoutAlign="center stretch">
+                                    <div fxLayout="row">
+                                        <div fxFlex=30>Event Id:</div>
+                                        <div fxFlex>{{event.id}}</div>
+                                    </div>
+                                    <div fxLayout="row">
+                                        <div fxFlex=30>Agent Id:</div>
+                                        <div fxFlex>{{event.agentId ? event.agentId : '-'}}</div>
+                                    </div>
+                                    <div fxLayout="row">
+                                        <div fxFlex=30>Status:</div>
+                                        <div fxFlex>{{event.status | spaceBetween}}</div>
+                                    </div>
+                                    <div fxLayout="row">
+                                        <div fxFlex=30>Date:</div>
+                                        <div fxFlex>{{event.date | date:'dd/MM/yyyy, h:mm a'}}</div>
+                                    </div>
+                                    <div fxLayout="row">
+                                        <div fxFlex=30>Location:</div>
+                                        <div fxFlex>{{event.locationName}} ({{event.locationType}})
+                                            ({{event.locationId}})
+                                        </div>
+                                    </div>
+                                    <div fxLayout="row">
+                                        <div fxFlex=30>Done:</div>
+                                        <div fxFlex>{{event.done ? 'Yes' : 'No'}}
+                                        </div>
+                                    </div>
+                                </div>
+                            </mat-expansion-panel>
+                        </mat-accordion>
+                    </div>
+                </mat-expansion-panel>
+            </mat-accordion>
+        </div>
+    </div>
+</app-filter-list>

@@ -2,6 +2,7 @@ import { Component, OnInit } from '@angular/core';
 import { ActivatedRoute } from '@angular/router';
 import { OrderDetail } from 'src/app/modal/order';
 import { OrderService } from 'src/app/services/order.service';
+import { ToastrService } from 'src/app/services/toastr.service';
 import { UtilityService } from 'src/app/services/utility.service';
 
 @Component({
@@ -15,7 +16,8 @@ export class OrderDetailComponent implements OnInit {
   constructor(
     private route: ActivatedRoute,
     public utility: UtilityService,
-    private orderService: OrderService
+    private orderService: OrderService,
+    private toastrService: ToastrService
   ) {
     utility.setTitle('Order');
   }
@@ -40,6 +42,13 @@ export class OrderDetailComponent implements OnInit {
         response.delivery = null;
       }
       this.order = response;
+    });
+  }
+
+  acceptOrder() {
+    this.orderService.acceptOrder(this.order.id).subscribe((response) => {
+      this.order = response;
+      this.toastrService.success('Order Accepted');
     });
   }
 }

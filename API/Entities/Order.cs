@@ -22,6 +22,8 @@ namespace API.Entities
         public ICollection<OrderItem> OrderItems { get; set; }
         public string House { get; set; }
         public string Landmark { get; set; }
+        public string Name { get; set; }
+        public string Mobile { get; set; }
         public int DestinationLocationId { get; set; }
         public Location DestinationLocation { get; set; }
         public string PostalCode { get; set; }
