@@ -1,0 +1,6 @@
+.full-screen {
+  min-height: calc(100vh - 65px);
+}
+.full-screen-md {
+  min-height: calc(100vh - 120px);
+}

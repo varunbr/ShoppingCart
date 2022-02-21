@@ -58,15 +58,20 @@ namespace API.Helpers
                 .ForMember(dest => dest.Name, act => act.MapFrom(src => src.StoreItem.Product.Name))
                 .ForMember(dest => dest.ProductId, act => act.MapFrom(src => src.StoreItem.ProductId));
 
-            CreateMap<Order, BaseOrderDto>()
-                .ForMember(dest => dest.LocationName, act => act.MapFrom(src => src.DestinationLocation.Name));
+            CreateMap<Order, BaseOrderDto>();
             CreateMap<Order, UserOrderDto>()
                 .IncludeBase<Order, BaseOrderDto>();
+            CreateMap<Order, UserOrderDetailDto>()
+                .ForMember(dest => dest.LocationName, act => act.MapFrom(src => src.DestinationLocation.Name))
+                .IncludeBase<Order, UserOrderDto>();
             CreateMap<Order, StoreOrderDto>()
+                .ForMember(dest => dest.StoreName, act => act.MapFrom(src => src.Store.Name))
+                .ForMember(dest => dest.SourceLocationName, act => act.MapFrom(src => src.SourceLocation.Name))
                 .IncludeBase<Order, BaseOrderDto>();
             CreateMap<Order, TrackOrderDto>()
                 .IncludeBase<Order, BaseOrderDto>();
             CreateMap<Order, TrackOrderDetailDto>()
+                .ForMember(dest => dest.LocationName, act => act.MapFrom(src => src.DestinationLocation.Name))
                 .IncludeBase<Order, BaseOrderDto>();
 
             CreateMap<TrackEvent, BaseTrackEventDto>()

@@ -79,6 +79,6 @@ namespace API.Helpers
     public class TrackParams : BaseParams
     {
         public string Status { get; set; }
-        public List<string> Location { get; set; }
+        public string Location { get; set; }
     }
 }

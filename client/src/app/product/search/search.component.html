@@ -1,26 +1,9 @@
-<mat-drawer-container [hasBackdrop]="lt_md" [ngClass]="lt_md ? 'full-screen-md' : 'full-screen'">
-    <mat-drawer #drawer [opened]="!lt_md" [mode]="lt_md ?'over':'side'" style="width:300px;">
-        <div class="m-1">
-            <mat-card fxLayout="row" fxLayoutAlign="space-between center">
-                <h2 class="title">Filters</h2>
-                <button *ngIf="lt_md" mat-button color="accent" (click)="drawer.toggle()">
-                    <mat-icon>close</mat-icon> Close
-                </button>
-            </mat-card>
-            <mat-card>
-                <app-product-filter [context]="context"></app-product-filter>
-            </mat-card>
-        </div>
-    </mat-drawer>
-
-    <div fxFlex>
-        <mat-card fxLayout="row" fxLayoutAlign="space-between center" class="m-1" fxLayoutGap="2%">
-            <button *ngIf="lt_md" mat-raised-button color="primary" (click)="drawer.toggle()">
-                <mat-icon>filter_alt</mat-icon> Filter
-            </button>
-            <h3 class="title">Showing results for "{{search}}"</h3>
-        </mat-card>
-
+<app-filter-list [title]="'Showing results for &quot;' + search +'&quot;'" [context]="context"
+    (pageChange)="navigateToPage($event)">
+    <div filter>
+        <app-product-filter [context]="context"></app-product-filter>
+    </div>
+    <div result>
         <mat-card *ngIf="items && items?.length <= 0" fxLayout="column" fxLayoutAlign="center center"
             style="height: 50vh;">
             <img src='./assets/images/NotFound.png' style="width:30vw;max-width: 200px;">
@@ -55,9 +38,5 @@
                 </mat-card-subtitle>
             </mat-card-content>
         </mat-card>
-        <mat-card *ngIf="this.context">
-            <app-pagination [page]="this.context.pageNumber" (pageChange)="navigateToPage($event)">
-            </app-pagination>
-        </mat-card>
     </div>
-</mat-drawer-container>
+</app-filter-list>

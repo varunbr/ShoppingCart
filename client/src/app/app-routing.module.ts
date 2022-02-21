@@ -13,6 +13,8 @@ import { OrderDetailComponent } from './order/order-detail/order-detail.componen
 import { OrderListComponent } from './order/order-list/order-list.component';
 import { WalletComponent } from './wallet/wallet.component';
 import { AboutComponent } from './about/about.component';
+import { TrackListComponent } from './track/track-list/track-list.component';
+import { StoreOrderListComponent } from './store/store-order-list/store-order-list.component';
 
 const routes: Routes = [
   { path: '', component: HomeComponent },
@@ -28,6 +30,8 @@ const routes: Routes = [
   { path: 'checkout', component: ProductCheckoutComponent },
   { path: 'order-payment', component: OrderPaymentComponent },
   { path: 'wallet', component: WalletComponent },
+  { path: 'track', component: TrackListComponent },
+  { path: 'store/order', component: StoreOrderListComponent },
   { path: '**', component: HomeComponent },
 ];
 

@@ -28,7 +28,7 @@ export class OrderListComponent
 
   ngOnInit(): void {
     this.route.queryParams.subscribe((params) => {
-      this.loadItems(params);
+      this.loadItems(params, false);
     });
   }
 

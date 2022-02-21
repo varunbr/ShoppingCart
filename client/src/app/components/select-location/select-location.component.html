@@ -1,0 +1,33 @@
+<div fxLayout="column">
+    <p class="title">Locations</p>
+    <mat-form-field *ngIf="locations && locations.length > 0" fxFlex appearance="outline">
+        <mat-label>Locations</mat-label>
+        <mat-chip-list>
+            <mat-chip *ngFor="let location of locations; let i = index" (removed)="removeLocation(i)">
+                {{location.name}} ({{location.type}})
+                <button matChipRemove>
+                    <mat-icon>cancel</mat-icon>
+                </button>
+            </mat-chip>
+        </mat-chip-list>
+        <input matInput type="text" [disabled]="true" />
+    </mat-form-field>
+    <form #locationForm="ngForm" (ngSubmit)="addLocation()">
+        <div fxLayout="column">
+            <mat-form-field fxFlex appearance="outline">
+                <mat-label>Name</mat-label>
+                <input matInput type="text" [(ngModel)]="locationName" autocomplete="off" name="locationName" />
+            </mat-form-field>
+            <mat-form-field fxFlex appearance="outline">
+                <mat-label>Type</mat-label>
+                <mat-select [(ngModel)]="locationType" name="locationType">
+                    <mat-option value="Area">Area</mat-option>
+                    <mat-option value="City">City</mat-option>
+                    <mat-option value="State">State</mat-option>
+                    <mat-option value="Country">Country</mat-option>
+                </mat-select>
+            </mat-form-field>
+            <button type="submit" [disabled]="!locationName" mat-flat-button color="accent">Add</button>
+        </div>
+    </form>
+</div>

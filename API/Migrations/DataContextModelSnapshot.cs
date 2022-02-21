@@ -204,6 +204,12 @@ namespace API.Migrations
                     b.Property<string>("Landmark")
                         .HasColumnType("nvarchar(max)");
 
+                    b.Property<string>("Mobile")
+                        .HasColumnType("nvarchar(max)");
+
+                    b.Property<string>("Name")
+                        .HasColumnType("nvarchar(max)");
+
                     b.Property<string>("PostalCode")
                         .HasColumnType("nvarchar(max)");
 

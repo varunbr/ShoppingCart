@@ -1,0 +1,29 @@
+<mat-drawer-container [hasBackdrop]="lt_md" [ngClass]="lt_md ? 'full-screen-md' : 'full-screen'">
+    <mat-drawer #drawer [opened]="!lt_md" [mode]="lt_md ?'over':'side'" style="width:300px;">
+        <div class="m-1">
+            <mat-card fxLayout="row" fxLayoutAlign="space-between center">
+                <h2 class="title">Filters</h2>
+                <button *ngIf="lt_md" mat-button color="accent" (click)="drawer.toggle()">
+                    <mat-icon>close</mat-icon> Close
+                </button>
+            </mat-card>
+            <mat-card>
+                <ng-content select="[filter]"></ng-content>
+            </mat-card>
+        </div>
+    </mat-drawer>
+    <div fxFlex class="mb-1">
+        <mat-card fxLayout="row" fxLayoutAlign="space-between center" class="m-1" fxLayoutGap="2%">
+            <button *ngIf="lt_md" mat-raised-button color="primary" (click)="drawer.toggle()">
+                <mat-icon>filter_alt</mat-icon> Filter
+            </button>
+            <h3 class="title">{{title}}</h3>
+        </mat-card>
+        <ng-content select="[result]"></ng-content>
+        <mat-card class="mt-1" *ngIf="this.context">
+            <app-pagination [page]="this.context.pageNumber" [totalPages]="this.context.totalPages"
+                (pageChange)="onPageChange($event)">
+            </app-pagination>
+        </mat-card>
+    </div>
+</mat-drawer-container>

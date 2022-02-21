@@ -172,6 +172,8 @@ namespace API.Seed
 
         async Task SeedTrackAgents()
         {
+            if (await _context.TrackAgents.AnyAsync()) return;
+
             var testUser = await _context.Users.Where(u => u.UserName == Constants.TestUser).FirstAsync();
             var locations = await _context.Locations.ToListAsync();
             var agents = new List<TrackAgent>();
