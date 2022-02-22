@@ -15,6 +15,8 @@ import { WalletComponent } from './wallet/wallet.component';
 import { AboutComponent } from './about/about.component';
 import { TrackListComponent } from './track/track-list/track-list.component';
 import { StoreOrderListComponent } from './store/store-order-list/store-order-list.component';
+import { StoreOrderComponent } from './store/store-order/store-order.component';
+import { TrackOrderComponent } from './track/track-order/track-order.component';
 
 const routes: Routes = [
   { path: '', component: HomeComponent },
@@ -30,7 +32,9 @@ const routes: Routes = [
   { path: 'checkout', component: ProductCheckoutComponent },
   { path: 'order-payment', component: OrderPaymentComponent },
   { path: 'wallet', component: WalletComponent },
+  { path: 'track/:id', component: TrackOrderComponent },
   { path: 'track', component: TrackListComponent },
+  { path: 'store/order/:id', component: StoreOrderComponent },
   { path: 'store/order', component: StoreOrderListComponent },
   { path: '**', component: HomeComponent },
 ];

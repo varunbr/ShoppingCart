@@ -2,6 +2,7 @@ import { BaseContext, BaseModal } from '../base/modal';
 
 export class TrackOrder extends BaseModal {
   created: string;
+  update: string;
   status: string;
   delivery: Date;
   totalAmount: number;

@@ -1,0 +1,95 @@
+<div *ngIf="order" fxLayout="row" fxLayoutAlign="center">
+    <mat-card class="my-5" style="border-radius: 10px;" fxFlex="90">
+        <div fxLayout="row wrap" fxLayoutGap="15px">
+            <div class="mt-5" fxFlex fxLayout="column">
+                <h4 fxLayout="row" fxLayoutAlign="space-between center">
+                    <div>Order Id:</div>
+                    <div>{{order.id}}</div>
+                </h4>
+                <h4 *ngIf="order.currentEvent" fxLayout="row" fxLayoutAlign="space-between center">
+                    <div>Current Location:</div>
+                    <div>{{order.currentEvent.locationName}} ({{order.currentEvent.locationType}})
+                        ({{order.currentEvent.locationId}})</div>
+                </h4>
+                <h4 *ngIf="order.currentEvent" fxLayout="row" fxLayoutAlign="space-between center">
+                    <div>Tracking Status:</div>
+                    <div>{{order.currentEvent.status | spaceBetween}}</div>
+                </h4>
+                <h4 fxLayout="row" fxLayoutAlign="space-between center">
+                    <div>Last Update:</div>
+                    <div>{{order.update | date:'dd/MM/yyyy, h:mm a'}}</div>
+                </h4>
+                <h3 fxLayout="row" fxLayoutAlign="space-between center">
+                    <div>Order Status:</div>
+                    <div>{{order.status | spaceBetween}}</div>
+                </h3>
+                <h4 fxLayout="row" fxLayoutGap="20px" fxLayoutAlign="space-between center">
+                    <div>Address:</div>
+                    <div>{{order.name}}({{order.mobile}}), {{order.house}}, {{order.landmark}}, {{order.locationName}} -
+                        {{order.postalCode}}</div>
+                </h4>
+                <div *ngIf="order.currentEvent" fxLayout="row" fxLayoutAlign="space-around center">
+                    <button mat-raised-button color="accent" *ngIf="order.currentEvent.status === 'AwaitingArrival'"
+                        (click)="receiveOrder()">Receive
+                        Order</button>
+                    <button mat-raised-button color="accent" *ngIf="order.currentEvent.status === 'AwaitingDeparture'"
+                        (click)="departOrder()">Depart
+                        Order</button>
+                    <button mat-raised-button color="accent"
+                        *ngIf="order.currentEvent.status === 'AwaitingDeliveryStart'" (click)="startDelivery()">Start
+                        Delivery</button>
+                </div>
+            </div>
+            <mat-accordion fxFlex="60" fxFlex.lt-md="100">
+                <h2 class="mt-3">Tracking Events:</h2>
+                <mat-expansion-panel [expanded]="j + 1 === order.trackEvents.length"
+                    *ngFor="let event of order.trackEvents; let j = index">
+                    <mat-expansion-panel-header>
+                        <mat-panel-title>
+                            #{{event.id}} - {{event.locationName}} ({{event.locationType}})
+                            ({{event.locationId}})
+                        </mat-panel-title>
+                        <mat-panel-description>
+                            {{event.status | spaceBetween}}
+                        </mat-panel-description>
+                    </mat-expansion-panel-header>
+                    <div class="" fxFlex fxLayout="column" fxLayoutAlign="center stretch">
+                        <div fxLayout="row">
+                            <div fxFlex=30>Event Id:</div>
+                            <div fxFlex>{{event.id}}</div>
+                        </div>
+                        <div fxLayout="row" fxLayoutAlign="center center">
+                            <div fxFlex=30>Agent:</div>
+                            <div *ngIf="!event.agentName" fxFlex>-</div>
+                            <div *ngIf="event.agentName" fxFlex fxLayout="row" fxLayoutGap="10px"
+                                fxLayoutAlign=" center">
+                                <img class="profile" src="{{event.agentPhotoUrl || './assets/images/profile.png'}}"
+                                    alt="Profile">
+                                <div>{{ event.agentName }} ({{ event.agentUserName }} - {{event.agentId}})</div>
+                            </div>
+                        </div>
+                        <div fxLayout="row">
+                            <div fxFlex=30>Status:</div>
+                            <div fxFlex>{{event.status | spaceBetween}}</div>
+                        </div>
+                        <div fxLayout="row">
+                            <div fxFlex=30>Date:</div>
+                            <div fxFlex>{{event.date | date:'dd/MM/yyyy, h:mm a'}}</div>
+                        </div>
+                        <div fxLayout="row">
+                            <div fxFlex=30>Location:</div>
+                            <div fxFlex>{{event.locationName}} ({{event.locationType}})
+                                ({{event.locationId}})
+                            </div>
+                        </div>
+                        <div fxLayout="row">
+                            <div fxFlex=30>Done:</div>
+                            <div fxFlex>{{event.done ? 'Yes' : 'No'}}
+                            </div>
+                        </div>
+                    </div>
+                </mat-expansion-panel>
+            </mat-accordion>
+        </div>
+    </mat-card>
+</div>

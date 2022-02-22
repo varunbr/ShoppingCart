@@ -16,4 +16,8 @@ export abstract class BaseListService<
       cache,
     });
   }
+
+  getModal(id: number) {
+    return this.http.get<Modal>(this.baseUrl + id);
+  }
 }
