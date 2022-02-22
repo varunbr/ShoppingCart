@@ -69,7 +69,7 @@
                                     <div>{{item.status | spaceBetween}}</div>
                                 </mat-card-subtitle>
                                 <div fxLayout="row" fxLayoutAlign="space-around center">
-                                    <button mat-raised-button [routerLink]="'/order/' + item.id" color="warn">
+                                    <button mat-raised-button [routerLink]="'/store/order/' + item.id" color="warn">
                                         View
                                     </button>
                                     <button mat-raised-button *ngIf="item.status === 'Confirmed'" color="accent"

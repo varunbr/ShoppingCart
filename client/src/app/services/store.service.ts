@@ -28,6 +28,10 @@ export class StoreService extends BaseListService<
     );
   }
 
+  getModal(id: number) {
+    return this.http.get<StoreOrder>(this.baseUrl + 'order/' + id);
+  }
+
   dispatchOrder(orderId: number) {
     return this.http.post<StoreOrder>(this.baseUrl + 'dispatch/' + orderId);
   }

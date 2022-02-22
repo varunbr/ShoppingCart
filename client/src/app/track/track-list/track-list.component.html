@@ -67,7 +67,8 @@
                                 <div>{{item.status | spaceBetween}}</div>
                             </h3>
                             <div fxLayout="row" fxLayoutAlign="space-around center">
-                                <button mat-raised-button color="warn">View Order</button>
+                                <button mat-raised-button color="warn" [routerLink]="'/track/' + item.id">View
+                                    Order</button>
                                 <button mat-raised-button color="accent"
                                     *ngIf="item?.currentEvent.status === 'AwaitingArrival'"
                                     (click)="receiveOrder(i)">Receive

@@ -51,6 +51,8 @@ import { SingleSelectComponent } from './components/single-select/single-select.
 import { SelectLocationComponent } from './components/select-location/select-location.component';
 import { StoreOrderListComponent } from './store/store-order-list/store-order-list.component';
 import { AddItemsComponent } from './components/add-items/add-items.component';
+import { StoreOrderComponent } from './store/store-order/store-order.component';
+import { TrackOrderComponent } from './track/track-order/track-order.component';
 
 @Injectable()
 export class HammerConfig extends HammerGestureConfig {
@@ -96,6 +98,8 @@ export class HammerConfig extends HammerGestureConfig {
     SelectLocationComponent,
     StoreOrderListComponent,
     AddItemsComponent,
+    StoreOrderComponent,
+    TrackOrderComponent,
   ],
   imports: [
     BrowserModule,
