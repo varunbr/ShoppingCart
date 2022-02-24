@@ -284,5 +284,48 @@ namespace API.Data
         }
 
         #endregion
+
+        #region Role
+
+        public async Task<bool> IsModerator(int userId)
+        {
+            return await DataContext.UserRoles.Where(r => new[] { RoleType.Moderator.ToString(), RoleType.Admin.ToString() }
+                    .Contains(r.Role.Name) && r.UserId == userId)
+                .AnyAsync();
+        }
+        public async Task<bool> IsAdmin(int userId)
+        {
+            return await DataContext.UserRoles.Where(r => r.Role.Name == RoleType.Admin.ToString() && r.UserId == userId)
+                .AnyAsync();
+        }
+
+        public async Task<bool> IsStoreAdmin(int userId, int storeId)
+        {
+            return await DataContext.StoresAgents.Where(a =>
+                a.UserId == userId && a.StoreId == storeId && a.Role == RoleType.StoreAdmin.ToString()).AnyAsync();
+        }
+
+        public async Task<bool> IsTrackLocationAdmin(int userId, int locationId)
+        {
+            return await DataContext.TrackAgents.Where(a =>
+                a.UserId == userId && a.LocationId == locationId && a.Role == RoleType.TrackAdmin.ToString()).AnyAsync();
+        }
+
+        public bool IsStoreRole(string role)
+        {
+            return new[] { RoleType.StoreAdmin.ToString(), RoleType.StoreAgent.ToString() }.Contains(role);
+        }
+
+        public bool IsTrackRole(string role)
+        {
+            return new[] { RoleType.TrackAdmin.ToString(), RoleType.TrackAgent.ToString() }.Contains(role);
+        }
+
+        public bool IsAdminRole(string role)
+        {
+            return new[] { RoleType.Moderator.ToString(), RoleType.Admin.ToString() }.Contains(role);
+        }
+
+        #endregion
     }
 }

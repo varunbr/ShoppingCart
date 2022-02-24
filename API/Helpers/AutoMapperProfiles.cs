@@ -93,6 +93,28 @@ namespace API.Helpers
                 .ForMember(dest => dest.Available, act => act.MapFrom(src => src.StoreItem.Available))
                 .ForMember(dest => dest.PhotoUrl, act => act.MapFrom(src => src.StoreItem.Product.ProductViews.FirstOrDefault(p => p.IsMain).Url));
 
+            CreateMap<StoreAgent, StoreAgentDto>()
+                .ForMember(dest => dest.Name, act => act.MapFrom(src => src.User.Name))
+                .ForMember(dest => dest.UserName, act => act.MapFrom(src => src.User.UserName))
+                .ForMember(dest => dest.PhotoUrl, act => act.MapFrom(src => src.User.Photo.Url))
+                .ForMember(dest => dest.StoreName, act => act.MapFrom(src => src.Store.Name))
+                .ForMember(dest => dest.StoreLocation, act => act.MapFrom(src => src.Store.Address.Location.Name));
+            CreateMap<TrackAgent, TrackAgentDto>()
+                .ForMember(dest => dest.Name, act => act.MapFrom(src => src.User.Name))
+                .ForMember(dest => dest.UserName, act => act.MapFrom(src => src.User.UserName))
+                .ForMember(dest => dest.PhotoUrl, act => act.MapFrom(src => src.User.Photo.Url))
+                .ForMember(dest => dest.LocationName, act => act.MapFrom(src => src.Location.Name))
+                .ForMember(dest => dest.LocationType, act => act.MapFrom(src => src.Location.Type))
+                .ForMember(dest => dest.ParentLocationId, act => act.MapFrom(src => src.Location.ParentId))
+                .ForMember(dest => dest.ParentLocationName, act => act.MapFrom(src => src.Location.Parent.Name))
+                .ForMember(dest => dest.ParentLocationType, act => act.MapFrom(src => src.Location.Parent.Type));
+
+            CreateMap<UserRole, AdminRoleDto>()
+                .ForMember(dest => dest.Name, act => act.MapFrom(src => src.User.Name))
+                .ForMember(dest => dest.UserName, act => act.MapFrom(src => src.User.UserName))
+                .ForMember(dest => dest.PhotoUrl, act => act.MapFrom(src => src.User.Photo.Url))
+                .ForMember(dest => dest.Role, act => act.MapFrom(src => src.Role.Name));
+
             CreateMap<DateTime, DateTime>().ConvertUsing(d => DateTime.SpecifyKind(d, DateTimeKind.Utc));
             #endregion
 

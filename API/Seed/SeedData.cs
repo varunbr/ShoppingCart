@@ -17,13 +17,13 @@ namespace API.Seed
     public class SeedData
     {
         private readonly UserManager<User> _userManager;
-        private readonly RoleManager<IdentityRole<int>> _roleManager;
+        private readonly RoleManager<Role> _roleManager;
         private readonly IConfiguration _config;
         private readonly DataContext _context;
         private readonly IMapper _mapper;
         private static readonly Random Random = new();
 
-        public SeedData(UserManager<User> userManager, RoleManager<IdentityRole<int>> roleManager,
+        public SeedData(UserManager<User> userManager, RoleManager<Role> roleManager,
             IConfiguration config, DataContext context, IMapper mapper)
         {
             _userManager = userManager;
@@ -50,9 +50,9 @@ namespace API.Seed
         {
             if (await _roleManager.Roles.AnyAsync()) return;
 
-            foreach (var role in Enum.GetNames<Role>())
+            foreach (var role in Enum.GetNames<RoleType>())
             {
-                await _roleManager.CreateAsync(new IdentityRole<int> { Name = role });
+                await _roleManager.CreateAsync(new Role { Name = role });
             }
         }
 
@@ -81,15 +81,15 @@ namespace API.Seed
                     case Constants.Admin:
                         user.Account.Balance = 2000000;
                         await _userManager.CreateAsync(user, _config["AdminPassword"]);
-                        await _userManager.AddToRolesAsync(user, Enum.GetNames<Role>());
+                        await _userManager.AddToRolesAsync(user, Enum.GetNames<RoleType>());
                         break;
                     case Constants.TestUser:
                         await _userManager.CreateAsync(user, _config["AdminPassword"]);
-                        await _userManager.AddToRolesAsync(user, new[] { Role.User.ToString(), Role.TrackAgentAdmin.ToString() });
+                        await _userManager.AddToRolesAsync(user, new[] { RoleType.User.ToString(), RoleType.TrackAdmin.ToString() });
                         break;
                     default:
                         await _userManager.CreateAsync(user, "User@2021");
-                        await _userManager.AddToRoleAsync(user, Role.User.ToString());
+                        await _userManager.AddToRoleAsync(user, RoleType.User.ToString());
                         break;
                 }
             }
@@ -147,7 +147,7 @@ namespace API.Seed
                     {
                         new()
                         {
-                            Role = Role.StoreAdmin.ToString(),
+                            Role = RoleType.StoreAdmin.ToString(),
                             User = testUser
                         }
                     }
@@ -184,7 +184,7 @@ namespace API.Seed
                 {
                     Location = item,
                     User = testUser,
-                    Role = Role.TrackAgentAdmin.ToString()
+                    Role = RoleType.TrackAdmin.ToString()
                 });
             }
 
