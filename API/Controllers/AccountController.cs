@@ -54,7 +54,7 @@ namespace API.Controllers
             var result = await _userManager.CreateAsync(user, registerDto.Password);
             if (!result.Succeeded) return BadRequest(result.Errors.ToStringError());
 
-            result = await _userManager.AddToRoleAsync(user, Role.User.ToString());
+            result = await _userManager.AddToRoleAsync(user, RoleType.User.ToString());
             if (!result.Succeeded) return BadRequest(result.Errors.ToStringError());
 
             var token = await _tokenService.CreateToken(user);

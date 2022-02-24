@@ -4,7 +4,6 @@ using API.Helpers;
 using API.Seed;
 using API.Services;
 using Microsoft.AspNetCore.Authentication.JwtBearer;
-using Microsoft.AspNetCore.Identity;
 using Microsoft.EntityFrameworkCore;
 using Microsoft.Extensions.Configuration;
 using Microsoft.Extensions.DependencyInjection;
@@ -29,7 +28,7 @@ namespace API.Extensions
             services.AddScoped<IPhotoService, PhotoService>();
             services.AddScoped<SeedData, SeedData>();
 
-            services.AddIdentity<User, IdentityRole<int>>(opt => { opt.Password.RequireNonAlphanumeric = false; })
+            services.AddIdentity<User, Role>(opt => { opt.Password.RequireNonAlphanumeric = false; })
                 .AddEntityFrameworkStores<DataContext>();
 
             services.AddAuthentication(options =>

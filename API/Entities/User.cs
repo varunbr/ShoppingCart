@@ -16,6 +16,7 @@ namespace API.Entities
         public Account Account { get; set; }
         public int? AddressId { get; set; }
         public Address Address { get; set; }
+        public ICollection<UserRole> UserRoles { get; set; }
         public ICollection<Order> Orders { get; set; }
         public ICollection<TrackEvent> TrackEvents { get; set; }
         public ICollection<TrackAgent> TrackAgents { get; set; }

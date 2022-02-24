@@ -1,13 +1,13 @@
 ﻿namespace API.Helpers
 {
-    public enum Role
+    public enum RoleType
     {
         Admin,
         Moderator,
         TrackAgent,
-        TrackAgentAdmin,
+        TrackAdmin,
         StoreAdmin,
-        StoreModerator,
+        StoreAgent,
         User
     }
 
