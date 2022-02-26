@@ -19,7 +19,7 @@ namespace API.Controllers
 
         [Authorize(Roles = "Admin")]
         [HttpGet("moderate/admin-role")]
-        public async Task<ActionResult> GetModeratorsForAdmin([FromQuery] AdminRoleParams roleParams)
+        public async Task<ActionResult> GetModeratorsForAdmin([FromQuery] BaseRoleParams roleParams)
         {
             var userId = HttpContext.User.GetUserId();
             return Ok(await _uow.RoleRepository.GetModeratorsForAdmin(userId, roleParams));
@@ -27,7 +27,7 @@ namespace API.Controllers
 
         [Authorize(Roles = "Admin")]
         [HttpPost("moderate/admin-role")]
-        public async Task<ActionResult> AddModeratorByAdmin(AdminRoleDto roleDto)
+        public async Task<ActionResult> AddModeratorByAdmin(BaseRoleDto roleDto)
         {
             var userId = HttpContext.User.GetUserId();
             return Ok(await _uow.RoleRepository.AddModeratorByAdmin(userId, roleDto));
@@ -35,7 +35,7 @@ namespace API.Controllers
 
         [Authorize(Roles = "Admin")]
         [HttpDelete("moderate/admin-role")]
-        public async Task<ActionResult> RemoveModeratorByAdmin(AdminRoleDto roleDto)
+        public async Task<ActionResult> RemoveModeratorByAdmin(BaseRoleDto roleDto)
         {
             var userId = HttpContext.User.GetUserId();
 
@@ -92,10 +92,6 @@ namespace API.Controllers
         public async Task<ActionResult> RemoveStoreRoleByModerator(StoreRoleDto roleDto)
         {
             var userId = HttpContext.User.GetUserId();
-
-            if (roleDto.UserId == userId)
-                return BadRequest("You cannot remove your role");
-
             await _uow.RoleRepository.RemoveStoreRoleByModerator(userId, roleDto);
             return Ok();
         }

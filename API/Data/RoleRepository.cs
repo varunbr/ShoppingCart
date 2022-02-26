@@ -23,7 +23,7 @@ namespace API.Data
             _userManager = userManager;
         }
 
-        public async Task<Response<AdminRoleDto, AdminRoleParams>> GetModeratorsForAdmin(int userId, AdminRoleParams roleParams)
+        public async Task<Response<BaseAgentDto, BaseRoleParams>> GetModeratorsForAdmin(int userId, BaseRoleParams roleParams)
         {
             if (!await IsAdmin(userId))
                 throw new HttpException("You are not Admin", StatusCodes.Status403Forbidden);
@@ -47,10 +47,10 @@ namespace API.Data
                 : rolesQuery.Where(r => r.Role.Name == roleParams.Role);
 
             var roles = rolesQuery
-                .ProjectTo<AdminRoleDto>(Mapper.ConfigurationProvider)
+                .ProjectTo<BaseAgentDto>(Mapper.ConfigurationProvider)
                 .AsNoTracking();
 
-            return await Response<AdminRoleDto, AdminRoleParams>.CreateAsync(roles, roleParams);
+            return await Response<BaseAgentDto, BaseRoleParams>.CreateAsync(roles, roleParams);
         }
 
         public async Task<Response<StoreAgentDto, StoreRoleParams>> GetStoreAgentsForStoreAdmin(int userId, StoreRoleParams roleParams)
@@ -168,7 +168,7 @@ namespace API.Data
             return await Response<TrackAgentDto, TrackRoleParams>.CreateAsync(agents, roleParams);
         }
 
-        public async Task<AdminRoleDto> AddModeratorByAdmin(int userId, AdminRoleDto roleDto)
+        public async Task<BaseAgentDto> AddModeratorByAdmin(int userId, BaseRoleDto roleDto)
         {
             if (!await IsAdmin(userId))
                 throw new HttpException("You are not admin", StatusCodes.Status403Forbidden);
@@ -190,7 +190,7 @@ namespace API.Data
 
             return await DataContext.UserRoles
                 .Where(r => r.UserId == roleDto.UserId && r.Role.Name == roleDto.Role)
-                .ProjectTo<AdminRoleDto>(Mapper.ConfigurationProvider)
+                .ProjectTo<BaseAgentDto>(Mapper.ConfigurationProvider)
                 .FirstAsync();
         }
 
@@ -296,7 +296,7 @@ namespace API.Data
                 .FirstAsync();
         }
 
-        public async Task RemoveModeratorByAdmin(int userId, AdminRoleDto roleDto)
+        public async Task RemoveModeratorByAdmin(int userId, BaseRoleDto roleDto)
         {
             if (!await IsAdmin(userId))
                 throw new HttpException("You are not admin", StatusCodes.Status403Forbidden);
@@ -332,7 +332,7 @@ namespace API.Data
 
             if (!await DataContext.Locations.AnyAsync(s => s.Id == roleDto.LocationId))
                 throw new HttpException("Invalid Location");
-            
+
             await RemoveTrackRole(roleDto);
         }
 

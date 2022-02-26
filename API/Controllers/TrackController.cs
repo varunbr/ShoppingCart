@@ -8,7 +8,7 @@ using System.Threading.Tasks;
 
 namespace API.Controllers
 {
-    [Authorize(Roles = "TrackAgent,TrackAgentAdmin")]
+    [Authorize(Roles = "TrackAgent,TrackAdmin")]
     public class TrackController : BaseController
     {
         private readonly IUnitOfWork _uow;

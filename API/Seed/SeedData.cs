@@ -85,7 +85,7 @@ namespace API.Seed
                         break;
                     case Constants.TestUser:
                         await _userManager.CreateAsync(user, _config["AdminPassword"]);
-                        await _userManager.AddToRolesAsync(user, new[] { RoleType.User.ToString(), RoleType.TrackAdmin.ToString() });
+                        await _userManager.AddToRolesAsync(user, new[] { RoleType.User.ToString(), RoleType.StoreAdmin.ToString(), RoleType.TrackAdmin.ToString() });
                         break;
                     default:
                         await _userManager.CreateAsync(user, "User@2021");

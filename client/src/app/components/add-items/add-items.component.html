@@ -12,6 +12,6 @@
         </mat-chip-list>
         <input [placeholder]="'Add ' + name + '...'" [matChipInputFor]="chipList"
             [matChipInputSeparatorKeyCodes]="separatorKeysCodes" [matChipInputAddOnBlur]="true"
-            (matChipInputTokenEnd)="add($event)">
+            (matChipInputTokenEnd)="add($event)" autocomplete="off">
     </mat-form-field>
 </div>

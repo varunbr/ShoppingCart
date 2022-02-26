@@ -3,10 +3,10 @@ export class BaseModal {
 }
 
 export class BaseContext {
-  pageNumber: string;
-  pageSize: string;
-  totalPages: string;
-  totalCount: string;
+  pageNumber: number;
+  pageSize: number;
+  totalPages: number;
+  totalCount: number;
   orderBy: string;
 }
 

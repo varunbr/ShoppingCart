@@ -82,23 +82,19 @@ namespace API.Helpers
         public string Location { get; set; }
     }
 
-    public class TrackRoleParams : BaseParams
+    public class BaseRoleParams : BaseParams
     {
         public string Role { get; set; }
+        public string UserName { get; set; }
+    }
+
+    public class TrackRoleParams : BaseRoleParams
+    {
         public string Location { get; set; }
-        public string UserName { get; set; }
     }
 
-    public class StoreRoleParams : BaseParams
+    public class StoreRoleParams : BaseRoleParams
     {
-        public string Role { get; set; }
         public string StoreName { get; set; }
-        public string UserName { get; set; }
-    }
-
-    public class AdminRoleParams : BaseParams
-    {
-        public string Role { get; set; }
-        public string UserName { get; set; }
     }
 }
