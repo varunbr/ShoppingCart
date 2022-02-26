@@ -10,6 +10,12 @@ body {
   min-height: 100vh;
 }
 
+.profile {
+  height: 32px;
+  width: 32px;
+  border-radius: 50%;
+}
+
 .error-snack-bar {
   background-color: orangered !important;
   color: whitesmoke !important;

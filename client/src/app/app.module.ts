@@ -53,6 +53,12 @@ import { StoreOrderListComponent } from './store/store-order-list/store-order-li
 import { AddItemsComponent } from './components/add-items/add-items.component';
 import { StoreOrderComponent } from './store/store-order/store-order.component';
 import { TrackOrderComponent } from './track/track-order/track-order.component';
+import { StoreAdminComponent } from './store/store-admin/store-admin.component';
+import { TrackAdminComponent } from './track/track-admin/track-admin.component';
+import { TrackRolesComponent } from './track/track-roles/track-roles.component';
+import { TrackModeratorComponent } from './track/track-moderator/track-moderator.component';
+import { StoreModeratorComponent } from './store/store-moderator/store-moderator.component';
+import { StoreRoleComponent } from './store/store-role/store-role.component';
 
 @Injectable()
 export class HammerConfig extends HammerGestureConfig {
@@ -100,6 +106,12 @@ export class HammerConfig extends HammerGestureConfig {
     AddItemsComponent,
     StoreOrderComponent,
     TrackOrderComponent,
+    StoreAdminComponent,
+    TrackAdminComponent,
+    TrackRolesComponent,
+    TrackModeratorComponent,
+    StoreModeratorComponent,
+    StoreRoleComponent,
   ],
   imports: [
     BrowserModule,

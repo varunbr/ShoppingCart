@@ -61,11 +61,23 @@ export class StoreOrderListComponent
     this.context.storeName = '';
   }
 
-  apply() {
+  getParams() {
     let params = {};
     if (this.context.orderBy) params['orderBy'] = this.context.orderBy;
     if (this.context.status) params['status'] = this.context.status;
     if (this.context.storeName) params['storeName'] = this.context.storeName;
+    return params;
+  }
+
+  apply() {
+    this.router.navigate(['/store/order'], {
+      queryParams: this.getParams(),
+    });
+  }
+
+  pageChange(page: number) {
+    let params = this.getParams();
+    if (page > 1) params['pageNumber'] = page;
     this.router.navigate(['/store/order'], {
       queryParams: params,
     });

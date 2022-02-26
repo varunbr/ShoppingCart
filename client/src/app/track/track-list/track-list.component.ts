@@ -45,11 +45,24 @@ export class TrackListComponent
     this.context.orderBy = '';
     this.context.status = '';
   }
-  apply() {
+
+  getParams() {
     let params = {};
     if (this.context.location) params['location'] = this.context.location;
     if (this.context.orderBy) params['orderBy'] = this.context.orderBy;
     if (this.context.status) params['status'] = this.context.status;
+    return params;
+  }
+
+  apply() {
+    this.router.navigate(['/track'], {
+      queryParams: this.getParams(),
+    });
+  }
+
+  pageChange(page: number) {
+    let params = this.getParams();
+    if (page > 1) params['pageNumber'] = page;
     this.router.navigate(['/track'], {
       queryParams: params,
     });

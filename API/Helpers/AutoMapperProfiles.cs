@@ -109,7 +109,7 @@ namespace API.Helpers
                 .ForMember(dest => dest.ParentLocationName, act => act.MapFrom(src => src.Location.Parent.Name))
                 .ForMember(dest => dest.ParentLocationType, act => act.MapFrom(src => src.Location.Parent.Type));
 
-            CreateMap<UserRole, AdminRoleDto>()
+            CreateMap<UserRole, BaseAgentDto>()
                 .ForMember(dest => dest.Name, act => act.MapFrom(src => src.User.Name))
                 .ForMember(dest => dest.UserName, act => act.MapFrom(src => src.User.UserName))
                 .ForMember(dest => dest.PhotoUrl, act => act.MapFrom(src => src.User.Photo.Url))

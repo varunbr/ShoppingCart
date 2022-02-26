@@ -26,6 +26,11 @@ export class FilterListComponent implements OnInit {
   }
 
   onPageChange(page: number) {
+    window.scroll({
+      top: 0,
+      left: 0,
+      behavior: 'smooth',
+    });
     this.pageChange.emit(page);
   }
 }

@@ -1,11 +1,12 @@
 import {
   Component,
   EventEmitter,
-  HostListener,
   Input,
   OnInit,
   Output,
+  ViewChild,
 } from '@angular/core';
+import { MatSidenav } from '@angular/material/sidenav';
 import { ActivatedRoute, Router } from '@angular/router';
 import { User } from '../modal/user';
 import { AccountService } from '../services/account.service';
@@ -32,10 +33,17 @@ export class NavComponent implements OnInit {
     this.accountService.user$.subscribe((u) => (this.user = u));
   }
 
+  @ViewChild('sidenav') sidenav: MatSidenav;
+
   ngOnInit(): void {
     this.route.queryParamMap.subscribe((params) => {
       this.value = params.get('q');
     });
+
+    this.router.events.subscribe((event) => {
+      this.sidenav?.close();
+    });
+
     this.cartService.cartStore$.subscribe((response) => {
       let count = 0;
       for (let item of response) {

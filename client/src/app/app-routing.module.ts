@@ -17,6 +17,10 @@ import { TrackListComponent } from './track/track-list/track-list.component';
 import { StoreOrderListComponent } from './store/store-order-list/store-order-list.component';
 import { StoreOrderComponent } from './store/store-order/store-order.component';
 import { TrackOrderComponent } from './track/track-order/track-order.component';
+import { StoreAdminComponent } from './store/store-admin/store-admin.component';
+import { TrackAdminComponent } from './track/track-admin/track-admin.component';
+import { TrackModeratorComponent } from './track/track-moderator/track-moderator.component';
+import { StoreModeratorComponent } from './store/store-moderator/store-moderator.component';
 
 const routes: Routes = [
   { path: '', component: HomeComponent },
@@ -36,6 +40,10 @@ const routes: Routes = [
   { path: 'track', component: TrackListComponent },
   { path: 'store/order/:id', component: StoreOrderComponent },
   { path: 'store/order', component: StoreOrderListComponent },
+  { path: 'admin/store-role', component: StoreAdminComponent },
+  { path: 'admin/track-role', component: TrackAdminComponent },
+  { path: 'admin/moderate/store-role', component: StoreModeratorComponent },
+  { path: 'admin/moderate/track-role', component: TrackModeratorComponent },
   { path: '**', component: HomeComponent },
 ];
 

@@ -1,4 +1,4 @@
-<app-filter-list [context]="context"
+<app-filter-list [context]="context" (pageChange)="pageChange($event)"
     [title]="context ? 'Page number ' + context.pageNumber + ' of ' + context.totalPages : ''">
     <div filter>
         <div fxLayout="row" fxLayoutAlign="space-between center">

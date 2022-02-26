@@ -1,4 +1,6 @@
+import { COMMA, ENTER } from '@angular/cdk/keycodes';
 import { Component, EventEmitter, Input, OnInit, Output } from '@angular/core';
+import { MatChipInputEvent } from '@angular/material/chips';
 
 @Component({
   selector: 'app-select-location',
@@ -14,8 +16,8 @@ export class SelectLocationComponent implements OnInit {
   }
   @Output() valueChange: EventEmitter<string> = new EventEmitter<string>();
   locations: { name: string; type: string }[] = [];
-  locationName: string;
   locationType = 'Area';
+  readonly separatorKeysCodes = [ENTER, COMMA] as const;
 
   constructor() {}
 
@@ -38,16 +40,16 @@ export class SelectLocationComponent implements OnInit {
     return values.join(',');
   }
 
-  addLocation() {
-    if (this.locationName && this.locationType) {
+  addLocation(event: MatChipInputEvent) {
+    const value = (event.value || '').trim();
+    if (value) {
       this.locations = [
         ...this.locations,
-        { name: this.locationName, type: this.locationType },
+        { name: value, type: this.locationType },
       ];
-      this.locationName = '';
-      this.locationType = 'Area';
       this.onChange();
     }
+    event.chipInput!.clear();
   }
 
   removeLocation(index: number) {
