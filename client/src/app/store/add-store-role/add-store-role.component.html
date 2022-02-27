@@ -1,0 +1,58 @@
+<div class="my-4" fxLayout="row" fxLayoutAlign="center">
+    <mat-card class="text-center" style="border-radius: 20px;" fxFlex="40" fxFlex.lt-sm="90" fxFlex.lt-md="60"
+        fxFlex.lt-lg="50">
+        <mat-card-title class="my-3">Add Track Role</mat-card-title>
+        <mat-card-content>
+            <div class="px-2" fxLayout="column" fxLayoutAlign="center">
+                <mat-form-field class="py-2" appearance="outline">
+                    <mat-label>Username</mat-label>
+                    <input matInput appGetUser (userChange)="userChange($event)" type="text"
+                        placeholder="Search Username" name="username" minlength="3" autocomplete="off"
+                        [(ngModel)]="userName" />
+                    <mat-error>UserName not available</mat-error>
+                    <mat-hint *ngIf="user?.exist" class="hint-info" fxLayout="row" fxLayoutAlign=" center">
+                        <img class="profile-sm" src="{{ user?.photoUrl || './assets/images/profile.png'}}" alt="">
+                        <div>&nbsp; {{user.name}}({{user.id}})</div>
+                    </mat-hint>
+                </mat-form-field>
+
+                <mat-form-field class="mt-3" appearance="outline">
+                    <mat-label>Select Role</mat-label>
+                    <mat-select [(ngModel)]="storeRole.role" name="role">
+                        <mat-option *ngFor="let item of roles" [value]="item"> {{item | spaceBetween }}
+                        </mat-option>
+                    </mat-select>
+                </mat-form-field>
+
+                <mat-form-field class="mt-2" appearance="outline">
+                    <mat-label>Search Store</mat-label>
+                    <input [disabled]="loading" matInput placeholder="Search Store" [(ngModel)]="store" type="text"
+                        name="store" />
+                    <button matSuffix mat-icon-button (click)="searchStores()">
+                        <mat-icon>search</mat-icon>
+                    </button>
+                </mat-form-field>
+
+                <mat-form-field appearance="outline">
+                    <mat-label>Select Store</mat-label>
+                    <mat-select [(ngModel)]="storeRole.storeId" name="stores">
+                        <mat-option *ngFor="let item of stores" [value]="item.id">{{item.name}} ({{item.location}})
+                        </mat-option>
+                    </mat-select>
+                    <app-spinner *ngIf="loading" matSuffix [overlay]="false" diameter="24"></app-spinner>
+                </mat-form-field>
+
+                <div fxLayoutAlign="center">
+                    <button fxFlex="50" mat-raised-button [disabled]="!(storeRole.storeId && storeRole.userId)"
+                        color="warn" type="submit" (click)="onSubmit()">Add Role</button>
+                </div>
+            </div>
+        </mat-card-content>
+        <mat-divider inset></mat-divider>
+        <mat-card-actions>
+            <button mat-flat-button color="accent"
+                [routerLink]="for==='Moderator' ? '/admin/moderate/store-role':'/admin/store-role'" type="button">View
+                Roles</button>
+        </mat-card-actions>
+    </mat-card>
+</div>

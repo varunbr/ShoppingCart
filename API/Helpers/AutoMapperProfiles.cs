@@ -19,6 +19,8 @@ namespace API.Helpers
                     opt => opt.MapFrom(src => src.UserName.ToLower()));
 
             CreateMap<User, UserProfileDto>().ReverseMap();
+            CreateMap<User, UserInfoDto>()
+                .ForMember(dest => dest.PhotoUrl, act => act.MapFrom(src => src.Photo.Url));
 
             CreateMap<AddressDto, Address>();
             CreateMap<Address, AddressDto>()
@@ -27,6 +29,9 @@ namespace API.Helpers
                 .ForMember(dest => dest.StateId, opt => opt.MapFrom(src => src.Location.Parent.ParentId))
                 .ForMember(dest => dest.CountryId, opt => opt.MapFrom(src => src.Location.Parent.Parent.ParentId));
             CreateMap<Location, LocationDto>();
+            CreateMap<Location, LocationInfoDto>()
+                .ForMember(dest => dest.ParentName, act => act.MapFrom(src => src.Parent.Name))
+                .IncludeBase<Location, LocationDto>();
 
             CreateMap<PayOption, PayOptionDto>();
             CreateMap<Transaction, TransactionDto>()
@@ -114,6 +119,9 @@ namespace API.Helpers
                 .ForMember(dest => dest.UserName, act => act.MapFrom(src => src.User.UserName))
                 .ForMember(dest => dest.PhotoUrl, act => act.MapFrom(src => src.User.Photo.Url))
                 .ForMember(dest => dest.Role, act => act.MapFrom(src => src.Role.Name));
+
+            CreateMap<Store, StoreInfoDto>()
+                .ForMember(dest => dest.Location, act => act.MapFrom(src => src.Address.Location.Name));
 
             CreateMap<DateTime, DateTime>().ConvertUsing(d => DateTime.SpecifyKind(d, DateTimeKind.Utc));
             #endregion

@@ -16,6 +16,16 @@ body {
   border-radius: 50%;
 }
 
+.profile-sm {
+  height: 24px;
+  width: 24px;
+  border-radius: 50%;
+}
+
+.hint-info {
+  font-size: 14px !important;
+}
+
 .error-snack-bar {
   background-color: orangered !important;
   color: whitesmoke !important;

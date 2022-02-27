@@ -1,2 +1,3 @@
-<app-store-role title="Moderate Store Roles" [agents]="agents" [(context)]="context" (removeRole)="removeRole($event)"
-    (applyParams)="applyParams($event)"></app-store-role>
+<app-store-role [title]="'Moderate Store Roles'" [agents]="agents" [(context)]="context"
+    (removeRole)="removeRole($event)" (applyParams)="applyParams($event)" (addRole)="navigateToAddRole()">
+</app-store-role>

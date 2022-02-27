@@ -59,4 +59,8 @@ export class TrackModeratorComponent implements OnInit {
       queryParams: params,
     });
   }
+
+  navigateToAddRole() {
+    this.router.navigate(['/admin/moderate/track-role/add']);
+  }
 }

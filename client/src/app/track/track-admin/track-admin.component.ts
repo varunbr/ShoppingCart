@@ -59,4 +59,8 @@ export class TrackAdminComponent implements OnInit {
       queryParams: params,
     });
   }
+
+  navigateToAddRole() {
+    this.router.navigate(['/admin/track-role/add']);
+  }
 }

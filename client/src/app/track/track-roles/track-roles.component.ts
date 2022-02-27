@@ -14,6 +14,7 @@ export class TrackRolesComponent implements OnInit {
   @Output() contextChange = new EventEmitter<TrackAgentContext>();
   @Output() removeRole = new EventEmitter<TrackAgent>();
   @Output() applyParams = new EventEmitter<Params>();
+  @Output() addRole = new EventEmitter();
 
   roles = [
     { name: 'Any (Default)', value: null },

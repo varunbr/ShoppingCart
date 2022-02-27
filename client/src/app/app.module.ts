@@ -59,6 +59,15 @@ import { TrackRolesComponent } from './track/track-roles/track-roles.component';
 import { TrackModeratorComponent } from './track/track-moderator/track-moderator.component';
 import { StoreModeratorComponent } from './store/store-moderator/store-moderator.component';
 import { StoreRoleComponent } from './store/store-role/store-role.component';
+import { AdminRolesComponent } from './admin/admin-roles/admin-roles.component';
+import { AddTrackRoleComponent } from './track/add-track-role/add-track-role.component';
+import { GetUserDirective } from './components/directives/get-user.directive';
+import { TrackAdminAddComponent } from './track/track-admin-add/track-admin-add.component';
+import { TrackModeratorAddComponent } from './track/track-moderator-add/track-moderator-add.component';
+import { AddStoreRoleComponent } from './store/add-store-role/add-store-role.component';
+import { StoreAdminAddComponent } from './store/store-admin-add/store-admin-add.component';
+import { StoreModeratorAddComponent } from './store/store-moderator-add/store-moderator-add.component';
+import { AddAdminRoleComponent } from './admin/add-admin-role/add-admin-role.component';
 
 @Injectable()
 export class HammerConfig extends HammerGestureConfig {
@@ -112,6 +121,15 @@ export class HammerConfig extends HammerGestureConfig {
     TrackModeratorComponent,
     StoreModeratorComponent,
     StoreRoleComponent,
+    AdminRolesComponent,
+    AddTrackRoleComponent,
+    GetUserDirective,
+    TrackAdminAddComponent,
+    TrackModeratorAddComponent,
+    AddStoreRoleComponent,
+    StoreAdminAddComponent,
+    StoreModeratorAddComponent,
+    AddAdminRoleComponent,
   ],
   imports: [
     BrowserModule,

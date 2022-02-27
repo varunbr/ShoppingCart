@@ -59,4 +59,8 @@ export class StoreAdminComponent implements OnInit {
       queryParams: params,
     });
   }
+
+  navigateToAddRole() {
+    this.router.navigate(['/admin/store-role/add']);
+  }
 }

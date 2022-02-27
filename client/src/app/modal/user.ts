@@ -7,3 +7,11 @@ export interface User {
   photoUrl: string;
   roles: string[];
 }
+
+export interface UserInfo {
+  id: number;
+  name: string;
+  userName: string;
+  photoUrl: string;
+  exist: boolean;
+}

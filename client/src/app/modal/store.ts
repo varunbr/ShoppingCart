@@ -19,3 +19,9 @@ export class StoreOrderContext extends BaseContext {
   status: string;
   storeName: string;
 }
+
+export class StoreInfo {
+  id: number;
+  name: string;
+  location: string;
+}

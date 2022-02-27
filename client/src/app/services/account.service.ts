@@ -12,7 +12,7 @@ import {
 } from 'rxjs';
 import { environment } from 'src/environments/environment';
 import { Address, LocationInfo } from '../modal/address';
-import { User } from '../modal/user';
+import { User, UserInfo } from '../modal/user';
 import { HttpService } from './http.service';
 
 @Injectable({
@@ -168,6 +168,12 @@ export class AccountService {
       }
       return of(null);
     };
+  }
+
+  getUserInfo(userName: string) {
+    return this.http.get<UserInfo>(this.baseUrl + 'user/' + userName, {
+      background: true,
+    });
   }
 
   setUser(user: User) {

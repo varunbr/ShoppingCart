@@ -1,0 +1,68 @@
+<app-filter-list [context]="context" (pageChange)="pageChange($event)">
+    <div header fxFlex fxLayoutAlign="space-between center">
+        <div class="title">{{'Admin Roles'}}</div>
+        <button mat-raised-button color="accent" routerLink="/admin/moderate/admin-role/add">Add Role</button>
+    </div>
+    <div filter>
+        <div fxLayout="row" fxLayoutAlign="space-between center">
+            <button mat-flat-button color="accent" (click)="clear()">
+                <mat-icon>clear_all</mat-icon>
+                Clear
+            </button>
+            <button mat-flat-button color="accent" (click)="apply()">
+                <mat-icon>search</mat-icon>
+                Apply
+            </button>
+        </div>
+        <br>
+        <div *ngIf="context">
+            <app-single-select name="Role" [values]="roles" [(value)]="context.role">
+            </app-single-select>
+            <app-add-items name="Usernames" [(value)]="context.userName"></app-add-items>
+        </div>
+    </div>
+    <div result>
+        <mat-accordion>
+            <mat-expansion-panel [expanded]="step === i" (opened)="step = i"
+                *ngFor="let agent of agents; let i = index">
+                <mat-expansion-panel-header>
+                    <mat-panel-title fxLayoutAlign=" center">
+                        <img class="profile" src="{{agent.photoUrl || './assets/images/profile.png'}}" alt="Profile">
+                        &nbsp; {{agent.name}}
+                    </mat-panel-title>
+                    <mat-panel-description fxLayoutAlign=" center" fxHide.lt-sm="true">
+                        {{agent.role | spaceBetween }}
+                    </mat-panel-description>
+                </mat-expansion-panel-header>
+                <div fxFlex fxLayoutAlign="center center">
+                    <div fxFlex="50" fxFlex.lt-md="70" fxFlex.lt-sm="85" fxLayout="column" fxLayoutGap="10px">
+                        <div fxLayout="row">
+                            <div fxFlex=30>Agent:</div>
+                            <div fxFlex>
+                                {{agent.name}} ({{agent.userId}})
+                            </div>
+                        </div>
+                        <div fxLayout="row">
+                            <div fxFlex=30>Username:</div>
+                            <div fxFlex>
+                                {{agent.userName}}
+                            </div>
+                        </div>
+                        <div fxLayout="row">
+                            <div fxFlex=30>Role:</div>
+                            <div fxFlex>
+                                {{agent.role | spaceBetween}}
+                            </div>
+                        </div>
+                        <div>
+                            <button fxFlexOffset.gt-sm="30" fxFlexOffset="20" (click)="removeRole(agent)"
+                                mat-raised-button color="warn">
+                                <mat-icon>delete</mat-icon> Remove from Role
+                            </button>
+                        </div>
+                    </div>
+                </div>
+            </mat-expansion-panel>
+        </mat-accordion>
+    </div>
+</app-filter-list>

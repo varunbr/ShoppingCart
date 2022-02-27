@@ -9,7 +9,6 @@ import { MediaService } from 'src/app/services/media.service';
   styleUrls: ['./filter-list.component.css'],
 })
 export class FilterListComponent implements OnInit {
-  @Input() title: string;
   @Input() context: BaseContext;
   @Output() pageChange = new EventEmitter<number>();
   lt_md = false;

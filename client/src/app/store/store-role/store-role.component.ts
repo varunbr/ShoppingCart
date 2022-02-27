@@ -14,6 +14,7 @@ export class StoreRoleComponent implements OnInit {
   @Output() contextChange = new EventEmitter<StoreAgentContext>();
   @Output() removeRole = new EventEmitter<StoreAgent>();
   @Output() applyParams = new EventEmitter<Params>();
+  @Output() addRole = new EventEmitter();
   roles = [
     { name: 'Any (Default)', value: null },
     { name: 'StoreAgent', value: 'StoreAgent' },

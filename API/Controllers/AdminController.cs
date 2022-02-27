@@ -153,5 +153,19 @@ namespace API.Controllers
             await _uow.RoleRepository.RemoveRoleByStoreAdmin(userId, roleDto);
             return Ok();
         }
+
+        [HttpGet("search-locations")]
+        public async Task<ActionResult> SearchLocations([FromQuery] LocationSearchParams searchParams)
+        {
+            var userId = HttpContext.User.GetUserId();
+            return Ok(await _uow.RoleRepository.SearchLocations(userId, searchParams));
+        }
+
+        [HttpGet("search-stores")]
+        public async Task<ActionResult> SearchStores([FromQuery] StoreSearchParams searchParams)
+        {
+            var userId = HttpContext.User.GetUserId();
+            return Ok(await _uow.RoleRepository.SearchStores(userId, searchParams));
+        }
     }
 }

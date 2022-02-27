@@ -1,5 +1,7 @@
-<app-filter-list [title]="'Showing results for &quot;' + search +'&quot;'" [context]="context"
-    (pageChange)="navigateToPage($event)">
+<app-filter-list [context]="context" (pageChange)="navigateToPage($event)">
+    <div header fxFlex fxLayoutAlign="space-between center">
+        <div class="title">{{'Showing results for &quot;' + search +'&quot;'}}</div>
+    </div>
     <div filter>
         <app-product-filter [context]="context"></app-product-filter>
     </div>

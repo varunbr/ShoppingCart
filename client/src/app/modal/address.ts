@@ -17,4 +17,5 @@ export class Address {
 export class LocationInfo {
   id: number;
   name: string;
+  parentName: string;
 }
