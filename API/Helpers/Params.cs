@@ -97,4 +97,17 @@ namespace API.Helpers
     {
         public string StoreName { get; set; }
     }
+
+    public class LocationSearchParams
+    {
+        public string Name { get; set; }
+        public string Type { get; set; }
+        public string For { get; set; }
+    }
+
+    public class StoreSearchParams
+    {
+        public string Name { get; set; }
+        public string For { get; set; }
+    }
 }

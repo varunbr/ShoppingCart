@@ -194,7 +194,7 @@ namespace API.Data
                 .FirstAsync();
         }
 
-        public async Task<TrackRoleDto> AddRoleByTrackAdmin(int userId, TrackRoleDto roleDto)
+        public async Task<TrackAgentDto> AddRoleByTrackAdmin(int userId, TrackRoleDto roleDto)
         {
             if (!await IsTrackLocationAdmin(userId, roleDto.LocationId))
                 throw new HttpException("You are not TrackAdmin of this location.", StatusCodes.Status403Forbidden);
@@ -202,7 +202,7 @@ namespace API.Data
             return await AddTrackRole(roleDto);
         }
 
-        public async Task<TrackRoleDto> AddTrackRoleByModerator(int userId, TrackRoleDto roleDto)
+        public async Task<TrackAgentDto> AddTrackRoleByModerator(int userId, TrackRoleDto roleDto)
         {
             if (!await IsModerator(userId))
                 throw new HttpException("You are not Moderator.", StatusCodes.Status403Forbidden);
@@ -213,7 +213,7 @@ namespace API.Data
             return await AddTrackRole(roleDto);
         }
 
-        private async Task<TrackRoleDto> AddTrackRole(TrackRoleDto roleDto)
+        private async Task<TrackAgentDto> AddTrackRole(TrackRoleDto roleDto)
         {
             if (!IsTrackRole(roleDto.Role))
                 throw new HttpException($"Invalid role - {roleDto.Role}");
@@ -241,11 +241,11 @@ namespace API.Data
 
             return await DataContext.TrackAgents
                 .Where(a => a.LocationId == roleDto.LocationId && a.UserId == roleDto.UserId && a.Role == roleDto.Role)
-                .ProjectTo<TrackRoleDto>(Mapper.ConfigurationProvider)
+                .ProjectTo<TrackAgentDto>(Mapper.ConfigurationProvider)
                 .FirstAsync();
         }
 
-        public async Task<TrackAgentDto> AddRoleByStoreAdmin(int userId, StoreRoleDto roleDto)
+        public async Task<StoreAgentDto> AddRoleByStoreAdmin(int userId, StoreRoleDto roleDto)
         {
             if (!await IsStoreAdmin(userId, roleDto.StoreId))
                 throw new HttpException("You are not StoreAdmin of this store.", StatusCodes.Status403Forbidden);
@@ -253,7 +253,7 @@ namespace API.Data
             return await AddStoreRole(roleDto);
         }
 
-        public async Task<TrackAgentDto> AddStoreRoleByModerator(int userId, StoreRoleDto roleDto)
+        public async Task<StoreAgentDto> AddStoreRoleByModerator(int userId, StoreRoleDto roleDto)
         {
             if (!await IsModerator(userId))
                 throw new HttpException("You are not Moderator.", StatusCodes.Status403Forbidden);
@@ -264,7 +264,7 @@ namespace API.Data
             return await AddStoreRole(roleDto);
         }
 
-        private async Task<TrackAgentDto> AddStoreRole(StoreRoleDto roleDto)
+        private async Task<StoreAgentDto> AddStoreRole(StoreRoleDto roleDto)
         {
             if (!IsStoreRole(roleDto.Role))
                 throw new HttpException($"Invalid role - {roleDto.Role}");
@@ -292,7 +292,7 @@ namespace API.Data
 
             return await DataContext.StoresAgents
                 .Where(a => a.StoreId == roleDto.StoreId && a.UserId == roleDto.UserId && a.Role == roleDto.Role)
-                .ProjectTo<TrackAgentDto>(Mapper.ConfigurationProvider)
+                .ProjectTo<StoreAgentDto>(Mapper.ConfigurationProvider)
                 .FirstAsync();
         }
 
@@ -402,6 +402,40 @@ namespace API.Data
 
             if (!await DataContext.StoresAgents.AnyAsync(a => a.UserId == roleDto.UserId && a.Role == roleDto.Role))
                 await _userManager.RemoveFromRoleAsync(user, roleDto.Role);
+        }
+
+        public async Task<List<LocationInfoDto>> SearchLocations(int userId, LocationSearchParams searchParams)
+        {
+            IQueryable<Location> query;
+            if (searchParams.For == RoleType.Moderator.ToString() || searchParams.For == RoleType.Admin.ToString())
+                query = DataContext.Locations;
+            else
+                query = from agent in DataContext.TrackAgents
+                        where agent.UserId == userId && agent.Role == RoleType.TrackAdmin.ToString()
+                        join location in DataContext.Locations on agent.LocationId equals location.Id
+                        select location;
+
+            return await query.Where(l => l.Name.Contains(searchParams.Name) && l.Type == searchParams.Type)
+                .Take(16)
+                .ProjectTo<LocationInfoDto>(Mapper.ConfigurationProvider)
+                .ToListAsync();
+        }
+
+        public async Task<List<StoreInfoDto>> SearchStores(int userId, StoreSearchParams searchParams)
+        {
+            IQueryable<Store> query;
+            if (searchParams.For == RoleType.Moderator.ToString() || searchParams.For == RoleType.Admin.ToString())
+                query = DataContext.Stores;
+            else
+                query = from agent in DataContext.StoresAgents
+                        where agent.UserId == userId && agent.Role == RoleType.StoreAdmin.ToString()
+                        join store in DataContext.Stores on agent.StoreId equals store.Id
+                        select store;
+
+            return await query.Where(s => s.Name.Contains(searchParams.Name))
+                .Take(16)
+                .ProjectTo<StoreInfoDto>(Mapper.ConfigurationProvider)
+                .ToListAsync();
         }
     }
 }

@@ -15,4 +15,9 @@ namespace API.DTOs
         public IEnumerable<LocationDto> Cities { get; set; }
         public IEnumerable<LocationDto> States { get; set; }
     }
+
+    public class LocationInfoDto : LocationDto
+    {
+        public string ParentName { get; set; }
+    }
 }

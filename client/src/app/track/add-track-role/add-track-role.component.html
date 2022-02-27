@@ -1,0 +1,67 @@
+<div class="my-4" fxLayout="row" fxLayoutAlign="center">
+    <mat-card class="text-center" style="border-radius: 20px;" fxFlex="40" fxFlex.lt-sm="90" fxFlex.lt-md="60"
+        fxFlex.lt-lg="50">
+        <mat-card-title class="my-3">Add Track Role</mat-card-title>
+        <mat-card-content>
+            <div class="px-2" fxLayout="column" fxLayoutAlign="center">
+                <mat-form-field class="py-2" appearance="outline">
+                    <mat-label>Username</mat-label>
+                    <input matInput appGetUser (userChange)="userChange($event)" type="text"
+                        placeholder="Search Username" name="username" minlength="3" autocomplete="off"
+                        [(ngModel)]="userName" />
+                    <mat-error>UserName not available</mat-error>
+                    <mat-hint *ngIf="user?.exist" class="hint-info" fxLayout="row" fxLayoutAlign=" center">
+                        <img class="profile-sm" src="{{ user?.photoUrl || './assets/images/profile.png'}}" alt="">
+                        <div>&nbsp; {{user.name}}({{user.id}})</div>
+                    </mat-hint>
+                </mat-form-field>
+
+                <mat-form-field class="mt-3" appearance="outline">
+                    <mat-label>Select Role</mat-label>
+                    <mat-select [(ngModel)]="trackRole.role" name="role">
+                        <mat-option *ngFor="let item of roles" [value]="item"> {{item | spaceBetween }}
+                        </mat-option>
+                    </mat-select>
+                </mat-form-field>
+
+                <mat-form-field appearance="outline">
+                    <mat-label>Select Location Type</mat-label>
+                    <mat-select [(ngModel)]="locationType" name="locationType">
+                        <mat-option (onSelectionChange)="onLocationTypeChange()" *ngFor="let item of locationTypes"
+                            [value]="item"> {{item}}
+                        </mat-option>
+                    </mat-select>
+                </mat-form-field>
+
+                <mat-form-field class="mt-2" appearance="outline">
+                    <mat-label>Search Location</mat-label>
+                    <input [disabled]="loading" matInput placeholder="Search Location" [(ngModel)]="location"
+                        type="text" name="location" />
+                    <button matSuffix mat-icon-button (click)="searchLocation()">
+                        <mat-icon>search</mat-icon>
+                    </button>
+                </mat-form-field>
+
+                <mat-form-field appearance="outline">
+                    <mat-label>Select Location</mat-label>
+                    <mat-select [(ngModel)]="trackRole.locationId" name="locations">
+                        <mat-option *ngFor="let item of locations" [value]="item.id">{{item.name}} ({{item.parentName}})
+                        </mat-option>
+                    </mat-select>
+                    <app-spinner *ngIf="loading" matSuffix [overlay]="false" diameter="24"></app-spinner>
+                </mat-form-field>
+
+                <div fxLayoutAlign="center">
+                    <button fxFlex="50" mat-raised-button [disabled]="!(trackRole.locationId && trackRole.userId)"
+                        color="warn" type="submit" (click)="onSubmit()">Add Role</button>
+                </div>
+            </div>
+        </mat-card-content>
+        <mat-divider inset></mat-divider>
+        <mat-card-actions>
+            <button mat-flat-button color="accent"
+                [routerLink]="for === 'Moderator'? '/admin/moderate/track-role':'/admin/track-role'" type="button">View
+                Roles</button>
+        </mat-card-actions>
+    </mat-card>
+</div>

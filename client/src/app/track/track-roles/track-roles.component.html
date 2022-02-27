@@ -1,5 +1,8 @@
-<app-filter-list [context]="context" (pageChange)="pageChange($event)"
-    [title]="(title ? title + ' - ':'' )+ (context ? 'Page number ' + context.pageNumber + ' of ' + context.totalPages : '')">
+<app-filter-list [context]="context" (pageChange)="pageChange($event)">
+    <div header fxFlex fxLayoutAlign="space-between center">
+        <div class="title">{{title}}</div>
+        <button mat-raised-button color="accent" (click)="addRole.emit()">Add Role</button>
+    </div>
     <div filter>
         <div fxLayout="row" fxLayoutAlign="space-between center">
             <button mat-flat-button color="accent" (click)="clear()">
@@ -32,7 +35,7 @@
                         {{agent.locationName}} ({{agent.locationType}})
                     </mat-panel-description>
                     <mat-panel-description fxLayoutAlign=" center" fxHide.lt-sm="true">
-                        {{agent.role}}
+                        {{agent.role | spaceBetween }}
                     </mat-panel-description>
                 </mat-expansion-panel-header>
                 <div fxFlex fxLayoutAlign="center center">
@@ -66,7 +69,7 @@
                         </div>
                         <div>
                             <button fxFlexOffset.gt-sm="30" fxFlexOffset="20" (click)="removeFromRole(agent)"
-                                mat-raised-button color="accent">
+                                mat-raised-button color="warn">
                                 <mat-icon>delete</mat-icon> Remove from Role
                             </button>
                         </div>

@@ -59,4 +59,8 @@ export class StoreModeratorComponent implements OnInit {
       queryParams: params,
     });
   }
+
+  navigateToAddRole() {
+    this.router.navigate(['/admin/moderate/store-role/add']);
+  }
 }

@@ -2,6 +2,7 @@ import { Injectable } from '@angular/core';
 import { Params } from '@angular/router';
 import { environment } from 'src/environments/environment';
 import { ResponseList } from '../base/modal';
+import { LocationInfo } from '../modal/address';
 import {
   BaseAgent,
   BaseAgentContext,
@@ -11,6 +12,7 @@ import {
   TrackAgentContext,
 } from '../modal/agent';
 import { BaseRole, StoreRole, TrackRole } from '../modal/role';
+import { StoreInfo } from '../modal/store';
 import { HttpService } from './http.service';
 
 @Injectable({
@@ -99,5 +101,19 @@ export class AdminService {
 
   removeRoleByStoreAdmin(role: StoreRole) {
     return this.http.delete(this.storeAdminUrl, role);
+  }
+
+  searchLocations(name: string, type: string, role: string) {
+    return this.http.get<LocationInfo[]>(this.baseUrl + 'search-locations', {
+      background: true,
+      params: { name, type, for: role },
+    });
+  }
+
+  searchStores(name: string, role: string) {
+    return this.http.get<StoreInfo[]>(this.baseUrl + 'search-stores', {
+      background: true,
+      params: { name, for: role },
+    });
   }
 }

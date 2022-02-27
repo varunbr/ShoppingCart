@@ -10,6 +10,7 @@ namespace API.Data
         Task<int> GetUserIdByUserName(string userName);
         Task<string> GetUserNameById(int id);
         Task<bool> UserExist(int id);
+        Task<UserInfoDto> GetUserInfo(string userName);
         Task<bool> UserExist(string userName);
         Task<UserProfileDto> GetProfile(int id);
         Task<AddressDto> GetAddress(int userId);

@@ -21,6 +21,12 @@ import { StoreAdminComponent } from './store/store-admin/store-admin.component';
 import { TrackAdminComponent } from './track/track-admin/track-admin.component';
 import { TrackModeratorComponent } from './track/track-moderator/track-moderator.component';
 import { StoreModeratorComponent } from './store/store-moderator/store-moderator.component';
+import { AdminRolesComponent } from './admin/admin-roles/admin-roles.component';
+import { TrackAdminAddComponent } from './track/track-admin-add/track-admin-add.component';
+import { TrackModeratorAddComponent } from './track/track-moderator-add/track-moderator-add.component';
+import { StoreModeratorAddComponent } from './store/store-moderator-add/store-moderator-add.component';
+import { StoreAdminAddComponent } from './store/store-admin-add/store-admin-add.component';
+import { AddAdminRoleComponent } from './admin/add-admin-role/add-admin-role.component';
 
 const routes: Routes = [
   { path: '', component: HomeComponent },
@@ -40,10 +46,25 @@ const routes: Routes = [
   { path: 'track', component: TrackListComponent },
   { path: 'store/order/:id', component: StoreOrderComponent },
   { path: 'store/order', component: StoreOrderListComponent },
+  { path: 'admin/store-role/add', component: StoreAdminAddComponent },
   { path: 'admin/store-role', component: StoreAdminComponent },
+  { path: 'admin/track-role/add', component: TrackAdminAddComponent },
   { path: 'admin/track-role', component: TrackAdminComponent },
+  {
+    path: 'admin/moderate/store-role/add',
+    component: StoreModeratorAddComponent,
+  },
   { path: 'admin/moderate/store-role', component: StoreModeratorComponent },
-  { path: 'admin/moderate/track-role', component: TrackModeratorComponent },
+  {
+    path: 'admin/moderate/track-role/add',
+    component: TrackModeratorAddComponent,
+  },
+  {
+    path: 'admin/moderate/track-role',
+    component: TrackModeratorComponent,
+  },
+  { path: 'admin/moderate/admin-role/add', component: AddAdminRoleComponent },
+  { path: 'admin/moderate/admin-role', component: AdminRolesComponent },
   { path: '**', component: HomeComponent },
 ];
 

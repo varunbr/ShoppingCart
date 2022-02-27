@@ -17,7 +17,8 @@
             <button *ngIf="lt_md" mat-raised-button color="primary" (click)="drawer.toggle()">
                 <mat-icon>filter_alt</mat-icon> Filter
             </button>
-            <h3 class="title">{{title}}</h3>
+            <div></div>
+            <ng-content select="[header]"></ng-content>
         </mat-card>
         <ng-content select="[result]"></ng-content>
         <mat-card class="mt-1" *ngIf="this.context">

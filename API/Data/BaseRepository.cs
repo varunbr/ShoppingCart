@@ -66,6 +66,19 @@ namespace API.Data
             return await DataContext.Users.AnyAsync(u => u.UserName == userName.ToLower());
         }
 
+        public async Task<UserInfoDto> GetUserInfo(string userName)
+        {
+            var user = await DataContext.Users.Where(u => u.UserName == userName.ToLower())
+                .ProjectTo<UserInfoDto>(Mapper.ConfigurationProvider).FirstOrDefaultAsync();
+
+            if (user == null)
+                user = new UserInfoDto();
+            else
+                user.Exist = true;
+
+            return user;
+        }
+
         public async Task<Location> GetUserLocation(int userId)
         {
             if (userId == 0)

@@ -119,6 +119,13 @@ namespace API.Controllers
             return await _uow.UserRepository.UserExist(userName);
         }
 
+        [HttpGet("user/{userName}")]
+        [AllowAnonymous]
+        public async Task<ActionResult> GetUserInfo(string userName)
+        {
+            return Ok(await _uow.UserRepository.GetUserInfo(userName));
+        }
+
         [HttpGet("profile")]
         public async Task<ActionResult> GetUserProfile()
         {

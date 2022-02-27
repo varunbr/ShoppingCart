@@ -1,5 +1,7 @@
-<app-filter-list [context]="context" (pageChange)="pageChange($event)"
-    [title]="context ? 'Page number ' + context.pageNumber + ' of ' + context.totalPages : ''">
+<app-filter-list [context]="context" (pageChange)="pageChange($event)">
+    <div header fxFlex fxLayoutAlign="space-between center">
+        <div class="title">Store Orders</div>
+    </div>
     <div filter>
         <div fxLayout="row" fxLayoutAlign="space-between center">
             <button mat-flat-button color="accent" (click)="clear()">
