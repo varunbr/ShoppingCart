@@ -46,7 +46,7 @@ namespace API.Controllers
             return Ok();
         }
 
-        [Authorize(Roles = "Moderator,Admin")]
+        [Authorize(Roles = "TrackModerator,Admin")]
         [HttpGet("moderate/track-role")]
         public async Task<ActionResult> GetTrackAgentsForModerator([FromQuery] TrackRoleParams roleParams)
         {
@@ -54,7 +54,7 @@ namespace API.Controllers
             return Ok(await _uow.RoleRepository.GetTrackAgentsFoModerator(userId, roleParams));
         }
 
-        [Authorize(Roles = "Moderator,Admin")]
+        [Authorize(Roles = "TrackModerator,Admin")]
         [HttpPost("moderate/track-role")]
         public async Task<ActionResult> AddTrackRoleByModerator(TrackRoleDto roleDto)
         {
@@ -62,7 +62,7 @@ namespace API.Controllers
             return Ok(await _uow.RoleRepository.AddTrackRoleByModerator(userId, roleDto));
         }
 
-        [Authorize(Roles = "Moderator,Admin")]
+        [Authorize(Roles = "TrackModerator,Admin")]
         [HttpDelete("moderate/track-role")]
         public async Task<ActionResult> RemoveTrackRoleByModerator(TrackRoleDto roleDto)
         {
@@ -71,7 +71,7 @@ namespace API.Controllers
             return Ok();
         }
 
-        [Authorize(Roles = "Moderator,Admin")]
+        [Authorize(Roles = "StoreModerator,Admin")]
         [HttpGet("moderate/store-role")]
         public async Task<ActionResult> GetStoreAgentsForModerator([FromQuery] StoreRoleParams roleParams)
         {
@@ -79,7 +79,7 @@ namespace API.Controllers
             return Ok(await _uow.RoleRepository.GetStoreAgentsForModerator(userId, roleParams));
         }
 
-        [Authorize(Roles = "Moderator,Admin")]
+        [Authorize(Roles = "StoreModerator,Admin")]
         [HttpPost("moderate/store-role")]
         public async Task<ActionResult> AddStoreRoleByModerator(StoreRoleDto roleDto)
         {
@@ -87,7 +87,7 @@ namespace API.Controllers
             return Ok(await _uow.RoleRepository.AddStoreRoleByModerator(userId, roleDto));
         }
 
-        [Authorize(Roles = "Moderator,Admin")]
+        [Authorize(Roles = "StoreModerator,Admin")]
         [HttpDelete("moderate/store-role")]
         public async Task<ActionResult> RemoveStoreRoleByModerator(StoreRoleDto roleDto)
         {

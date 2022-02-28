@@ -1,0 +1,14 @@
+<div class="my-5" fxLayout="row" fxLayoutAlign="center center">
+    <mat-card fxLayout="column" fxLayoutGap="20px" fxFlex="95" style="min-height: 40vh;min-width: 50vw">
+        <h1 class="mt-4 text-center">Internal server error</h1>
+        <i>*Refreshing the page will make error disappear!</i>
+        <h3>{{message}}</h3>
+        <code style="white-space: pre-line;">{{message}}{{details}}</code>
+        <div class="text-center" fxLayoutGap="20px">
+            <button mat-raised-button routerLink="/" color="warn">Home Page</button>
+            <button *ngIf="!(accountService.user$ | async)" mat-raised-button routerLink="/login"
+                color="accent">Login</button>
+            <button mat-raised-button routerLink="/about" color="primary">About</button>
+        </div>
+    </mat-card>
+</div>

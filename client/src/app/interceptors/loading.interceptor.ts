@@ -17,7 +17,7 @@ export class LoadingInterceptor implements HttpInterceptor {
     next: HttpHandler
   ): Observable<HttpEvent<unknown>> {
     if (request.headers.get('Background') === 'true') {
-      return next.handle(request).pipe(delay(2000));
+      return next.handle(request).pipe(delay(500));
     }
 
     this.busyService.busy();

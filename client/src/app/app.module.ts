@@ -53,21 +53,24 @@ import { StoreOrderListComponent } from './store/store-order-list/store-order-li
 import { AddItemsComponent } from './components/add-items/add-items.component';
 import { StoreOrderComponent } from './store/store-order/store-order.component';
 import { TrackOrderComponent } from './track/track-order/track-order.component';
-import { StoreAdminComponent } from './store/store-admin/store-admin.component';
-import { TrackAdminComponent } from './track/track-admin/track-admin.component';
-import { TrackRolesComponent } from './track/track-roles/track-roles.component';
-import { TrackModeratorComponent } from './track/track-moderator/track-moderator.component';
-import { StoreModeratorComponent } from './store/store-moderator/store-moderator.component';
-import { StoreRoleComponent } from './store/store-role/store-role.component';
-import { AdminRolesComponent } from './admin/admin-roles/admin-roles.component';
-import { AddTrackRoleComponent } from './track/add-track-role/add-track-role.component';
+import { AdminRolesComponent } from './roles/admin/admin-roles/admin-roles.component';
 import { GetUserDirective } from './components/directives/get-user.directive';
-import { TrackAdminAddComponent } from './track/track-admin-add/track-admin-add.component';
-import { TrackModeratorAddComponent } from './track/track-moderator-add/track-moderator-add.component';
-import { AddStoreRoleComponent } from './store/add-store-role/add-store-role.component';
-import { StoreAdminAddComponent } from './store/store-admin-add/store-admin-add.component';
-import { StoreModeratorAddComponent } from './store/store-moderator-add/store-moderator-add.component';
-import { AddAdminRoleComponent } from './admin/add-admin-role/add-admin-role.component';
+import { AddAdminRoleComponent } from './roles/admin/add-admin-role/add-admin-role.component';
+import { AddStoreRoleComponent } from './roles/store/add-store-role/add-store-role.component';
+import { StoreAdminAddComponent } from './roles/store/store-admin-add/store-admin-add.component';
+import { StoreAdminComponent } from './roles/store/store-admin/store-admin.component';
+import { StoreModeratorAddComponent } from './roles/store/store-moderator-add/store-moderator-add.component';
+import { StoreModeratorComponent } from './roles/store/store-moderator/store-moderator.component';
+import { StoreRoleComponent } from './roles/store/store-role/store-role.component';
+import { AddTrackRoleComponent } from './roles/track/add-track-role/add-track-role.component';
+import { TrackAdminAddComponent } from './roles/track/track-admin-add/track-admin-add.component';
+import { TrackAdminComponent } from './roles/track/track-admin/track-admin.component';
+import { TrackModeratorAddComponent } from './roles/track/track-moderator-add/track-moderator-add.component';
+import { TrackModeratorComponent } from './roles/track/track-moderator/track-moderator.component';
+import { TrackRolesComponent } from './roles/track/track-roles/track-roles.component';
+import { PageNotFoundComponent } from './error/page-not-found/page-not-found.component';
+import { InRoleDirective } from './components/directives/in-role.directive';
+import { ServerErrorComponent } from './error/server-error/server-error.component';
 
 @Injectable()
 export class HammerConfig extends HammerGestureConfig {
@@ -130,6 +133,9 @@ export class HammerConfig extends HammerGestureConfig {
     StoreAdminAddComponent,
     StoreModeratorAddComponent,
     AddAdminRoleComponent,
+    PageNotFoundComponent,
+    InRoleDirective,
+    ServerErrorComponent,
   ],
   imports: [
     BrowserModule,

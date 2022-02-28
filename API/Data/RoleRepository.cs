@@ -43,7 +43,7 @@ namespace API.Data
 
             rolesQuery = string.IsNullOrWhiteSpace(roleParams.Role)
                 ? rolesQuery.Where(r =>
-                    new[] { RoleType.Admin.ToString(), RoleType.Moderator.ToString() }.Contains(r.Role.Name))
+                    new[] { RoleType.Admin.ToString(), RoleType.StoreModerator.ToString(), RoleType.TrackModerator.ToString() }.Contains(r.Role.Name))
                 : rolesQuery.Where(r => r.Role.Name == roleParams.Role);
 
             var roles = rolesQuery
@@ -65,7 +65,7 @@ namespace API.Data
 
         public async Task<Response<StoreAgentDto, StoreRoleParams>> GetStoreAgentsForModerator(int userId, StoreRoleParams roleParams)
         {
-            if (!await IsModerator(userId))
+            if (!await IsStoreModerator(userId))
                 throw new HttpException("You are not Moderator", StatusCodes.Status403Forbidden);
 
             var agentsQuery = DataContext.StoresAgents.AsQueryable();
@@ -118,7 +118,7 @@ namespace API.Data
 
         public async Task<Response<TrackAgentDto, TrackRoleParams>> GetTrackAgentsFoModerator(int userId, TrackRoleParams roleParams)
         {
-            if (!await IsModerator(userId))
+            if (!await IsTrackModerator(userId))
                 throw new HttpException("You are not Moderator", StatusCodes.Status403Forbidden);
 
             var agentsQuery = DataContext.TrackAgents.AsQueryable();
@@ -204,7 +204,7 @@ namespace API.Data
 
         public async Task<TrackAgentDto> AddTrackRoleByModerator(int userId, TrackRoleDto roleDto)
         {
-            if (!await IsModerator(userId))
+            if (!await IsTrackModerator(userId))
                 throw new HttpException("You are not Moderator.", StatusCodes.Status403Forbidden);
 
             if (!await DataContext.Locations.AnyAsync(s => s.Id == roleDto.LocationId))
@@ -255,7 +255,7 @@ namespace API.Data
 
         public async Task<StoreAgentDto> AddStoreRoleByModerator(int userId, StoreRoleDto roleDto)
         {
-            if (!await IsModerator(userId))
+            if (!await IsStoreModerator(userId))
                 throw new HttpException("You are not Moderator.", StatusCodes.Status403Forbidden);
 
             if (!await DataContext.Stores.AnyAsync(s => s.Id == roleDto.StoreId))
@@ -327,7 +327,7 @@ namespace API.Data
 
         public async Task RemoveTrackRoleByModerator(int userId, TrackRoleDto roleDto)
         {
-            if (!await IsModerator(userId))
+            if (!await IsTrackModerator(userId))
                 throw new HttpException("You are not Moderator.", StatusCodes.Status403Forbidden);
 
             if (!await DataContext.Locations.AnyAsync(s => s.Id == roleDto.LocationId))
@@ -371,7 +371,7 @@ namespace API.Data
 
         public async Task RemoveStoreRoleByModerator(int userId, StoreRoleDto roleDto)
         {
-            if (!await IsModerator(userId))
+            if (!await IsStoreModerator(userId))
                 throw new HttpException("You are not Moderator.", StatusCodes.Status403Forbidden);
 
             if (!await DataContext.Stores.AnyAsync(s => s.Id == roleDto.StoreId))
@@ -407,7 +407,7 @@ namespace API.Data
         public async Task<List<LocationInfoDto>> SearchLocations(int userId, LocationSearchParams searchParams)
         {
             IQueryable<Location> query;
-            if (searchParams.For == RoleType.Moderator.ToString() || searchParams.For == RoleType.Admin.ToString())
+            if (searchParams.For == RoleType.TrackModerator.ToString() || searchParams.For == RoleType.Admin.ToString())
                 query = DataContext.Locations;
             else
                 query = from agent in DataContext.TrackAgents
@@ -424,7 +424,7 @@ namespace API.Data
         public async Task<List<StoreInfoDto>> SearchStores(int userId, StoreSearchParams searchParams)
         {
             IQueryable<Store> query;
-            if (searchParams.For == RoleType.Moderator.ToString() || searchParams.For == RoleType.Admin.ToString())
+            if (searchParams.For == RoleType.StoreModerator.ToString() || searchParams.For == RoleType.Admin.ToString())
                 query = DataContext.Stores;
             else
                 query = from agent in DataContext.StoresAgents

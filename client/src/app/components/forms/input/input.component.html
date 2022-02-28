@@ -11,4 +11,5 @@
         {{ngControl.control.errors.minlength.requiredLength}} characters.</mat-error>
     <mat-error *ngIf="ngControl.control.errors?.maxlength">{{label}} must be atmost
         {{ngControl.control.errors.maxlength.requiredLength}} characters.</mat-error>
+    <app-spinner *ngIf="ngControl.control.pending" matSuffix [overlay]="false" diameter="24"></app-spinner>
 </mat-form-field>

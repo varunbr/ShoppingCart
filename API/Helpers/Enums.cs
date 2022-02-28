@@ -3,7 +3,8 @@
     public enum RoleType
     {
         Admin,
-        Moderator,
+        StoreModerator,
+        TrackModerator,
         TrackAgent,
         TrackAdmin,
         StoreAdmin,

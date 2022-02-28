@@ -24,32 +24,33 @@
         <a routerLink="/cart" mat-list-item>
           <mat-icon>shopping_cart</mat-icon>&nbsp; Cart
         </a>
-        <a routerLink="/track" mat-list-item>
+        <a *appInRole="['TrackAgent','TrackAdmin']" routerLink="/track" mat-list-item>
           <mat-icon>local_shipping</mat-icon>&nbsp; Track
         </a>
-        <a routerLink="/store/order" mat-list-item>
+        <a *appInRole="['StoreAgent','StoreAdmin']" routerLink="/store/order" mat-list-item>
           <mat-icon>store</mat-icon>&nbsp; Store
         </a>
-        <a mat-list-item (click)="menuTrigger.openMenu()">
+        <a *appInRole="['TrackAdmin','StoreAdmin','StoreModerator','TrackModerator','Admin']" mat-list-item
+          (click)="menuTrigger.openMenu()">
           <mat-icon>security</mat-icon>&nbsp; Administration &nbsp;
           <mat-icon>arrow_drop_down</mat-icon>
           <div #menuTrigger="matMenuTrigger" [matMenuTriggerFor]="administration" xPosition="before">
           </div>
         </a>
         <mat-menu #administration="matMenu">
-          <button mat-menu-item routerLink="/admin/moderate/admin-role">
+          <button *appInRole="['Admin']" mat-menu-item routerLink="/admin/moderate/admin-role">
             <mat-icon>admin_panel_settings</mat-icon>Admin
           </button>
-          <button mat-menu-item routerLink="/admin/moderate/store-role">
+          <button *appInRole="['StoreModerator','Admin']" mat-menu-item routerLink="/admin/moderate/store-role">
             <mat-icon>engineering</mat-icon>Moderate Store
           </button>
-          <button mat-menu-item routerLink="/admin/moderate/track-role">
+          <button *appInRole="['TrackModerator','Admin']" mat-menu-item routerLink="/admin/moderate/track-role">
             <mat-icon>engineering</mat-icon>Moderate Track
           </button>
-          <button mat-menu-item routerLink="/admin/store-role">
+          <button *appInRole="['StoreAdmin']" mat-menu-item routerLink="/admin/store-role">
             <mat-icon>manage_accounts</mat-icon>Store
           </button>
-          <button mat-menu-item routerLink="/admin/track-role">
+          <button *appInRole="['TrackAdmin']" mat-menu-item routerLink="/admin/track-role">
             <mat-icon>manage_accounts</mat-icon>Track
           </button>
         </mat-menu>

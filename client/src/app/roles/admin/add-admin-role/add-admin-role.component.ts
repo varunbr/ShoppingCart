@@ -10,7 +10,7 @@ import { ToastrService } from 'src/app/services/toastr.service';
   styleUrls: ['./add-admin-role.component.css'],
 })
 export class AddAdminRoleComponent implements OnInit {
-  roles = ['Moderator', 'Admin'];
+  roles = ['TrackModerator', 'StoreModerator', 'Admin'];
   adminRole = new BaseRole();
   userName = '';
   user: UserInfo;
