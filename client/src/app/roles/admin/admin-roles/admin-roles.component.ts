@@ -16,7 +16,8 @@ export class AdminRolesComponent implements OnInit {
   roles = [
     { name: 'Any (Default)', value: null },
     { name: 'Admin', value: 'Admin' },
-    { name: 'Moderator', value: 'Moderator' },
+    { name: 'TrackModerator', value: 'TrackModerator' },
+    { name: 'StoreModerator', value: 'StoreModerator' },
   ];
   step = 0;
 

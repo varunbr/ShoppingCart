@@ -6,7 +6,7 @@
             <div class="px-2" fxLayout="column" fxLayoutAlign="center">
                 <mat-form-field class="py-2" appearance="outline">
                     <mat-label>Username</mat-label>
-                    <input matInput appGetUser (userChange)="userChange($event)" type="text"
+                    <input matInput #userInp="ngModel" appGetUser (userChange)="userChange($event)" type="text"
                         placeholder="Search Username" name="username" minlength="3" autocomplete="off"
                         [(ngModel)]="userName" />
                     <mat-error>UserName not available</mat-error>
@@ -14,6 +14,7 @@
                         <img class="profile-sm" src="{{ user?.photoUrl || './assets/images/profile.png'}}" alt="">
                         <div>&nbsp; {{user.name}}({{user.id}})</div>
                     </mat-hint>
+                    <app-spinner *ngIf="userInp.pending" matSuffix [overlay]="false" diameter="24"></app-spinner>
                 </mat-form-field>
 
                 <mat-form-field class="mt-3" appearance="outline">

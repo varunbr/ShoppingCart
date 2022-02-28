@@ -1,6 +1,6 @@
 export class BaseRole {
   constructor() {
-    this.role = 'Moderator';
+    this.role = 'TrackModerator';
   }
   userId: number;
   role: string;

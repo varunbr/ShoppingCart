@@ -300,12 +300,20 @@ namespace API.Data
 
         #region Role
 
-        public async Task<bool> IsModerator(int userId)
+        public async Task<bool> IsTrackModerator(int userId)
         {
-            return await DataContext.UserRoles.Where(r => new[] { RoleType.Moderator.ToString(), RoleType.Admin.ToString() }
+            return await DataContext.UserRoles.Where(r => new[] { RoleType.TrackModerator.ToString(), RoleType.Admin.ToString() }
                     .Contains(r.Role.Name) && r.UserId == userId)
                 .AnyAsync();
         }
+
+        public async Task<bool> IsStoreModerator(int userId)
+        {
+            return await DataContext.UserRoles.Where(r => new[] { RoleType.StoreModerator.ToString(), RoleType.Admin.ToString() }
+                    .Contains(r.Role.Name) && r.UserId == userId)
+                .AnyAsync();
+        }
+
         public async Task<bool> IsAdmin(int userId)
         {
             return await DataContext.UserRoles.Where(r => r.Role.Name == RoleType.Admin.ToString() && r.UserId == userId)
@@ -336,7 +344,7 @@ namespace API.Data
 
         public bool IsAdminRole(string role)
         {
-            return new[] { RoleType.Moderator.ToString(), RoleType.Admin.ToString() }.Contains(role);
+            return new[] { RoleType.StoreModerator.ToString(), RoleType.TrackModerator.ToString(), RoleType.Admin.ToString() }.Contains(role);
         }
 
         #endregion

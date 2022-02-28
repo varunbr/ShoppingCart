@@ -17,16 +17,19 @@ import { TrackListComponent } from './track/track-list/track-list.component';
 import { StoreOrderListComponent } from './store/store-order-list/store-order-list.component';
 import { StoreOrderComponent } from './store/store-order/store-order.component';
 import { TrackOrderComponent } from './track/track-order/track-order.component';
-import { StoreAdminComponent } from './store/store-admin/store-admin.component';
-import { TrackAdminComponent } from './track/track-admin/track-admin.component';
-import { TrackModeratorComponent } from './track/track-moderator/track-moderator.component';
-import { StoreModeratorComponent } from './store/store-moderator/store-moderator.component';
-import { AdminRolesComponent } from './admin/admin-roles/admin-roles.component';
-import { TrackAdminAddComponent } from './track/track-admin-add/track-admin-add.component';
-import { TrackModeratorAddComponent } from './track/track-moderator-add/track-moderator-add.component';
-import { StoreModeratorAddComponent } from './store/store-moderator-add/store-moderator-add.component';
-import { StoreAdminAddComponent } from './store/store-admin-add/store-admin-add.component';
-import { AddAdminRoleComponent } from './admin/add-admin-role/add-admin-role.component';
+import { AddAdminRoleComponent } from './roles/admin/add-admin-role/add-admin-role.component';
+import { AdminRolesComponent } from './roles/admin/admin-roles/admin-roles.component';
+import { StoreAdminAddComponent } from './roles/store/store-admin-add/store-admin-add.component';
+import { StoreAdminComponent } from './roles/store/store-admin/store-admin.component';
+import { StoreModeratorAddComponent } from './roles/store/store-moderator-add/store-moderator-add.component';
+import { StoreModeratorComponent } from './roles/store/store-moderator/store-moderator.component';
+import { TrackAdminAddComponent } from './roles/track/track-admin-add/track-admin-add.component';
+import { TrackAdminComponent } from './roles/track/track-admin/track-admin.component';
+import { TrackModeratorAddComponent } from './roles/track/track-moderator-add/track-moderator-add.component';
+import { TrackModeratorComponent } from './roles/track/track-moderator/track-moderator.component';
+import { AuthGuard } from './components/guards/auth.guard';
+import { PageNotFoundComponent } from './error/page-not-found/page-not-found.component';
+import { ServerErrorComponent } from './error/server-error/server-error.component';
 
 const routes: Routes = [
   { path: '', component: HomeComponent },
@@ -42,30 +45,90 @@ const routes: Routes = [
   { path: 'checkout', component: ProductCheckoutComponent },
   { path: 'order-payment', component: OrderPaymentComponent },
   { path: 'wallet', component: WalletComponent },
-  { path: 'track/:id', component: TrackOrderComponent },
-  { path: 'track', component: TrackListComponent },
-  { path: 'store/order/:id', component: StoreOrderComponent },
-  { path: 'store/order', component: StoreOrderListComponent },
-  { path: 'admin/store-role/add', component: StoreAdminAddComponent },
-  { path: 'admin/store-role', component: StoreAdminComponent },
-  { path: 'admin/track-role/add', component: TrackAdminAddComponent },
-  { path: 'admin/track-role', component: TrackAdminComponent },
   {
-    path: 'admin/moderate/store-role/add',
-    component: StoreModeratorAddComponent,
-  },
-  { path: 'admin/moderate/store-role', component: StoreModeratorComponent },
-  {
-    path: 'admin/moderate/track-role/add',
-    component: TrackModeratorAddComponent,
+    path: '',
+    runGuardsAndResolvers: 'always',
+    canActivate: [AuthGuard],
+    data: { roles: ['StoreAgent', 'StoreAdmin'] },
+    children: [
+      { path: 'store/order/:id', component: StoreOrderComponent },
+      { path: 'store/order', component: StoreOrderListComponent },
+    ],
   },
   {
-    path: 'admin/moderate/track-role',
-    component: TrackModeratorComponent,
+    path: '',
+    runGuardsAndResolvers: 'always',
+    canActivate: [AuthGuard],
+    data: { roles: ['TrackAgent', 'TrackAdmin'] },
+    children: [
+      { path: 'track/:id', component: TrackOrderComponent },
+      { path: 'track', component: TrackListComponent },
+    ],
   },
-  { path: 'admin/moderate/admin-role/add', component: AddAdminRoleComponent },
-  { path: 'admin/moderate/admin-role', component: AdminRolesComponent },
-  { path: '**', component: HomeComponent },
+  {
+    path: '',
+    runGuardsAndResolvers: 'always',
+    canActivate: [AuthGuard],
+    data: { roles: ['StoreAdmin'] },
+    children: [
+      { path: 'admin/store-role/add', component: StoreAdminAddComponent },
+      { path: 'admin/store-role', component: StoreAdminComponent },
+    ],
+  },
+  {
+    path: '',
+    runGuardsAndResolvers: 'always',
+    canActivate: [AuthGuard],
+    data: { roles: ['TrackAdmin'] },
+    children: [
+      { path: 'admin/track-role/add', component: TrackAdminAddComponent },
+      { path: 'admin/track-role', component: TrackAdminComponent },
+    ],
+  },
+  {
+    path: '',
+    runGuardsAndResolvers: 'always',
+    canActivate: [AuthGuard],
+    data: { roles: ['Admin', 'StoreModerator'] },
+    children: [
+      {
+        path: 'admin/moderate/store-role/add',
+        component: StoreModeratorAddComponent,
+      },
+      { path: 'admin/moderate/store-role', component: StoreModeratorComponent },
+    ],
+  },
+  {
+    path: '',
+    runGuardsAndResolvers: 'always',
+    canActivate: [AuthGuard],
+    data: { roles: ['Admin', 'TrackModerator'] },
+    children: [
+      {
+        path: 'admin/moderate/track-role/add',
+        component: TrackModeratorAddComponent,
+      },
+      {
+        path: 'admin/moderate/track-role',
+        component: TrackModeratorComponent,
+      },
+    ],
+  },
+  {
+    path: '',
+    runGuardsAndResolvers: 'always',
+    canActivate: [AuthGuard],
+    data: { roles: ['Admin'] },
+    children: [
+      {
+        path: 'admin/moderate/admin-role/add',
+        component: AddAdminRoleComponent,
+      },
+      { path: 'admin/moderate/admin-role', component: AdminRolesComponent },
+    ],
+  },
+  { path: 'server-error', component: ServerErrorComponent },
+  { path: '**', component: PageNotFoundComponent },
 ];
 
 @NgModule({

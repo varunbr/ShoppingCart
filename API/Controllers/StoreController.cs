@@ -7,7 +7,7 @@ using System.Threading.Tasks;
 
 namespace API.Controllers
 {
-    [Authorize(Roles = "StoreAdmin,StoreModerator")]
+    [Authorize(Roles = "StoreAdmin,StoreAgent")]
     public class StoreController : BaseController
     {
         private readonly IUnitOfWork _uow;

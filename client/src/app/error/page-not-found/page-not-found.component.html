@@ -1,0 +1,16 @@
+<div class="my-5" fxLayout="row" fxLayoutAlign="center center">
+    <mat-card fxFlex="60" fxFlex.lt-md="75" fxFlex.lt-sm="90" fxLayout="column" fxLayoutAlign="center center">
+        <img src='./assets/images/NotFound.png' style="width:40vw;max-width: 200px;">
+        <h1 class="mt-4">Sorry. The page you are looking for cannot be found.</h1>
+        <mat-card-subtitle>
+            <h3>Please check the url & try again<span *ngIf="!(accountService.user$ | async)">, Or Login to access
+                    more.</span></h3>
+        </mat-card-subtitle>
+        <div fxLayoutGap="20px">
+            <button mat-raised-button routerLink="/" color="warn">Home Page</button>
+            <button *ngIf="!(accountService.user$ | async)" mat-raised-button routerLink="/login"
+                color="accent">Login</button>
+            <button mat-raised-button routerLink="/about" color="primary">About</button>
+        </div>
+    </mat-card>
+</div>

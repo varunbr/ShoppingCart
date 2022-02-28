@@ -1,10 +1,10 @@
 import { Component, EventEmitter, Input, OnInit, Output } from '@angular/core';
 import { finalize } from 'rxjs';
+import { LocationInfo } from 'src/app/modal/address';
 import { TrackAgent } from 'src/app/modal/agent';
 import { TrackRole } from 'src/app/modal/role';
 import { UserInfo } from 'src/app/modal/user';
 import { AdminService } from 'src/app/services/admin.service';
-import { LocationInfo } from '../../modal/address';
 
 @Component({
   selector: 'app-add-track-role',
