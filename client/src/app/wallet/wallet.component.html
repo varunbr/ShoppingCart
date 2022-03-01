@@ -4,19 +4,26 @@
         <h2 [ngClass]="context.balance < 1000 ? 'error':'success'">{{context.balance | currency:'INR'}}</h2>
     </div>
     <div *ngIf="this.context" fxLayout="row" fxLayoutAlign="center">
-        <mat-expansion-panel style="border-radius: 20px;" expanded="true" fxFlex="40" fxFlex.lt-lg="50" fxFlex.lt-md="70" fxFlex.lt-sm="90">
+        <mat-expansion-panel style="border-radius: 20px;" expanded="true" fxFlex="40" fxFlex.lt-lg="50"
+            fxFlex.lt-md="70" fxFlex.lt-sm="90">
             <mat-expansion-panel-header>
                 <mat-panel-title>Amount Transfer</mat-panel-title>
             </mat-expansion-panel-header>
             <form fxFlexAlign="stretch" #transferForm="ngForm" (ngSubmit)="onSubmit(transferForm)">
                 <div class="px-2" fxLayout="column" fxLayoutAlign="center stretch">
-                    <mat-form-field appearance="outline">
+                    <mat-form-field class="mb-3" appearance="outline">
                         <mat-label>Username</mat-label>
-                        <input matInput appUserExist type="text" [(ngModel)]="modal.userName" name="userName"
-                            required />
+                        <input matInput #userInp="ngModel" appGetUser (userChange)="userChange($event)" type="text"
+                            [(ngModel)]="userName" name="userName" required />
                         <mat-error *ngIf="transferForm.controls['userName']?.errors?.alreadyExist === false || 
                             transferForm.controls['userName']===user.userName">
                             Username not available.</mat-error>
+                        <mat-hint *ngIf="userInfo?.exist" class="hint-info" fxLayout="row" fxLayoutAlign=" center">
+                            <img class="profile-sm" src="{{ userInfo?.photoUrl || './assets/images/profile.png'}}"
+                                alt="">
+                            <div>&nbsp; {{userInfo.name}}</div>
+                        </mat-hint>
+                        <app-spinner *ngIf="userInp.pending" matSuffix [overlay]="false" diameter="24"></app-spinner>
                     </mat-form-field>
                     <mat-form-field appearance="outline">
                         <mat-label>Amount</mat-label>

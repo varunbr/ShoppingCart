@@ -1,9 +1,8 @@
 import { Component, OnInit } from '@angular/core';
 import { NgForm } from '@angular/forms';
-import { MatExpansionPanel } from '@angular/material/expansion';
 import { BaseListComponent } from '../base/component';
 import { Transaction, TransactionContext } from '../modal/transaction';
-import { User } from '../modal/user';
+import { User, UserInfo } from '../modal/user';
 import { AccountService } from '../services/account.service';
 import { PayService } from '../services/pay.service';
 import { UtilityService } from '../services/utility.service';
@@ -17,8 +16,10 @@ export class WalletComponent
   extends BaseListComponent<Transaction, TransactionContext>
   implements OnInit
 {
+  userName: string;
   user: User;
   modal = {};
+  userInfo: UserInfo;
   constructor(
     private accountService: AccountService,
     private payService: PayService,
@@ -31,6 +32,11 @@ export class WalletComponent
     });
   }
 
+  userChange(user: UserInfo) {
+    this.userInfo = user;
+    this.modal['userName'] = user?.userName;
+  }
+
   ngOnInit(): void {
     this.loadItems({});
   }
@@ -40,6 +46,7 @@ export class WalletComponent
       this.context = response.context;
       this.items = response.items;
       form.resetForm();
+      this.userInfo = null;
     });
   }
 
