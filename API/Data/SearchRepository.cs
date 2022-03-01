@@ -207,12 +207,8 @@ namespace API.Data
 
             foreach (var category in context.Categories)
             {
-                var categoryId = await DataContext.Categories
-                    .Where(c => c.Name == category)
-                    .Select(c => c.Id).FirstAsync();
-
                 var productIds = await DataContext.Products
-                    .Where(p => p.CategoryId == categoryId && p.Available)
+                    .Where(p => p.Category.Name == category && p.Available)
                     .GroupBy(p => p.Model)
                     .OrderByDescending(g => g.Average(p => p.SoldQuantity))
                     .Select(g => g.First().Id)
@@ -236,6 +232,7 @@ namespace API.Data
 
             var categories = await DataContext.Categories
                 .Where(c => c.Products.Any())
+                .OrderBy(c => c.Id)
                 .ProjectTo<CategoryMiniDto>(Mapper.ConfigurationProvider)
                 .ToListAsync();
             homePage.Categories = categories;

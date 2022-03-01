@@ -292,9 +292,9 @@ namespace API.Seed
                     }
 
                     product.MaxPerOrder = Random.Next(1, 5);
-                    var stores = await _context.Stores.OrderBy(s => Guid.NewGuid()).Take(2).ToListAsync();
+                    var stores = await _context.Stores.ToListAsync();
                     var storeItems = new List<StoreItem>();
-                    foreach (var store in stores)
+                    foreach (var store in stores.OrderBy(_ => Guid.NewGuid()).Take(2))
                     {
                         storeItems.Add(new StoreItem
                         {
@@ -314,9 +314,10 @@ namespace API.Seed
 
         async Task<Address> GetRandomAddress()
         {
+            var count = await _context.Locations.Where(l => l.Type == "Area").CountAsync();
             var location = await _context.Locations
                 .Where(l => l.Type == "Area")
-                .OrderBy(l => Guid.NewGuid())
+                .Skip(Random.Next(0, count - 1))
                 .FirstAsync();
 
             var landmarks = new[]

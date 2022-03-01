@@ -123,7 +123,7 @@ namespace API.Helpers
             CreateMap<Store, StoreInfoDto>()
                 .ForMember(dest => dest.Location, act => act.MapFrom(src => src.Address.Location.Name));
 
-            CreateMap<DateTime, DateTime>().ConvertUsing(d => DateTime.SpecifyKind(d, DateTimeKind.Utc));
+            //CreateMap<DateTime, DateTime>().ConvertUsing(d => DateTime.SpecifyKind(d, DateTimeKind.Utc));
             #endregion
 
             #region SeedData Entity Mapping
