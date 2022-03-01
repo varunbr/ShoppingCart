@@ -1,4 +1,4 @@
 export const environment = {
   production: true,
-  apiUrl: 'https://localhost:6001/api/',
+  apiUrl: 'https://varunbr-shopping-cart.herokuapp.com/api/',
 };
