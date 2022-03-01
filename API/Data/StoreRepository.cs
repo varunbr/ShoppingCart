@@ -19,12 +19,10 @@ namespace API.Data
 
         public async Task<Response<StoreOrderDto, OrderParams>> GetOrders(OrderParams orderParams, int userId)
         {
-            var storeIds = await DataContext.StoresAgents
-                .Where(sa => sa.UserId == userId)
-                .Select(sa => sa.StoreId)
-                .ToListAsync();
-
-            var orders = DataContext.Orders.Where(o => storeIds.Contains(o.StoreId)).AsQueryable();
+            var orders = from order in DataContext.Orders
+                join agent in DataContext.StoresAgents on order.StoreId equals agent.StoreId
+                where agent.UserId == userId 
+                select order;
 
             if (!string.IsNullOrWhiteSpace(orderParams.StoreName))
             {

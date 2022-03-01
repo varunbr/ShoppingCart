@@ -32,8 +32,10 @@ namespace API.Data
 
         private async Task<Response<ProductDto, SearchContextDto>> GetProducts(SearchContext context)
         {
-            var query = DataContext.ProductTags.AsQueryable();
-            query = ApplyFilters(query, context);
+            var productsQuery = ApplyFilters(context);
+            var query = from product in productsQuery
+                        join productTag in DataContext.ProductTags on product.Id equals productTag.ProductId
+                        select productTag;
 
             var inner = PredicateBuilder.False<ProductTag>();
             foreach (var keyword in context.Keywords)
@@ -41,45 +43,47 @@ namespace API.Data
                 inner = inner.Or(p => p.Name.Contains(keyword));
             }
 
-            var group = query.Where(inner)
-                .GroupBy(t => t.ProductId)
-                .Select(g => new
-                {
-                    g.Key,
-                    Score = g.Sum(p => p.Score),
-                    Price = g.First().Product.Amount,
-                    g.First().Product.Created,
-                    g.First().Product.SoldQuantity
-                });
+            var groupQuery = query.Where(inner).GroupBy(p => p.ProductId);
 
-            var order = context.OrderBy switch
+            var products = context.OrderBy switch
             {
-                OrderBy.HighToLow => group.OrderByDescending(g => g.Price),
-                OrderBy.LowToHigh => group.OrderBy(g => g.Price),
-                OrderBy.Latest => group.OrderByDescending(g => g.Created),
-                _ => group.OrderByDescending(g => g.Score).ThenByDescending(g => g.SoldQuantity)
+                OrderBy.HighToLow => from product in DataContext.Products
+                                     join key in groupQuery.Select(g => g.Key) on product.Id equals key
+                                     orderby product.Amount descending
+                                     select product,
+                OrderBy.LowToHigh => from product in DataContext.Products
+                                     join key in groupQuery.Select(g => g.Key) on product.Id equals key
+                                     orderby product.Amount
+                                     select product,
+                OrderBy.Latest => from product in DataContext.Products
+                                  join key in groupQuery.Select(g => g.Key) on product.Id equals key
+                                  orderby product.Created descending
+                                  select product,
+                _ => from product in DataContext.Products
+                     join productGroup in groupQuery.Select(g => new { g.Key, Score = g.Sum(i => i.Score) }) on product.Id equals productGroup.Key
+                     orderby productGroup.Score descending, product.SoldQuantity descending
+                     select product
             };
 
-            var productIds = await order.AddPagination(context.PageNumber, context.PageSize)
-                .Select(g => g.Key)
-                .ToListAsync();
-
-            var products = await DataContext.Products
-                .Where(p => productIds.Contains(p.Id))
+            var resultQuery = products
                 .ProjectTo<ProductDto>(Mapper.ConfigurationProvider)
-                .AsNoTracking()
-                .ToListAsync();
+                .AsNoTracking();
 
-            var result = products.OrderBy(p => productIds.IndexOf(p.Id)).ToList();
+            resultQuery = resultQuery.AddPagination(context.PageNumber, context.PageSize);
 
-            return Response<ProductDto, SearchContextDto>.Create(result, Mapper.Map<SearchContextDto>(context));
+            return Response<ProductDto, SearchContextDto>.Create(await resultQuery.ToListAsync(),
+                Mapper.Map<SearchContextDto>(context));
         }
 
-        private IQueryable<ProductTag> ApplyFilters(IQueryable<ProductTag> query, SearchContext context)
+        private IQueryable<Product> ApplyFilters(SearchContext context)
         {
+            var query = DataContext.Products.AsQueryable();
             if (!string.IsNullOrEmpty(context.Category))
             {
-                query = query.Where(t => t.Product.Category.Name == context.Category);
+                query = query.Where(p => p.Category.Name == context.Category);
+
+                var inner = PredicateBuilder.False<PropertyValue>();
+                var count = 0;
                 foreach (var filter in context.Filters)
                 {
                     var property = context.Properties.First(p => p.Name == filter.Key);
@@ -88,34 +92,56 @@ namespace API.Data
                     switch (property.Type)
                     {
                         case Type.String:
-                            query = query.Where(t =>
-                                t.Product.Properties.Any(p => p.Property.Name == filter.Key && values.Contains(p.StringValue)));
+                            inner = inner.Or(pv => pv.Property.Name == filter.Key && values.Contains(pv.StringValue));
+                            count++;
                             break;
                         case Type.Integer:
                             {
                                 filter.Value.GetRange(out int? from, out var to);
-                                if (from != null)
-                                    query = query.Where(t =>
-                                        t.Product.Properties.Any(p => p.Property.Name == filter.Key && p.IntegerValue >= from));
-                                if (to != null)
-                                    query = query.Where(t =>
-                                        t.Product.Properties.Any(p => p.Property.Name == filter.Key && p.IntegerValue <= to));
+
+                                if (@from != null || to != null)
+                                    count++;
+
+                                if (@from != null && to != null)
+                                    inner = inner.Or(pv =>
+                                        pv.Property.Name == filter.Key && pv.IntegerValue >= @from && pv.IntegerValue <= to);
+                                else if (@from != null)
+                                    inner = inner.Or(pv =>
+                                        pv.Property.Name == filter.Key && pv.IntegerValue >= @from);
+                                else if (to != null)
+                                    inner = inner.Or(pv =>
+                                        pv.Property.Name == filter.Key && pv.IntegerValue <= to);
                                 break;
                             }
                     }
                 }
+
+                if (count > 0)
+                {
+                    var propertyCount = DataContext.PropertyValues
+                        .Where(inner)
+                        .GroupBy(p => p.ProductId)
+                        .Select(g => new { g.Key, Count = g.Count() });
+
+                    query = from product in query
+                            join valueCount in propertyCount on product.Id equals valueCount.Key
+                            where valueCount.Count == count
+                            select product;
+                }
             }
 
+
             if (context.PriceFrom != null)
-                query = query.Where(t => t.Product.Amount >= context.PriceFrom);
+                query = query.Where(p => p.Amount >= context.PriceFrom);
             if (context.PriceTo != null)
-                query = query.Where(t => t.Product.Amount <= context.PriceTo);
+                query = query.Where(p => p.Amount <= context.PriceTo);
 
             if (!string.IsNullOrEmpty(context.Brand))
             {
                 var values = context.Brand.Split(',');
-                query = query.Where(t => values.Contains(t.Product.Brand));
+                query = query.Where(p => values.Contains(p.Brand));
             }
+
             return query;
         }
 

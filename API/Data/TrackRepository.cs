@@ -22,7 +22,7 @@ namespace API.Data
 
         public async Task<Response<TrackOrderDto, TrackParams>> GetOrders(int userId, TrackParams trackParams)
         {
-            var locations = DataContext.TrackAgents
+            var agents = DataContext.TrackAgents
                 .Where(a => a.UserId == userId);
 
             if (!string.IsNullOrEmpty(trackParams.Location))
@@ -38,13 +38,13 @@ namespace API.Data
                     }
                 }
                 trackParams.Location = string.Join(',', addedLocations);
-                locations = locations.Where(inner);
+                agents = agents.Where(inner);
             }
 
-            var locationIds = await locations.Select(a => a.LocationId).ToListAsync();
-
-            var events = DataContext.TrackEvents
-                .Where(e => locationIds.Contains(e.LocationId) && !e.Done);
+            var events = from trackEvent in DataContext.TrackEvents
+                         join agent in agents on trackEvent.LocationId equals agent.LocationId
+                         where !trackEvent.Done
+                         select trackEvent;
 
             if (!string.IsNullOrEmpty(trackParams.Status))
             {
