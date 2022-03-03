@@ -23,6 +23,9 @@ namespace API.Seed
         private readonly IMapper _mapper;
         private static readonly Random Random = new();
 
+        public string[] StoreAgents = { "Reed", "Carla", "Natsu", "Richard", "Asuna", "Gwen" };
+        public string[] TrackAgents = { "Woods", "Izuku", "Miku", "Rem", "Casandra", "Peterson", "Elsa", "Victoria" };
+
         public SeedData(UserManager<User> userManager, RoleManager<Role> roleManager,
             IConfiguration config, DataContext context, IMapper mapper)
         {
@@ -85,11 +88,10 @@ namespace API.Seed
                         break;
                     case Constants.TestUser:
                         await _userManager.CreateAsync(user, _config["AdminPassword"]);
-                        await _userManager.AddToRolesAsync(user, new[] { RoleType.User.ToString(), RoleType.StoreAdmin.ToString(),
-                            RoleType.TrackAdmin.ToString(), RoleType.TrackModerator.ToString(), RoleType.StoreModerator.ToString() });
+                        await _userManager.AddToRolesAsync(user, new[] { RoleType.User.ToString(), RoleType.TrackModerator.ToString(), RoleType.StoreModerator.ToString() });
                         break;
                     default:
-                        await _userManager.CreateAsync(user, "User@2021");
+                        await _userManager.CreateAsync(user, "User@2022");
                         await _userManager.AddToRoleAsync(user, RoleType.User.ToString());
                         break;
                 }
@@ -135,10 +137,14 @@ namespace API.Seed
             var stores = new[] { "SuperComNet", "StoreEcom", "CORSECA", "PETILANTEOnline",
                 "RetailNet", "AkshnavOnline", "OmniTechRetail", "IWQNBecommerce","RetailHomes","HomeKart" };
 
-            var testUser = await _context.Users.Where(u => u.UserName == Constants.TestUser).FirstAsync();
+            var admin = await _context.Users.Where(u => u.UserName == "luffy").FirstAsync();
 
             foreach (var name in stores)
             {
+                var moderatorUserName = StoreAgents[Random.Next(StoreAgents.Length)];
+                var moderator = await _context.Users.Where(u => u.UserName == moderatorUserName.ToLower()).FirstAsync();
+                await _userManager.AddToRoleAsync(admin, RoleType.StoreAdmin.ToString());
+
                 var store = new Store
                 {
                     Name = name,
@@ -149,13 +155,19 @@ namespace API.Seed
                         new()
                         {
                             Role = RoleType.StoreAdmin.ToString(),
-                            User = testUser
+                            User = admin
+                        },
+                        new ()
+                        {
+                            Role = RoleType.StoreModerator.ToString(),
+                            User = moderator
                         }
                     }
                 };
                 store.Address.Name = store.Name;
                 await _context.Stores.AddAsync(store);
                 await _context.SaveChangesAsync();
+                await _userManager.AddToRoleAsync(moderator, RoleType.StoreAgent.ToString());
             }
         }
 
@@ -175,22 +187,33 @@ namespace API.Seed
         {
             if (await _context.TrackAgents.AnyAsync()) return;
 
-            var testUser = await _context.Users.Where(u => u.UserName == Constants.TestUser).FirstAsync();
             var locations = await _context.Locations.ToListAsync();
-            var agents = new List<TrackAgent>();
+            var admin = await _context.Users.Where(u => u.UserName == "zoro").FirstAsync();
+            await _userManager.AddToRoleAsync(admin, RoleType.TrackAdmin.ToString());
 
             foreach (var item in locations)
             {
-                agents.Add(new TrackAgent
-                {
-                    Location = item,
-                    User = testUser,
-                    Role = RoleType.TrackAdmin.ToString()
-                });
-            }
+                var moderatorUserName = TrackAgents[Random.Next(TrackAgents.Length)];
+                var moderator = await _context.Users.Where(u => u.UserName == moderatorUserName.ToLower()).FirstAsync();
 
-            await _context.TrackAgents.AddRangeAsync(agents);
-            await _context.SaveChangesAsync();
+                item.TrackAgents = new List<TrackAgent>
+                {
+                    new()
+                    {
+                        Location = item,
+                        Role = RoleType.TrackAdmin.ToString(),
+                        User = admin
+                    },
+                    new()
+                    {
+                        Location = item,
+                        Role = RoleType.TrackModerator.ToString(),
+                        User = moderator
+                    }
+                };
+                await _context.SaveChangesAsync();
+                await _userManager.AddToRoleAsync(moderator, RoleType.TrackAgent.ToString());
+            }
         }
 
         async Task SeedCategory()
@@ -264,20 +287,20 @@ namespace API.Seed
                     {
                         var tag = new ProductTag
                         {
-                            Name = productSeed.Tags[i],
+                            Name = productSeed.Tags[i].ToLower(),
                             Score = (short)(i == 0 ? 100 : 40)
                         };
                         product.ProductTags.Add(tag);
                     }
 
-                    product.ProductTags.Add(new ProductTag { Name = product.Brand, Score = 15 });
-                    product.ProductTags.Add(new ProductTag { Name = product.Model, Score = 100 });
+                    product.ProductTags.Add(new ProductTag { Name = product.Brand.ToLower(), Score = 15 });
+                    product.ProductTags.Add(new ProductTag { Name = product.Model.ToLower(), Score = 100 });
 
                     foreach (var categoryTag in category.CategoryTags)
                     {
                         product.ProductTags.Add(new ProductTag
                         {
-                            Name = categoryTag.Name,
+                            Name = categoryTag.Name.ToLower(),
                             Score = 10
                         });
                     }
@@ -286,7 +309,7 @@ namespace API.Seed
                     {
                         product.ProductTags.Add(new ProductTag
                         {
-                            Name = product.Model,
+                            Name = product.Model.ToLower(),
                             Score = 100
                         });
                     }
