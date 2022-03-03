@@ -36,7 +36,7 @@ namespace API.Data
                 var inner = PredicateBuilder.False<UserRole>();
                 foreach (var name in roleParams.UserName.Split(','))
                 {
-                    inner = inner.Or(a => a.User.UserName.Contains(name));
+                    inner = inner.Or(a => a.User.UserName == name.ToLower());
                 }
                 rolesQuery = rolesQuery.Where(inner);
             }
@@ -79,7 +79,7 @@ namespace API.Data
                 var inner = PredicateBuilder.False<StoreAgent>();
                 foreach (var name in roleParams.UserName.Split(','))
                 {
-                    inner = inner.Or(a => a.User.UserName.Contains(name));
+                    inner = inner.Or(a => a.User.UserName == name.ToLower());
                 }
                 agentsQuery = agentsQuery.Where(inner);
             }
@@ -90,7 +90,7 @@ namespace API.Data
 
                 foreach (var store in roleParams.StoreName.Split(','))
                 {
-                    inner = inner.Or(a => a.Store.Name.Contains(store));
+                    inner = inner.Or(a => a.Store.Name.ToLower() == store.ToLower());
                 }
                 agentsQuery = agentsQuery.Where(inner);
             }
@@ -133,7 +133,7 @@ namespace API.Data
                 var inner = PredicateBuilder.False<TrackAgent>();
                 foreach (var name in roleParams.UserName.Split(','))
                 {
-                    inner = inner.Or(a => a.User.UserName.Contains(name));
+                    inner = inner.Or(a => a.User.UserName == name.ToLower());
                 }
                 agentsQuery = agentsQuery.Where(inner);
             }
@@ -148,7 +148,7 @@ namespace API.Data
                     if (location.TryParseLocation(out var name, out var type))
                     {
                         addedLocations.Add(location);
-                        inner = inner.Or(a => a.Location.Name.Contains(name) && a.Location.Type == type);
+                        inner = inner.Or(a => a.Location.Name.ToLower() == name.ToLower() && a.Location.Type == type);
                     }
                 }
 
@@ -415,7 +415,7 @@ namespace API.Data
                         join location in DataContext.Locations on agent.LocationId equals location.Id
                         select location;
 
-            return await query.Where(l => l.Name.Contains(searchParams.Name) && l.Type == searchParams.Type)
+            return await query.Where(l => l.Name.ToLower().Contains(searchParams.Name.ToLower()) && l.Type == searchParams.Type)
                 .Take(16)
                 .ProjectTo<LocationInfoDto>(Mapper.ConfigurationProvider)
                 .ToListAsync();
@@ -432,7 +432,7 @@ namespace API.Data
                         join store in DataContext.Stores on agent.StoreId equals store.Id
                         select store;
 
-            return await query.Where(s => s.Name.Contains(searchParams.Name))
+            return await query.Where(s => s.Name.ToLower().Contains(searchParams.Name.ToLower()))
                 .Take(16)
                 .ProjectTo<StoreInfoDto>(Mapper.ConfigurationProvider)
                 .ToListAsync();
