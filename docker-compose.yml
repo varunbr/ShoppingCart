@@ -1,0 +1,34 @@
+version: "3.4"
+
+networks:
+  shopping-cart:
+    driver: bridge
+
+services:
+  database:
+    image: postgres
+    ports:
+      - 5432:5432
+    environment:
+      - POSTGRES_USER=${POSTGRES_USER}
+      - POSTGRES_PASSWORD=${POSTGRES_PASSWORD}
+      - POSTGRES_DB=${POSTGRES_DB}
+    networks:
+      - shopping-cart
+
+  api:
+    image: shopping-cart
+    build:
+      context: .
+      dockerfile: Dockerfile
+    ports:
+      - 5000:5000
+    environment:
+      - ASPNETCORE_ENVIRONMENT=${ENVIRONMENT}
+      - TokenKey=${TokenKey}
+      - AdminPassword=${AdminPassword}
+      - ConnectionStrings:DefaultConnection=${DefaultConnection}
+    depends_on:
+      - database
+    networks:
+      - shopping-cart
