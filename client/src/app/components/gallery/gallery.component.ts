@@ -12,7 +12,7 @@ export class GalleryComponent implements OnInit {
     return this._urls;
   }
   @Input() set urls(value: string[]) {
-    this._urls = value
+    this._urls = value;
     this.selected = 0;
   }
   currentX = 0;
@@ -50,7 +50,9 @@ export class GalleryComponent implements OnInit {
   }
 
   selectImage(index: number) {
-    this.selected = index;
-    this.scrollToSelected();
+    if (index >= 0 && index < this.urls.length) {
+      this.selected = index;
+      this.scrollToSelected();
+    }
   }
 }
