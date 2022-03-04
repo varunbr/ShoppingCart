@@ -143,7 +143,6 @@ namespace API.Seed
             {
                 var moderatorUserName = StoreAgents[Random.Next(StoreAgents.Length)];
                 var moderator = await _context.Users.Where(u => u.UserName == moderatorUserName.ToLower()).FirstAsync();
-                await _userManager.AddToRoleAsync(admin, RoleType.StoreAdmin.ToString());
 
                 var store = new Store
                 {
@@ -159,7 +158,7 @@ namespace API.Seed
                         },
                         new ()
                         {
-                            Role = RoleType.StoreModerator.ToString(),
+                            Role = RoleType.StoreAgent.ToString(),
                             User = moderator
                         }
                     }
@@ -169,6 +168,8 @@ namespace API.Seed
                 await _context.SaveChangesAsync();
                 await _userManager.AddToRoleAsync(moderator, RoleType.StoreAgent.ToString());
             }
+
+            await _userManager.AddToRoleAsync(admin, RoleType.StoreAdmin.ToString());
         }
 
         async Task SeedLocation()
@@ -207,7 +208,7 @@ namespace API.Seed
                     new()
                     {
                         Location = item,
-                        Role = RoleType.TrackModerator.ToString(),
+                        Role = RoleType.TrackAgent.ToString(),
                         User = moderator
                     }
                 };
