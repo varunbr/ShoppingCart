@@ -1,5 +1,5 @@
 import { Component, OnInit } from '@angular/core';
-import { FormBuilder, FormGroup, NgForm, Validators } from '@angular/forms';
+import { UntypedFormBuilder, UntypedFormGroup, NgForm, Validators } from '@angular/forms';
 import { finalize } from 'rxjs';
 import { Address, LocationInfo } from '../modal/address';
 import { AccountService } from '../services/account.service';
@@ -13,14 +13,14 @@ import { UtilityService } from '../services/utility.service';
 })
 export class EditProfileComponent implements OnInit {
   user;
-  profileUpdate: FormGroup;
+  profileUpdate: UntypedFormGroup;
   address: Address = new Address();
   states: LocationInfo[];
   cities: LocationInfo[];
   areas: LocationInfo[];
   loading: string;
   constructor(
-    private fb: FormBuilder,
+    private fb: UntypedFormBuilder,
     public accountService: AccountService,
     private toastr: ToastrService,
     utility: UtilityService
