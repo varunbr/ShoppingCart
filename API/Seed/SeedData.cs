@@ -91,7 +91,7 @@ namespace API.Seed
                         await _userManager.AddToRolesAsync(user, new[] { RoleType.User.ToString(), RoleType.TrackModerator.ToString(), RoleType.StoreModerator.ToString() });
                         break;
                     default:
-                        await _userManager.CreateAsync(user, "User@2022");
+                        await _userManager.CreateAsync(user, _config["AdminPassword"]);
                         await _userManager.AddToRoleAsync(user, RoleType.User.ToString());
                         break;
                 }
