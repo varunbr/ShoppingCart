@@ -31,14 +31,31 @@
 
 <!-- ABOUT THE PROJECT -->
 
+## Demo
+Clone this repository to your local machine 
+```sh
+git clone https://github.com/varunbr/ShoppingCart.git
+```
+Run below command from ShoppingCart folder to create image in docker
+```sh
+docker compose -f "docker-compose.yml" up -d --build
+```
+Launch http://localhost:5000/ to explore..!
+
+ ***Optional:** Configure CloudinarySettings in appSettings.json for photo upload functionality*
+
+
+**If you like❤ my project, Support me by giving Star⭐**
+
+
+
 ## About The Project
 
-[![Home Page](images/Home.png)](https://varunbr.github.io/ShoppingCart/)
+![ShoppingCart](images/ShoppingCart.gif)
 
 <p align="center">
     ShoppingCart is an e-commerce web app where users can view, order any available product.
     <br />
-    <a href="https://varunbr.github.io/ShoppingCart/">View Demo</a>
 </p>
 
 ## App Features
@@ -56,20 +73,20 @@
 - Users can also select categories from the filter section.
 - If the category is selected, filters specific to that category will be shown dynamically.
 - Users can select the range for integer values like RAM, Storage, Price, etc., select multiple values like Brand, Color, etc.
-[![Search & Filter](images/Search.png)](https://varunbr.github.io/ShoppingCart/search?q=Mobiles)
+[![Search & Filter](images/Search.png)](http://localhost:5000/search?q=Mobiles)
 
 ### Product Information
 - Users can view photos of products in a gallery.
 - Users can view Features, Descriptions and Specifications specific to each product.
 - Users can quickly choose different variants of products like Color, Storage, etc.
 - Users can proceed to buy or add to the cart for future purchases.
-[![Product Detail](images/ProductDetail.png)](https://varunbr.github.io/ShoppingCart/product/33)
+[![Product Detail](images/ProductDetail.png)](http://localhost:5000/product/33)
 
 ### Cart
 - Products added to carts are grouped by purchase store which can be purchased together and reduce the delivery price.
 - Users can remove any or all products from the cart.
 - Users can checkout single or all grouped items for purchase.
-[![Cart](images/Cart.png)](https://varunbr.github.io/ShoppingCart/cart)
+[![Cart](images/Cart.png)](http://localhost:5000/cart)
 
 ### Order
 - Users can order single or multiple items of same-store together.
@@ -77,14 +94,14 @@
 - Users can view the paginated order list in the descending order of date.
 - Delivery charge will be ₹60 for interstate and ₹40 for intrastate.
 - Delivery charge will be applied only if Total Price is less than ₹500.
-[![Orders](images/Orders.png)](https://varunbr.github.io/ShoppingCart/order)
+[![Orders](images/Orders.png)](http://localhost:5000/order)
 
 ### Wallet, Transactions and Transfer
 - All the registered users will have an initial wallet balance of ₹1,00,000.
 - Users can view the paginated transaction list in the descending order of date.
 - Users can view transaction date, description, amount, type of transaction, etc.
 - Users can transfer amount to other users using their username.
-[![Wallet](images/Wallet.png)](https://varunbr.github.io/ShoppingCart/wallet)
+[![Wallet](images/Wallet.png)](http://localhost:5000/wallet)
 
 ### User Authentication
 - Users need to authenticate to perform a few actions like add to cart, order, edit profile, etc.
@@ -92,18 +109,30 @@
 - Authentication will expire in 24 hours after login.
 
 ### Role Administration
-Roles in ShoppingCart App includes User, Store Agent, Track Agent, Store Admin, Track Admin,Store Moderator, Track Moderator & Admin.
+Roles in ShoppingCart App includes User, Store Agent, Track Agent, Store Admin, Track Admin,Store Moderator, Track Moderator & Super Admin.
+
+**Logins:** *Default passwords for all users is 'AdminUser@2022'*
+|   # |                            Role                            | UserName |
+| --: | :-------------------------------------------------------------: | :------ |
+|   1 |User|kim |
+|   2 |Store Agent|natsu|
+|   3 |Store Admin|luffy|
+|   4 |Track Agent|rem|
+|   5 |Track Admin|zoro|
+|   6 |Store Moderator|test_user|
+|   7 |Track Moderator|test_user|
+|   8 |Super Admin|admin|
 
 #### User
 All loged in users will be in this role.
 
 #### Store Agent
 Each Store can have many Store Agents, Store Agents can Dispatch orders from stores.
-[![Store Orders](images/StoreOrders.png)](https://varunbr.github.io/ShoppingCart/store/order)
+[![Store Orders](images/StoreOrders.png)](http://localhost:5000/store/order)
 
 #### Track Agent
 Each Location can have many Track Agents, Store Agents can Receive or Dispatch order from that location
-[![Track Orders](images/TrackOrders.png)](https://varunbr.github.io/ShoppingCart/track)
+[![Track Orders](images/TrackOrders.png)](http://localhost:5000/track)
 
 #### Store Admin
 Each Store can have many Store Admins, Store Admins can Dispatch orders from stores & View, Add & Remove Store Agent or Store Admin roles of that store.
@@ -113,13 +142,13 @@ Each Location can have many Track Admins, Store Admins can Receive or Dispatch o
 
 #### Store Moderator
 Store Moderator can View, Add & Remove Store Agent & Store Admin roles of any store.
-[![Moderate Store Roles](images/ModerateStoreRoles.png)](https://varunbr.github.io/ShoppingCart/admin/moderate/store-role)
+[![Moderate Store Roles](images/ModerateStoreRoles.png)](http://localhost:5000/admin/moderate/store-role)
 
 #### Track Moderator
 Track Moderator can View, Add & Remove Track Agent & Track Admin roles of any location.
-[![Moderate Track Roles](images/ModerateTrackRoles.png)](https://varunbr.github.io/ShoppingCart/admin/moderate/track-role)
+[![Moderate Track Roles](images/ModerateTrackRoles.png)](http://localhost:5000/admin/moderate/track-role)
 
-#### Admin
+#### Super Admin
 Admin can View, Add & Remove Store Moderator & Track Moderator
 
 ### Themes and Responsive UI
@@ -142,9 +171,9 @@ Admin can View, Add & Remove Store Moderator & Track Moderator
 
 |   # |                            Framework                            | Version |
 | --: | :-------------------------------------------------------------: | :------ |
-|   1 |     _ASP.NET_ [](https://dotnet.microsoft.com/apps/aspnet/)     | 6.0     |
-|   2 |                _Angular_ [](https://angular.io/)                | 13.0    |
-|   3 | _Angular Material_ [](https://material.angular.io/)             | 13.0     |
+|   1 |     _ASP.NET_ [](https://dotnet.microsoft.com/apps/aspnet/)     | 7.0     |
+|   2 |                _Angular_ [](https://angular.io/)                | 15.0    |
+|   3 | _Angular Material_ [](https://material.angular.io/)             | 14.0     |
 
 ## Contact
 
@@ -153,7 +182,6 @@ Admin can View, Add & Remove Store Moderator & Track Moderator
 ## Acknowledgements
 
 - [Cloudinary - Image Repository](https://cloudinary.com/)
-- [Heroku - Cloud Application Platform(Backend)](https://www.heroku.com/)
 - [GitHub Pages - Web Hosting(Frontend)](https://pages.github.com/)
 - [Flipkart - Data & Image Urls](https://www.flipkart.com/)
 - [Amazon - Data & Image Urls](https://www.amazon.in/)

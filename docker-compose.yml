@@ -16,7 +16,7 @@ services:
     networks:
       - shopping-cart
 
-  api:
+  app:
     image: shopping-cart
     build:
       context: .
