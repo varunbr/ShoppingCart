@@ -38,7 +38,7 @@ git clone https://github.com/varunbr/ShoppingCart.git
 ```
 Run below command from ShoppingCart folder to create image in docker
 ```sh
-docker compose -f "docker-compose.yml" up -d --build
+docker compose -f "docker-compose.yml" up --build
 ```
 Launch http://localhost:5000/ to explore..!
 
