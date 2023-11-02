@@ -61,39 +61,37 @@ Launch http://localhost:5000/ to explore..!
 ## App Features
 
 ### Home
-- Home page lets user to quickly navigate to popular products.
-- The first row on the home page lets users quickly select product categories.
-- The next rows include products of Mobiles, Televisions, Laptops, Refrigerators and Washing Machines Categories.
-- Each of these categories lists popular products of that category.
-- This page will be cached in-memory for later usage.
+- The Home page is designed to help users find the products they need with ease.
+- It showcases the most popular products in different categories, such as Mobiles, Televisions, Laptops, Refrigerators, and Washing Machines. 
+- Users can tap on any category to see more products or use the first row on the Home page to select a different category.
 
 ### Product Search and Filter
-- The search box in the navbar will allow users to search from any page.
-- The category will be selected automatically based on the search keyword. If not detected automatically, products from all the categories will be searched.
-- Users can also select categories from the filter section.
-- If the category is selected, filters specific to that category will be shown dynamically.
-- Users can select the range for integer values like RAM, Storage, Price, etc., select multiple values like Brand, Color, etc.
+- The app allows users to search for products from any page using the search box in the navbar. 
+- The app automatically detects the category of the product based on the search keyword and displays relevant results. 
+- Users can also manually select a category from the filter section to narrow down their search. 
+- The filter section also provides various options to refine the search results, such as setting the range for numerical values like RAM, Storage, Price, etc., or selecting multiple values like Brand, Color, etc.
 [![Search & Filter](images/Search.png)](http://localhost:5000/search?q=Mobiles)
 
 ### Product Information
-- Users can view photos of products in a gallery.
-- Users can view Features, Descriptions and Specifications specific to each product.
-- Users can quickly choose different variants of products like Color, Storage, etc.
-- Users can proceed to buy or add to the cart for future purchases.
+- The app provides detailed information about each product, including photos, features, descriptions, and specifications. 
+- Users can swipe through the photos in a gallery to see more details. 
+- Users can also switch between different variants of the product, such as Color, Storage, etc., by tapping on the icons below the photos. 
+- Users can either buy the product directly or add it to their cart for later purchase.
 [![Product Detail](images/ProductDetail.png)](http://localhost:5000/product/33)
 
 ### Cart
-- Products added to carts are grouped by purchase store which can be purchased together and reduce the delivery price.
-- Users can remove any or all products from the cart.
-- Users can checkout single or all grouped items for purchase.
+- The app organizes the products in the cart by the store they are purchased from, which helps users save on delivery charges by buying multiple items from the same store. 
+- Users can remove any product from the cart or clear the entire cart by tapping on the trash icon. 
+- Users can also check out individual items or all items from a store by tapping on the buy button.
 [![Cart](images/Cart.png)](http://localhost:5000/cart)
 
 ### Order
-- Users can order single or multiple items of same-store together.
-- Users can view order details which include Item info, Number of units, Order status, Total Price Delivery charges and Total Amount paid.
-- Users can view the paginated order list in the descending order of date.
-- Delivery charge will be ₹60 for interstate and ₹40 for intrastate.
-- Delivery charge will be applied only if Total Price is less than ₹500.
+- The app enables users to order single or multiple items from a store with a few taps. 
+- Users can view their order details, such as item info, number of units, order status, total price, delivery charges, and total amount paid. 
+- Users can also track their orders by tapping on the order status icon. 
+- Users can view their previous orders in a paginated list sorted by date in descending order. 
+- The app charges ₹60 for interstate delivery and ₹40 for intrastate delivery. 
+- The delivery charge is waived if the total price is more than ₹500.
 [![Orders](images/Orders.png)](http://localhost:5000/order)
 
 ### Wallet, Transactions and Transfer
@@ -104,9 +102,9 @@ Launch http://localhost:5000/ to explore..!
 [![Wallet](images/Wallet.png)](http://localhost:5000/wallet)
 
 ### User Authentication
-- Users need to authenticate to perform a few actions like add to cart, order, edit profile, etc.
-- Users can log in using a username and password or register as new users to authenticate.
-- Authentication will expire in 24 hours after login.
+- User need to sign in to access some features of the app, such as adding items to your cart, placing orders, or editing your profile. 
+- User can sign in with your username and password or create a new account. 
+- User session will expire after 24 hours of inactivity.
 
 ### Role Administration
 Roles in ShoppingCart App includes User, Store Agent, Track Agent, Store Admin, Track Admin,Store Moderator, Track Moderator & Super Admin.
@@ -124,36 +122,36 @@ Roles in ShoppingCart App includes User, Store Agent, Track Agent, Store Admin, 
 |   8 |Super Admin|admin|
 
 #### User
-All loged in users will be in this role.
+This is the default role for all signed-in users. You can browse products, add them to your cart, place orders, and transfer money.
 
 #### Store Agent
-Each Store can have many Store Agents, Store Agents can Dispatch orders from stores.
+This role is assigned to users who work in a store. You can dispatch orders from your store to the customers or to the next location.
 [![Store Orders](images/StoreOrders.png)](http://localhost:5000/store/order)
 
 #### Track Agent
-Each Location can have many Track Agents, Store Agents can Receive or Dispatch order from that location
+This role is assigned to users who work in a location. You can receive or dispatch orders from your location to the next destination or to the customers.
 [![Track Orders](images/TrackOrders.png)](http://localhost:5000/track)
 
 #### Store Admin
-Each Store can have many Store Admins, Store Admins can Dispatch orders from stores & View, Add & Remove Store Agent or Store Admin roles of that store.
+This role is assigned to users who manage a store. You can do everything that a Store Agent can do, plus you can view, add, or remove Store Agent or Store Admin roles for your store.
 
 #### Track Admin 
-Each Location can have many Track Admins, Store Admins can Receive or Dispatch order, also View, Add & Remove Track Agent or Track Admin roles of that location.
+This role is assigned to users who manage a location. You can do everything that a Track Agent can do, plus you can view, add, or remove Track Agent or Track Admin roles for your location.
 
 #### Store Moderator
-Store Moderator can View, Add & Remove Store Agent & Store Admin roles of any store.
+This role is assigned to users who oversee all the stores. You can view, add, or remove Store Agent and Store Admin roles for any store.
 [![Moderate Store Roles](images/ModerateStoreRoles.png)](http://localhost:5000/admin/moderate/store-role)
 
 #### Track Moderator
-Track Moderator can View, Add & Remove Track Agent & Track Admin roles of any location.
+This role is assigned to users who oversee all the locations. You can view, add, or remove Track Agent and Track Admin roles for any location.
 [![Moderate Track Roles](images/ModerateTrackRoles.png)](http://localhost:5000/admin/moderate/track-role)
 
 #### Super Admin
-Admin can View, Add & Remove Store Moderator & Track Moderator
+This role is assigned to users who have full control over the app. You can view, add, or remove Store Moderator and Track Moderator roles.
 
 ### Themes and Responsive UI
-- Users can swtich between Light and Dark theme using theme button in navbar.
-- Users can use this responsive Web app across any Mobile, Tablet, Laptop, or Desktop.
+- Users can customize the appearance of the web app by choosing between Light and Dark themes. The theme button is located in the navbar and can be toggled at any time. 
+- The web app is also designed to work on any device, whether it is a mobile phone, a tablet, a laptop or a desktop computer.
 
 ## Built With
 
